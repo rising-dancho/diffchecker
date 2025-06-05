@@ -3,36 +3,41 @@ package com.diffchecker;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+// import java.awt.Toolkit;
+// import java.awt.Dimension;
 
+import javax.swing.JFrame; // THE WINDOW ITSELF
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class Main {
-    static JFrame frame = new JFrame();
-    static ImageIcon image = new ImageIcon(Main.class.getResource("/diffchecker/images/logo.png"));
+// JFrame is the actual WINDOW ITSELF
+public class Main extends JFrame {
+    static ImageIcon logo = new ImageIcon(Main.class.getResource("/diffchecker/images/logo.png"));
+    // Create menu bar
+    static JMenuBar menuBar = new JMenuBar();
+    // Create "File" menu
+    static JMenu fileMenu = new JMenu("File");
+    // Create menu items
+    static JMenuItem newItem = new JMenuItem("New");
+    static JMenuItem openItem = new JMenuItem("Open");
+    static JMenuItem exitItem = new JMenuItem("Exit");
 
     public static void main(String[] args) {
-        // Set up frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(420, 420);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setIconImage(image.getImage());
-        frame.getContentPane().setBackground(new Color(0x1F1F1F));
+        new Main();
+    }
 
-        // Create menu bar
-        JMenuBar menuBar = new JMenuBar();
+    // CONSTRUCTOR
+    public Main() {
 
-        // Create "File" menu
-        JMenu fileMenu = new JMenu("File");
-
-        // Create menu items
-        JMenuItem newItem = new JMenuItem("New");
-        JMenuItem openItem = new JMenuItem("Open");
-        JMenuItem exitItem = new JMenuItem("Exit");
+        // Set up frame or the window
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(420, 420);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setIconImage(logo.getImage());
+        this.getContentPane().setBackground(new Color(0x1F1F1F));
 
         // Add action to "Exit"
         exitItem.addActionListener(new ActionListener() {
@@ -51,9 +56,8 @@ public class Main {
         menuBar.add(fileMenu);
 
         // Set the menu bar to the frame
-        frame.setJMenuBar(menuBar);
-
+        this.setJMenuBar(menuBar);
         // Show the frame after setting up everything
-        frame.setVisible(true);
+        this.setVisible(true);
     }
 }
