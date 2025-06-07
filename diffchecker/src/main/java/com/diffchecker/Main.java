@@ -7,10 +7,12 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 
 import javax.swing.JFrame; // THE WINDOW ITSELF
+import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 // JFrame is the actual WINDOW ITSELF
 public class Main extends JFrame {
@@ -23,6 +25,9 @@ public class Main extends JFrame {
     static JMenuItem newItem = new JMenuItem("New");
     static JMenuItem openItem = new JMenuItem("Open");
     static JMenuItem exitItem = new JMenuItem("Exit");
+    // Create a container (panel) and the contents inside it
+    JPanel container = new JPanel();
+    JLabel label1 = new JLabel();
 
     public static void main(String[] args) {
         new Main();
@@ -31,7 +36,9 @@ public class Main extends JFrame {
     // CONSTRUCTOR
     public Main() {
 
+        /// ============ WINDOW ============
         // Set up frame or the window
+        this.setTitle("Diffchecker");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setIconImage(logo.getImage());
         this.getContentPane().setBackground(new Color(0x1F1F1F));
@@ -46,6 +53,8 @@ public class Main extends JFrame {
 
         // EASY WAY TO CENTER THE WINDOW
         // this.setLocationRelativeTo(null);
+
+        /// ============ FILE MENU ============
 
         // Add action to "Exit"
         exitItem.addActionListener(new ActionListener() {
@@ -67,5 +76,13 @@ public class Main extends JFrame {
         this.setJMenuBar(menuBar);
         // Show the frame after setting up everything
         this.setVisible(true);
+
+        /// ============ PANEL ============
+        label1.setText("Welcome to my homepage!");
+        label1.setForeground(new Color(0xEEEEEE));
+        container.add(label1);
+        container.setBackground(new Color(0x1F1F1F));
+        this.add(container);
+
     }
 }
