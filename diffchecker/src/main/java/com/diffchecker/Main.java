@@ -3,8 +3,8 @@ package com.diffchecker;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-// import java.awt.Toolkit;
-// import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import javax.swing.JFrame; // THE WINDOW ITSELF
 import javax.swing.ImageIcon;
@@ -33,11 +33,19 @@ public class Main extends JFrame {
 
         // Set up frame or the window
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(420, 420);
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
         this.setIconImage(logo.getImage());
         this.getContentPane().setBackground(new Color(0x1F1F1F));
+        this.setSize(1080, 720);
+
+        // COMPLICATED WAY TO CENTER THE WINDOW
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension dim = tk.getScreenSize();
+        int xPos = (dim.width / 2) - (this.getWidth() / 2);
+        int yPos = (dim.height / 2) - (this.getHeight() / 2);
+        this.setLocation(xPos, yPos);
+
+        // EASY WAY TO CENTER THE WINDOW
+        // this.setLocationRelativeTo(null);
 
         // Add action to "Exit"
         exitItem.addActionListener(new ActionListener() {
