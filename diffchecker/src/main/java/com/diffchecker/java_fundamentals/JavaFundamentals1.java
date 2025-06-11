@@ -1,6 +1,6 @@
-package com.diffchecker;
+package com.diffchecker.java_fundamentals;
 
-public class JavaFundamentals {
+public class JavaFundamentals1 {
   public static void main(String[] args) {
     // EXAMPLE 1: square of each number
     // System.out.println(1 + " squared is = " + (1*1));
@@ -35,5 +35,7 @@ public class JavaFundamentals {
      * 
      * 
      */
+
+     
   }
 }
