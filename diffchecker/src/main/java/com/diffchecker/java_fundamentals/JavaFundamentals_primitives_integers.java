@@ -1,6 +1,6 @@
 package com.diffchecker.java_fundamentals;
 
-public class JavaFundamentals2 {
+public class JavaFundamentals_primitives_integers {
   public static void main(String[] args) {
     byte a = Byte.MAX_VALUE;
     short b = Short.MAX_VALUE;
@@ -28,7 +28,7 @@ public class JavaFundamentals2 {
 /*
  * PRIMITIVE DATA TYPES: (only one value at a time)
  * - Integer (byte, short, int, long)
- * - Flouting Point (flout, double)
+ * - Floating Point (float, double)
  * - Boolean (true, false)
  * - Character
  * 
