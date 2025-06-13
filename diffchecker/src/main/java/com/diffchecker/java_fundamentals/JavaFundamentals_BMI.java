@@ -12,6 +12,7 @@ public class JavaFundamentals_BMI {
     // 1 pound (lb) 0.453592 kilograms (kg)
     // 1 kilogram 1,000 grams (g)
     // 1 gram 1,000 milligrams (mg)
+    // 1 gram 1,000 milligrams (mg)
     // 1 ounce (oz) 28.3495 grams (g)
     // 1 pound (lb) 16 ounces (oz)
 
