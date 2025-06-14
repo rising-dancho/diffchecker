@@ -44,8 +44,9 @@ public class Main extends JFrame {
         wrapper.add(titleBar);
 
         // ============ MENU BAR ============
-        // menuBar.setBackground(new Color(36, 37, 38));
-        menuBar.setForeground(Color.WHITE);
+        menuBar.setBackground(new Color(36, 37, 38));
+        menuBar.setBorder(BorderFactory.createEmptyBorder());
+        menuBar.setForeground(new Color(36, 37, 38));
 
         // Menu panel wraps the menu bar so it stretches fully
         JPanel menuPanel = new JPanel(new BorderLayout());
@@ -58,6 +59,19 @@ public class Main extends JFrame {
         fileMenu.add(openItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
+
+        // REMOVE ALL BORDER FROM THE MENU (Flat design)
+        fileMenu.setBorder(BorderFactory.createEmptyBorder());
+        newItem.setBorder(BorderFactory.createEmptyBorder());
+        openItem.setBorder(BorderFactory.createEmptyBorder());
+        exitItem.setBorder(BorderFactory.createEmptyBorder());
+
+        // SET THE FONT COLOR OF THE MENU
+        fileMenu.setForeground(Color.WHITE);
+        newItem.setForeground(new Color(36, 37, 38));
+        openItem.setForeground(new Color(36, 37, 38));
+        exitItem.setForeground(new Color(36, 37, 38));
+
         menuBar.add(fileMenu);
 
         // Set fixed height for the menu panel
