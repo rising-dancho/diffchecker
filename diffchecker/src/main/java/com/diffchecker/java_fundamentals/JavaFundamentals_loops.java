@@ -35,5 +35,14 @@ public class JavaFundamentals_loops {
      * 
      * 
      */
+
+    //  do while
+
+    int x = 1;
+
+    do{
+      System.out.println("x = " +x);
+      x++;
+    }while(x <=3);
   }
 }
