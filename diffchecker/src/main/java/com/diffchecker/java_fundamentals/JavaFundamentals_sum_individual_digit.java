@@ -20,8 +20,10 @@ public class JavaFundamentals_sum_individual_digit {
 
       last_digit = number % 10;
       System.out.println(last_digit);
-
       sum = sum + last_digit;
+
+      // THIS LINE PREPARES THE NEXT SUMMATION BY REMOVING THE LAST DIGIT FROM THE
+      // PREVIOUS ITERATION
       number = number / 10;
       // System.out.println(number);
     }
