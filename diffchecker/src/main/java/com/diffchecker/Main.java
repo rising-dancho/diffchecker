@@ -4,7 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Main extends JFrame {
-    static ImageIcon logo = new ImageIcon(Main.class.getResource("/diffchecker/images/logo.png"));
+    static String PACKAGE_NAME = "diffchecker";
+    static ImageIcon logo = new ImageIcon(Main.class.getResource("/" + PACKAGE_NAME + "/images/logo/logo.png"));
     static JMenuBar menuBar = new JMenuBar();
     static JMenu fileMenu = new JMenu("File");
     static JMenuItem newItem = new JMenuItem("New");
@@ -20,7 +21,7 @@ public class Main extends JFrame {
 
     public Main() {
         // Window setup
-        this.setTitle("Diffchecker");
+        this.setTitle("Demo");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setIconImage(logo.getImage());
         this.setSize(1080, 720);
@@ -36,8 +37,8 @@ public class Main extends JFrame {
         CustomTitleBar titleBar = new CustomTitleBar(
                 this,
                 "Diffchecker",
-                "diffchecker",
-                "/diffchecker/images/logo/logo_24x24.png",
+                PACKAGE_NAME,
+                "/" + PACKAGE_NAME + "/images/logo/logo_24x24.png",
                 new Color(36, 37, 38),
                 40);
         wrapper.add(titleBar);
