@@ -21,7 +21,7 @@ public class Main extends JFrame {
 
     public Main() {
         // Window setup
-        this.setTitle("Demo");
+        this.setTitle("Diffchecker");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setIconImage(logo.getImage());
         this.setSize(1080, 720);
