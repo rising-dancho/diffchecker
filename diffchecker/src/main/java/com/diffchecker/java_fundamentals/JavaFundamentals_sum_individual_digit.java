@@ -33,3 +33,6 @@ public class JavaFundamentals_sum_individual_digit {
     scanner.close();
   }
 }
+
+// EXPLANATION
+// https://chatgpt.com/share/684dd8c2-8580-8000-92ec-e499585b2dde
