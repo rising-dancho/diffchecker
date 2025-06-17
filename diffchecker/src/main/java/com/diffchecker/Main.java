@@ -48,8 +48,8 @@ public class Main extends JFrame {
                 new Color(36, 37, 38),
                 40);
 
-        // add a red border so we can SEE its exact bounds
-        titleBar.setBorder(BorderFactory.createLineBorder(Color.RED));
+        // FOR DEBUGGING PURPOSES ONLY
+        // titleBar.setBorder(BorderFactory.createLineBorder(Color.RED));
 
         // small transparent insets so the resize “hot zone” is reachable
         JPanel titleWrapper = new JPanel(new BorderLayout());
@@ -78,16 +78,16 @@ public class Main extends JFrame {
         menuPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         menuPanel.setMinimumSize(new Dimension(0, 30));
 
-        // green border for debug
-        menuPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        // FOR DEBUGGING PURPOSES ONLY
+        // menuPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
         // ── 5. Main Content Panel ---------------------------------------------------
         container.setBackground(new Color(0x1F1F1F));
         label1.setForeground(new Color(0xEEEEEE));
         container.add(label1);
 
-        // blue border for debug
-        container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        // FOR DEBUGGING PURPOSES ONLY
+        // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         // ── 6. Compose --------------------------------------------------------------
         setContentPane(wrapper);
