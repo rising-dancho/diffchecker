@@ -90,6 +90,7 @@ public class Main extends JFrame {
 
         // ── 6. Compose --------------------------------------------------------------
         setContentPane(wrapper);
+
         wrapper.add(titleWrapper, BorderLayout.NORTH);
         wrapper.add(menuPanel, BorderLayout.CENTER);
         wrapper.add(container, BorderLayout.SOUTH);
