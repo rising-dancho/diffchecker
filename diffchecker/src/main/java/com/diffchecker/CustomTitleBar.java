@@ -35,7 +35,7 @@ public class CustomTitleBar extends JPanel {
     setBackground(background);
 
     // fixed height; allow width to stretch but avoid Integer.MAX_VALUE weirdness
-    Dimension fixedSize = new Dimension(Short.MAX_VALUE, height);
+    Dimension fixedSize = new Dimension(new Dimension(Integer.MAX_VALUE, 40));
     setPreferredSize(fixedSize);
     setMaximumSize(fixedSize);
     setMinimumSize(new Dimension(0, height));
@@ -157,4 +157,4 @@ public class CustomTitleBar extends JPanel {
       }
     });
   }
-} 
+}

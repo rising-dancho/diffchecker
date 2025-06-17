@@ -73,8 +73,9 @@ public class Main extends JFrame {
         JPanel menuPanel = new JPanel(new BorderLayout());
         menuPanel.setBackground(new Color(36, 37, 38));
         menuPanel.add(menuBar, BorderLayout.CENTER);
-        menuPanel.setPreferredSize(new Dimension(Short.MAX_VALUE, 30));
-        menuPanel.setMaximumSize(new Dimension(Short.MAX_VALUE, 30));
+        menuPanel.setPreferredSize(new Dimension(0, 30));
+        menuPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        menuPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         menuPanel.setMinimumSize(new Dimension(0, 30));
 
         // green border for debug
@@ -91,9 +92,17 @@ public class Main extends JFrame {
         // ── 6. Compose --------------------------------------------------------------
         setContentPane(wrapper);
 
+        // vertical box to hold both menu and container
+        JPanel centerContent = new JPanel();
+
+        centerContent.setLayout(new BoxLayout(centerContent, BoxLayout.Y_AXIS));
+        centerContent.setBackground(new Color(36, 37, 38));
+        centerContent.add(menuPanel);
+        centerContent.add(container);
+
+        // compose final layout
         wrapper.add(titleWrapper, BorderLayout.NORTH);
-        wrapper.add(menuPanel, BorderLayout.CENTER);
-        wrapper.add(container, BorderLayout.SOUTH);
+        wrapper.add(centerContent, BorderLayout.CENTER);
 
         // ── 7. Center on screen -----------------------------------------------------
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
