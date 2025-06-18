@@ -32,6 +32,18 @@ public class Main extends JFrame {
         setSize(1080, 720);
         setUndecorated(true);
         getContentPane().setBackground(new Color(0x1F1F1F));
+        setSize(1080, 720);
+
+        // 🟢 Initial rounded shape
+        setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
+
+        // 🟢 Listen for resizes to reapply rounded shape
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
+            }
+        });
 
         // ── 2. Root Wrapper ---------------------------------------------------------
         JPanel wrapper = new JPanel();
