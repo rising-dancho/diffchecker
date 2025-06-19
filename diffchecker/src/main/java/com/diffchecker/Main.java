@@ -34,10 +34,10 @@ public class Main extends JFrame {
         getContentPane().setBackground(new Color(0x1F1F1F));
         setSize(1080, 720);
 
-        // 🟢 Initial rounded shape
+        // Initial rounded shape
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
 
-        // 🟢 Listen for resizes to reapply rounded shape
+        // Listen for resizes to reapply rounded shape
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {

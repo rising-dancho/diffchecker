@@ -36,8 +36,7 @@ public class JavaFundamentals_loops {
      * 
      */
 
-    //  do while
-
+    //  DO WHILE
     int x = 1;
 
     do{
