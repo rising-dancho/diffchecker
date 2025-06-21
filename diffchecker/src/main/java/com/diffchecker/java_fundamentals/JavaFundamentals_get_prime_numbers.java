@@ -16,14 +16,18 @@ public class JavaFundamentals_get_prime_numbers {
 
     // part 2 - Algorithm of prime number
     String primeNumbers = "";
+    System.out.println();
     String primes = "2, 3, 5, 7, 11, 13, 17, 19, 23, ...";
     System.out.println("Example of prime numbers \n" + primes);
+    System.out.println();
 
     // n = the number the user entered. its a constant,
     // n does not change it's value inside the loop
     for (int i = 1; i <= n; i++) {
       // outer loops count upward to n
-      System.out.println("i (outer loop) " + i);
+      System.out.println();
+      System.out.println("----< (OUTER LOOP) i = " + i + " >----");
+      System.out.println();
 
       // this would reset the value of the counter to 0 at every new value of i
       int counter = 0;
@@ -31,12 +35,16 @@ public class JavaFundamentals_get_prime_numbers {
       for (int num = i; num >= 1; num--) {
         // num = i = i++
         // inner loop counts down
-        System.out.println("num " + num);
-        System.out.println("i = " + i);
+        System.out.println("num = " + num);
+        // System.out.println("i " + i);
 
         if (i % num == 0) {
           counter++;
-          System.out.println("counter " + counter);
+          System.out.println();
+          System.out.println("(NO REMAINDER) i (" + i + ") % num (" + num + ") == 0");
+          System.out.println();
+          System.out.println("----> COUNTER = " + counter+" <----");
+          System.out.println();
         }
 
       }
@@ -55,9 +63,7 @@ public class JavaFundamentals_get_prime_numbers {
 // Example of prime numbers
 // 2, 3, 5, 7, 11, 13, 17, 19, 23, ...
 
-
-
-  // Tracing The Inner And Outer Loop
+// Tracing The Inner And Outer Loop
   /*
    * n = 2 (CONSTANT VALUE)
    * 
