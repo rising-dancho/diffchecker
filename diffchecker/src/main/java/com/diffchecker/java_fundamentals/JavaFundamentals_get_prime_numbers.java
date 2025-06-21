@@ -23,7 +23,7 @@ public class JavaFundamentals_get_prime_numbers {
     // n does not change it's value inside the loop
     for (int i = 1; i <= n; i++) {
       // outer loops count upward to n
-      // System.out.println("i " + i);
+      System.out.println("i (outer loop) " + i);
 
       // this would reset the value of the counter to 0 at every new value of i
       int counter = 0;
@@ -32,7 +32,7 @@ public class JavaFundamentals_get_prime_numbers {
         // num = i = i++
         // inner loop counts down
         System.out.println("num " + num);
-        System.out.println("i " + i);
+        System.out.println("i = " + i);
 
         if (i % num == 0) {
           counter++;
@@ -42,7 +42,7 @@ public class JavaFundamentals_get_prime_numbers {
       }
       if (counter == 2) {
         // Appending the prime numbers to the string
-        primeNumbers = primeNumbers + i + " ";
+        primeNumbers += i + " ";
       }
       System.out.println();
     }
