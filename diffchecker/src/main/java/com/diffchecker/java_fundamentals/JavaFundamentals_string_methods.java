@@ -21,5 +21,18 @@ public class JavaFundamentals_string_methods {
     System.out.println(assCheeks.contains("ass"));
     // output: true
 
+    // Index of
+    // in java checking indexes always starts with 0
+    // eg. "Hello" => (indexes) 0 1 2 3 4
+    String abc = "Hello";
+    System.out.println(abc.indexOf("o"));
+    // output: 4
+
+    // Replace
+    // example.replace(TARGET,REPLACEMENT);
+    String example = "Hello World";
+    System.out.println(example.replace("Wor", "Bo"));
+    // output: Hello Bold
+
   }
 }
