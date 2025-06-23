@@ -83,7 +83,8 @@ public class JavaFundamentals_string_methods {
     // A MORE COMPLEX EXAMPLE
     String data = "abcdef";
     for (int i = 0; i < data.length(); i += 3) {
-      int end = Math.min(i + 3, data.length());
+      // .min chooses the smaller of the two inputs
+      int end = Math.min(i + 3, data.length()); // this is here just to make sure it doesnt go past the string's length
       System.out.println(data.substring(i, end));
     }
 
