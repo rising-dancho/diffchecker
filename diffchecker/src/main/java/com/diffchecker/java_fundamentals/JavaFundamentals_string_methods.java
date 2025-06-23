@@ -87,5 +87,8 @@ public class JavaFundamentals_string_methods {
       System.out.println(data.substring(i, end));
     }
 
+    // WHEN YOU SAY: .length in Java.. it always starts the counting with 1
+    // WHEN YOU SAY: .indexOf in Java.. since you're talking about indexes it starts with 0
+
   }
 }
