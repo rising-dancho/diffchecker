@@ -28,6 +28,7 @@ public class JavaFundamentals_get_prime_numbers {
       System.out.println();
       System.out.println("----< (OUTER LOOP) i = " + i + " >----");
       System.out.println();
+      // System.out.println("i"+i);
 
       // this would reset the value of the counter to 0 at every new value of i
       int counter = 0;
