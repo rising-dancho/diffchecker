@@ -4,9 +4,9 @@ public class JavaFundamentals_string_methods {
   public static void main(String[] args) {
     // Strings are classes
     // We can create "objects" of Strings. eg. String l = "ligma";
-    // We can then use then use its methods ligma.concat("ballz");
+    // We can then use it's methods ligma.concat("ballz");
 
-    //----> STRING METHODS <----
+    // ----> STRING METHODS <----
 
     // CONCAT
     String l = "ligma";
@@ -48,5 +48,44 @@ public class JavaFundamentals_string_methods {
     // output: RAUH WELT
     System.out.println(akiraNakai.toLowerCase());
     // output: rauh welt
+
+    // Write a program that prints out the individual characters of a string
+    String words = "Bitlog generation";
+
+    for (int i = 0; i <= words.length() - 1; i++) {
+      System.out.println(words.charAt(i));
+    }
+    /*
+     * output:
+     * B
+     * i
+     * t
+     * l
+     * o
+     * g
+     * 
+     * g
+     * e
+     * n
+     * e
+     * r
+     * a
+     * t
+     * i
+     * o
+     * n
+     */
+
+    // Write a program that can take parts of texts from a sentence
+    String beth = "Bethany Logan";
+    System.out.println(beth.substring(0, 2 + 1) + beth.substring(8, 10 + 1));
+
+    // A MORE COMPLEX EXAMPLE
+    String data = "abcdef";
+    for (int i = 0; i < data.length(); i += 3) {
+      int end = Math.min(i + 3, data.length());
+      System.out.println(data.substring(i, end));
+    }
+
   }
 }
