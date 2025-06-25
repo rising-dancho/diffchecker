@@ -24,5 +24,19 @@ public class JavaFundamentals_multidimentional_arrays {
       }
     }
 
+    // FOR EACH
+    // 🔍 Explanation:
+    // - int[] row : arr → each element in arr is itself a 1D array (a row of the
+    // matrix).
+    // - int val : row → now we iterate through each individual number in that row.
+    for (int[] row : arr) {
+      for (int value : row) {
+        System.out.println(value);
+      }
+    }
+
   }
+
+  // REFERENCE (since this is getting more complex):
+  // https://chatgpt.com/share/685c8ace-645c-8000-876e-a577d70a473c
 }
