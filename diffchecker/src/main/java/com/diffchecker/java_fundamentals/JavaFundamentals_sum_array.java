@@ -19,10 +19,11 @@ public class JavaFundamentals_sum_array {
     // summation of the values inside arr
     int sum = 0;
     for (int value : arr) {
+      // add i to the previous sum and save it to a new sum
       sum += value;
     }
 
     System.out.println(sum);
-
+    scanner.close();
   }
 }
