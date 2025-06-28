@@ -2,7 +2,7 @@ package com.diffchecker.java_fundamentals.swing_and_awt;
 
 import javax.swing.JOptionPane;
 
-public class MainScreen {
+public class JOption_pane {
   public static void main(String[] args) {
     // JOptionPane
     // 1 - input dialog

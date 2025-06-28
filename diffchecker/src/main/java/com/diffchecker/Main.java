@@ -29,7 +29,6 @@ public class Main extends JFrame {
         setTitle("Diffchecker");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(LOGO.getImage());
-        setSize(1080, 720);
         setUndecorated(true);
         getContentPane().setBackground(new Color(0x1F1F1F));
         setSize(1080, 720);
