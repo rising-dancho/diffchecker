@@ -22,7 +22,7 @@ public class JPanel_ extends JFrame {
     // JPANEL
     JPanel jpanel = new JPanel();
     jpanel.setLayout(null);
-    jpanel.setSize(300, 230);
+    jpanel.setBounds(100,100, 300,300);
     jpanel.setBackground(Color.red);
     jpanel.setVisible(true);
 
