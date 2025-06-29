@@ -11,7 +11,7 @@ public class JPanel_ extends JFrame {
   }
 
   public JPanel_() {
-    // JFRAME
+    // JFRAME: Top Level Container
     // top level container
     setTitle("First Swing GUI");
     setLayout(null);
@@ -19,7 +19,7 @@ public class JPanel_ extends JFrame {
     setLocationRelativeTo(null);
     setVisible(true);
 
-    // JPANEL
+    // JPANEL: Top Level Container
     JPanel jpanel = new JPanel();
     jpanel.setLayout(null);
     jpanel.setBounds(100,100, 300,300);
@@ -29,4 +29,4 @@ public class JPanel_ extends JFrame {
     add(jpanel);
 
   }
-}
+} 
