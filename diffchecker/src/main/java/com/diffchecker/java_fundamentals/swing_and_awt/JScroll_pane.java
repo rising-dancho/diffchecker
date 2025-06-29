@@ -23,7 +23,7 @@ public class JScroll_pane extends JFrame {
 
     // Content panel with BoxLayout (vertical stacking)
     JPanel contentPanel = new JPanel();
-    contentPanel.setBackground(Color.GRAY);
+    contentPanel.setBackground(Color.WHITE);
     contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
     // Sample long text
@@ -46,7 +46,7 @@ public class JScroll_pane extends JFrame {
       label.setOpaque(true);
       label.setBackground(Color.WHITE);
       label.setAlignmentX(LEFT_ALIGNMENT);
-      label.setMaximumSize(new Dimension(Integer.MAX_VALUE, 500)); // allow stretching
+      // label.setMaximumSize(new Dimension(Integer.MAX_VALUE, 500)); // allow stretching
       contentPanel.add(label);
     }
 
