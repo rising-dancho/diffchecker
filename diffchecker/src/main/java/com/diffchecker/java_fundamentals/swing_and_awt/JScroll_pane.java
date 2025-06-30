@@ -2,7 +2,6 @@ package com.diffchecker.java_fundamentals.swing_and_awt;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +45,8 @@ public class JScroll_pane extends JFrame {
       label.setOpaque(true);
       label.setBackground(Color.WHITE);
       label.setAlignmentX(LEFT_ALIGNMENT);
-      // label.setMaximumSize(new Dimension(Integer.MAX_VALUE, 500)); // allow stretching
+      // label.setMaximumSize(new Dimension(Integer.MAX_VALUE, 500)); // allow
+      // stretching
       contentPanel.add(label);
     }
 
