@@ -1,5 +1,9 @@
 package com.diffchecker.java_fundamentals.swing_and_awt;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 // import java.awt.BorderLayout;
 
 import javax.swing.JButton;
@@ -26,6 +30,28 @@ public class JButton_ extends JFrame {
     btn1.setText("Click Me");
     btn1.setSize(100, 30);
     btn1.setLocation(0, 0);
+    btn1.setBackground(Color.WHITE);
+
+    // Add action listener
+    btn1.addActionListener(new ActionListener() {
+      boolean check = true;
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        // when the user click the button execute this command
+        if (check == false) {
+          btn1.setBackground(Color.WHITE);
+          check = true;
+        } else {
+          btn1.setBackground(Color.ORANGE);
+          check = false;
+        }
+
+        // throw new UnsupportedOperationException("Unimplemented method
+        // 'actionPerformed'");
+      }
+
+    });
 
     add(btn1);
 
