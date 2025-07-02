@@ -38,12 +38,21 @@ public class JButton_ extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        // when the user click the button execute this command
+        // CHANGING BTN BACKGROUND COLOR
+        // if (check == false) {
+        // btn1.setBackground(Color.WHITE);
+        // check = true;
+        // } else {
+        // btn1.setBackground(Color.ORANGE);
+        // check = false;
+        // }
+
+        // CHANGING JFRAME BACKGROUND COLOR
         if (check == false) {
-          btn1.setBackground(Color.WHITE);
+          getContentPane().setBackground(Color.WHITE);
           check = true;
         } else {
-          btn1.setBackground(Color.ORANGE);
+          getContentPane().setBackground(Color.ORANGE);
           check = false;
         }
 
@@ -54,7 +63,6 @@ public class JButton_ extends JFrame {
     });
 
     add(btn1);
-
     // Add the toolbar to the top
     setVisible(true);
   }
