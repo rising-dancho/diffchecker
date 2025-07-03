@@ -33,11 +33,11 @@ public class JLabel_ extends JFrame {
     btn1.setLocation(0, 0);
 
     JLabel label = new JLabel();
-    label.setText("Hello pls rate us 5 stars");
+    label.setText("Hello welcome to Jollibee~!");
 
     // Add action listener
     btn1.addActionListener(new ActionListener() {
-      boolean check = true;
+      boolean check = false;
 
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -45,12 +45,10 @@ public class JLabel_ extends JFrame {
           label.setText("I am changed! NICE ONE!");
           check = true;
         } else {
-          label.setText("Hello pls rate us 5 stars");
+          label.setText("Hello welcome to Jollibee~!");
           check = false;
         }
-
       }
-
     });
 
     add(btn1);
