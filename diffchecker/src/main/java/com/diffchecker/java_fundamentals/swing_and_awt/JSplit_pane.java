@@ -2,9 +2,9 @@ package com.diffchecker.java_fundamentals.swing_and_awt;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Panel;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class JSplit_pane extends JFrame {
@@ -19,10 +19,10 @@ public class JSplit_pane extends JFrame {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
 
-    Panel p1 = new Panel();
+    JPanel p1 = new JPanel();
     p1.setBackground(Color.CYAN);
 
-    Panel p2 = new Panel();
+    JPanel p2 = new JPanel();
     p2.setBackground(Color.ORANGE);
 
     JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
