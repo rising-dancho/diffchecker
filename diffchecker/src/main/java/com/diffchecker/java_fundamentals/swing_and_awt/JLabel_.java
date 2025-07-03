@@ -1,6 +1,7 @@
 package com.diffchecker.java_fundamentals.swing_and_awt;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,29 +9,31 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
-public class JButton_ extends JFrame {
+public class JLabel_ extends JFrame {
   public static void main(String[] args) {
-    new JButton_();
+    new JLabel_();
   }
 
-  public JButton_() {
+  public JLabel_() {
     setTitle("First Swing GUI");
     setSize(1080, 720);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    // setLayout(new BorderLayout());
-    setLayout(null);
+    setLayout(new FlowLayout());
 
     // TOP LEVEL CONTAINERS
     // INTERMEDIATE CONTAINERS
     // ATOMIC COMPONENTS
 
     JButton btn1 = new JButton();
-    btn1.setText("Click Me");
+    btn1.setText("Change Text");
     btn1.setSize(100, 30);
     btn1.setLocation(0, 0);
-    btn1.setBackground(Color.WHITE);
+
+    JLabel label = new JLabel();
+    label.setText("Hello pls rate us 5 stars");
 
     // Add action listener
     btn1.addActionListener(new ActionListener() {
@@ -38,31 +41,20 @@ public class JButton_ extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        // CHANGING BTN BACKGROUND COLOR
-        // if (check == false) {
-        // btn1.setBackground(Color.WHITE);
-        // check = true;
-        // } else {
-        // btn1.setBackground(Color.ORANGE);
-        // check = false;
-        // }
-
-        // CHANGING JFRAME BACKGROUND COLOR
         if (check == false) {
-          getContentPane().setBackground(Color.WHITE);
+          label.setText("I am changed! NICE ONE!");
           check = true;
         } else {
-          getContentPane().setBackground(Color.ORANGE);
+          label.setText("Hello pls rate us 5 stars");
           check = false;
         }
 
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'actionPerformed'");
       }
 
     });
 
     add(btn1);
+    add(label);
     setVisible(true);
   }
 }
