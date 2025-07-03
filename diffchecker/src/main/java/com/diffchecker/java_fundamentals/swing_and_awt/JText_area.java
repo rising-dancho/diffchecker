@@ -1,7 +1,10 @@
 package com.diffchecker.java_fundamentals.swing_and_awt;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,7 +44,22 @@ public class JText_area extends JFrame {
     JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
     splitPane.setDividerLocation(540);
 
+    JButton btn = new JButton();
+    btn.setText("Copy Text");
+    btn.setSize(100, 30);
+
+    btn.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String textToCopy = jt1.getText();
+        jt2.setText(textToCopy);
+      }
+
+    });
+
     add(splitPane);
+    add(btn, BorderLayout.SOUTH);
     setVisible(true);
   }
 }
