@@ -26,7 +26,7 @@ public class Main extends JFrame {
     private static final JTextArea jt2 = new JTextArea();
 
     private static final JScrollPane scroll1 = new JScrollPane(jt1);
-    private static final JScrollPane scroll2 = new JScrollPane(jt2);
+    private static final JScrollPane scroll2 = new JScrollPane(jt2);    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::new);
