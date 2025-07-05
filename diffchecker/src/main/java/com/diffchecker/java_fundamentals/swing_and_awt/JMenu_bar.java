@@ -1,5 +1,8 @@
 package com.diffchecker.java_fundamentals.swing_and_awt;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -28,7 +31,7 @@ public class JMenu_bar extends JFrame {
 
     // Buttons inside the bar
     JMenu jmenu = new JMenu("File");
-    
+
     // Items
     JMenuItem item1 = new JMenuItem("New");
     JMenuItem item2 = new JMenuItem("Save");
@@ -40,6 +43,15 @@ public class JMenu_bar extends JFrame {
     jmenu.add(item2);
     jmenu.add(item3);
     jmenu.add(item4);
+
+    item4.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.exit(0);
+      }
+
+    });
 
     setJMenuBar(jmenubar);
     setVisible(true);

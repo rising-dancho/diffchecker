@@ -26,7 +26,7 @@ public class Main extends JFrame {
     private static final JTextArea jt2 = new JTextArea();
 
     private static final JScrollPane scroll1 = new JScrollPane(jt1);
-    private static final JScrollPane scroll2 = new JScrollPane(jt2);    
+    private static final JScrollPane scroll2 = new JScrollPane(jt2);
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::new);
@@ -81,8 +81,8 @@ public class Main extends JFrame {
         menuBar.setBorder(BorderFactory.createEmptyBorder());
 
         exitItem.addActionListener(e -> System.exit(0));
-        fileMenu.add(newItem);
-        fileMenu.add(openItem);
+        // fileMenu.add(newItem);
+        // fileMenu.add(openItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
         fileMenu.setBorder(BorderFactory.createEmptyBorder());
@@ -121,8 +121,16 @@ public class Main extends JFrame {
         btn.setSize(100, 30);
         btn.addActionListener(e -> jt2.setText(jt1.getText()));
 
-        container.add(splitPane, BorderLayout.CENTER);
-        container.add(btn, BorderLayout.SOUTH);
+        // container.add(splitPane, BorderLayout.CENTER);
+        // container.add(btn, BorderLayout.SOUTH);
+
+        // TABS FUNCTIONALITY
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Tab 1", createSplitTextAreaTab());
+        // You can add more tabs like this if needed
+        tabbedPane.addTab("Tab 2", createSplitTextAreaTab());
+
+        container.add(tabbedPane, BorderLayout.CENTER);
 
         // FOR DEBUGGING PURPOSES ONLY
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
@@ -191,4 +199,34 @@ public class Main extends JFrame {
             updateLineNumbers();
         }
     }
+
+    private JPanel createSplitTextAreaTab() {
+        JTextArea jt1 = new JTextArea();
+        JTextArea jt2 = new JTextArea();
+
+        JScrollPane scroll1 = new JScrollPane(jt1);
+        JScrollPane scroll2 = new JScrollPane(jt2);
+
+        scroll1.setRowHeaderView(new LineNumberingTextArea(jt1));
+        scroll2.setRowHeaderView(new LineNumberingTextArea(jt2));
+
+        JPanel p1 = new JPanel(new BorderLayout());
+        p1.add(scroll1, BorderLayout.CENTER);
+
+        JPanel p2 = new JPanel(new BorderLayout());
+        p2.add(scroll2, BorderLayout.CENTER);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
+        splitPane.setDividerLocation(540);
+
+        JButton copyBtn = new JButton("Copy Text");
+        copyBtn.addActionListener(e -> jt2.setText(jt1.getText()));
+
+        JPanel tabPanel = new JPanel(new BorderLayout());
+        tabPanel.add(splitPane, BorderLayout.CENTER);
+        tabPanel.add(copyBtn, BorderLayout.SOUTH);
+
+        return tabPanel;
+    }
+
 }
