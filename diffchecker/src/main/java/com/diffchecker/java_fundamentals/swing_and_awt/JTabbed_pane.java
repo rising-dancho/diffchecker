@@ -47,7 +47,7 @@ public class JTabbed_pane extends JFrame {
 
     JLabel titleLabel = new JLabel(title);
     // close button
-    ImageIcon originalIcon = new ImageIcon(getClass().getResource("/diffchecker/images/close_hover.png"));
+    ImageIcon originalIcon = new ImageIcon(getClass().getResource("/diffchecker/images/close_def.png"));
     Image scaledImg = originalIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
 
     JButton closeButton = new JButton(new ImageIcon(scaledImg));
