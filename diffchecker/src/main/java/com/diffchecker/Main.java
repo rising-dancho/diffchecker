@@ -14,8 +14,8 @@ public class Main extends JFrame {
 
     private static final JMenuBar menuBar = new JMenuBar();
     private static final JMenu fileMenu = new JMenu("File");
-    private static final JMenuItem newItem = new JMenuItem("New");
-    private static final JMenuItem openItem = new JMenuItem("Open");
+    // private static final JMenuItem newItem = new JMenuItem("New");
+    // private static final JMenuItem openItem = new JMenuItem("Open");
     private static final JMenuItem exitItem = new JMenuItem("Exit");
 
     // ─── Instance UI Parts ─────────────────────────────────────────────────────
@@ -200,6 +200,7 @@ public class Main extends JFrame {
         }
     }
 
+    // ========== New Tabs ==========
     private JPanel createSplitTextAreaTab() {
         JTextArea jt1 = new JTextArea();
         JTextArea jt2 = new JTextArea();
