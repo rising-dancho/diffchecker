@@ -33,17 +33,20 @@ public class JTabbed_pane extends JFrame {
       }
 
       private void maybeShowPopup(MouseEvent e) {
-        if (e.isPopupTrigger()) {
-          int index = tabbedPane.indexAtLocation(e.getX(), e.getY());
-          if (index != -1) {
-            JPopupMenu popup = new JPopupMenu();
-            JMenuItem delete = new JMenuItem("Delete Tab");
-            delete.addActionListener(ev -> tabbedPane.remove(index));
-            popup.add(delete);
-            popup.show(e.getComponent(), e.getX(), e.getY());
+        if (SwingUtilities.isRightMouseButton(e)) {
+          if (e.isPopupTrigger()) {
+            int index = tabbedPane.indexAtLocation(e.getX(), e.getY());
+            if (index != -1 && index != 0) {
+              JPopupMenu popup = new JPopupMenu();
+              JMenuItem delete = new JMenuItem("Delete Tab");
+              delete.addActionListener(ev -> tabbedPane.remove(index));
+              popup.add(delete);
+              popup.show(e.getComponent(), e.getX(), e.getY());
+            }
           }
         }
       }
+
     });
 
     JButton addButton = new JButton("+");
@@ -52,19 +55,14 @@ public class JTabbed_pane extends JFrame {
     addButton.setContentAreaFilled(false);
     addButton.setPreferredSize(new Dimension(30, 30));
 
-    // Handle tab creation
-    addButton.addActionListener(e -> {
-      JTextArea textArea = new JTextArea();
-      int index = tabbedPane.getTabCount() - 1;
-      String title = "Untitled-" + tabbedPane.getTabCount();
-      tabbedPane.insertTab(title, null, new JScrollPane(textArea), null, index);
-      tabbedPane.setTabComponentAt(index, createTabTitle(tabbedPane, title));
-      tabbedPane.setSelectedIndex(index);
-    });
+    addButton.addActionListener(e -> addNewTab(tabbedPane));
 
-    // Add "+" tab at the end
-    tabbedPane.addTab("", null); // placeholder for the "+" tab
-    tabbedPane.setTabComponentAt(0, addButton);
+    // Add "+" tab initially at the end
+    tabbedPane.addTab("", null);
+    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, addButton);
+
+    // Now add the first real tab before the "+"
+    addNewTab(tabbedPane);
 
     add(tabbedPane);
     setVisible(true);
@@ -112,12 +110,27 @@ public class JTabbed_pane extends JFrame {
       int index = tabbedPane.indexOfTabComponent(tabPanel);
       if (index != -1) {
         tabbedPane.remove(index);
+        if (tabbedPane.getTabCount() == 1) { // only "+" button left
+          addNewTab(tabbedPane);
+        }
       }
     });
 
     tabPanel.add(titleLabel);
     tabPanel.add(closeButton);
     return tabPanel;
+  }
+
+  private int untitledCounter = 1;
+  private void addNewTab(JTabbedPane tabbedPane) {
+    JTextArea textArea = new JTextArea();
+    int plusTabIndex = tabbedPane.getTabCount() - 1;
+
+    // Create tab before the last "+" tab
+    String title = "Untitled-" + untitledCounter++;
+    tabbedPane.insertTab(title, null, new JScrollPane(textArea), null, plusTabIndex);
+    tabbedPane.setTabComponentAt(plusTabIndex, createTabTitle(tabbedPane, title));
+    tabbedPane.setSelectedIndex(plusTabIndex);
   }
 
 }
