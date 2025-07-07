@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 public class JTabbed_pane extends JFrame {
+
   public static void main(String[] args) {
     new JTabbed_pane();
   }
@@ -20,7 +21,7 @@ public class JTabbed_pane extends JFrame {
     JTabbedPane tabbedPane = new JTabbedPane();
     tabbedPane.setFocusable(false);
 
-    // Popup menu Delete Tab
+    // ───── Right-click Delete Tab Popup ─────
     tabbedPane.addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
@@ -33,22 +34,22 @@ public class JTabbed_pane extends JFrame {
       }
 
       private void maybeShowPopup(MouseEvent e) {
-        if (SwingUtilities.isRightMouseButton(e)) {
-          if (e.isPopupTrigger()) {
-            int index = tabbedPane.indexAtLocation(e.getX(), e.getY());
-            if (index != -1 && index != 0) {
-              JPopupMenu popup = new JPopupMenu();
-              JMenuItem delete = new JMenuItem("Delete Tab");
-              delete.addActionListener(ev -> tabbedPane.remove(index));
-              popup.add(delete);
-              popup.show(e.getComponent(), e.getX(), e.getY());
-            }
+        if (SwingUtilities.isRightMouseButton(e) && e.isPopupTrigger()) {
+          int index = tabbedPane.indexAtLocation(e.getX(), e.getY());
+          if (index != -1 && index != 0) {
+            JPopupMenu popup = new JPopupMenu();
+            JMenuItem delete = new JMenuItem("Delete Tab");
+
+            delete.addActionListener(ev -> tabbedPane.remove(index));
+
+            popup.add(delete);
+            popup.show(e.getComponent(), e.getX(), e.getY());
           }
         }
       }
-
     });
 
+    // ───── "+" Add Tab Button ─────
     JButton addButton = new JButton("+");
     addButton.setBorder(null);
     addButton.setFocusPainted(false);
@@ -57,15 +58,28 @@ public class JTabbed_pane extends JFrame {
 
     addButton.addActionListener(e -> addNewTab(tabbedPane));
 
-    // Add "+" tab initially at the end
+    // Insert "+" tab (last)
     tabbedPane.addTab("", null);
     tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, addButton);
 
-    // Now add the first real tab before the "+"
+    // Add initial real tab before the "+"
     addNewTab(tabbedPane);
 
     add(tabbedPane);
     setVisible(true);
+  }
+
+  private int untitledCounter = 1;
+
+  private void addNewTab(JTabbedPane tabbedPane) {
+    JTextArea textArea = new JTextArea();
+    int plusTabIndex = tabbedPane.getTabCount() - 1;
+
+    String title = "Untitled-" + untitledCounter++;
+
+    tabbedPane.insertTab(title, null, new JScrollPane(textArea), null, plusTabIndex);
+    tabbedPane.setTabComponentAt(plusTabIndex, createTabTitle(tabbedPane, title));
+    tabbedPane.setSelectedIndex(plusTabIndex);
   }
 
   private JPanel createTabTitle(JTabbedPane tabbedPane, String title) {
@@ -74,17 +88,17 @@ public class JTabbed_pane extends JFrame {
 
     JLabel titleLabel = new JLabel(title);
 
-    // Default icon
+    // ───── Load Icons ─────
     ImageIcon iconDefault = new ImageIcon(getClass().getResource("/diffchecker/images/close_def.png"));
+    ImageIcon iconHover   = new ImageIcon(getClass().getResource("/diffchecker/images/close_hover.png"));
+
     Image scaledDefault = iconDefault.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+    Image scaledHover   = iconHover.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
     ImageIcon defaultIcon = new ImageIcon(scaledDefault);
+    ImageIcon hoverIcon   = new ImageIcon(scaledHover);
 
-    // Hover icon
-    ImageIcon iconHover = new ImageIcon(getClass().getResource("/diffchecker/images/close_hover.png"));
-    Image scaledHover = iconHover.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-    ImageIcon hoverIcon = new ImageIcon(scaledHover);
-
-    // Button with default icon
+    // ───── Close Button ─────
     JButton closeButton = new JButton(defaultIcon);
     closeButton.setBorder(BorderFactory.createEmptyBorder());
     closeButton.setFocusPainted(false);
@@ -92,7 +106,7 @@ public class JTabbed_pane extends JFrame {
     closeButton.setFocusable(false);
     closeButton.setContentAreaFilled(false);
 
-    // Hover effect
+    // Hover effects
     closeButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseEntered(MouseEvent e) {
@@ -105,12 +119,12 @@ public class JTabbed_pane extends JFrame {
       }
     });
 
-    // Close tab on click
+    // Close tab action
     closeButton.addActionListener(e -> {
       int index = tabbedPane.indexOfTabComponent(tabPanel);
       if (index != -1) {
         tabbedPane.remove(index);
-        if (tabbedPane.getTabCount() == 1) { // only "+" button left
+        if (tabbedPane.getTabCount() == 1) { // Only "+" tab remains
           addNewTab(tabbedPane);
         }
       }
@@ -118,19 +132,7 @@ public class JTabbed_pane extends JFrame {
 
     tabPanel.add(titleLabel);
     tabPanel.add(closeButton);
+
     return tabPanel;
   }
-
-  private int untitledCounter = 1;
-  private void addNewTab(JTabbedPane tabbedPane) {
-    JTextArea textArea = new JTextArea();
-    int plusTabIndex = tabbedPane.getTabCount() - 1;
-
-    // Create tab before the last "+" tab
-    String title = "Untitled-" + untitledCounter++;
-    tabbedPane.insertTab(title, null, new JScrollPane(textArea), null, plusTabIndex);
-    tabbedPane.setTabComponentAt(plusTabIndex, createTabTitle(tabbedPane, title));
-    tabbedPane.setSelectedIndex(plusTabIndex);
-  }
-
 }
