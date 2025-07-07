@@ -15,7 +15,7 @@ public class Border_Layout extends JFrame {
     setSize(1080, 720);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setLayout(new BorderLayout());
+    setLayout(new BorderLayout(10, 10));
 
     // BORDERLAYOUT is used to arrange the components in 5 regions:
     // - north
