@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 // IMPORT COMPONENTS
-import com.diffchecker.components.LineNumberingTextArea;
 import com.diffchecker.components.MenuBuilder;
 import com.diffchecker.components.SplitTextTabPanel;
 
@@ -17,13 +16,6 @@ public class Main extends JFrame {
 
     // ─── Instance UI Parts ─────────────────────────────────────────────────────
     private final JPanel container = new JPanel();
-
-    // Scrollable Split Text Areas
-    private static final JTextArea jt1 = new JTextArea();
-    private static final JTextArea jt2 = new JTextArea();
-
-    private static final JScrollPane scroll1 = new JScrollPane(jt1);
-    private static final JScrollPane scroll2 = new JScrollPane(jt2);
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::new);
@@ -64,9 +56,6 @@ public class Main extends JFrame {
                 new Color(36, 37, 38),
                 40);
 
-        // FOR DEBUGGING PURPOSES ONLY
-        // titleBar.setBorder(BorderFactory.createLineBorder(Color.RED));
-
         // small transparent insets so the resize “hot zone” is reachable
         JPanel titleWrapper = new JPanel(new BorderLayout());
         titleWrapper.setOpaque(false);
@@ -84,29 +73,9 @@ public class Main extends JFrame {
         menuPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         menuPanel.setMinimumSize(new Dimension(0, 30));
 
-        // FOR DEBUGGING PURPOSES ONLY
-        // menuPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-
         // ── 5. Main Content Panel ---------------------------------------------------
         container.setBackground(new Color(0x1F1F1F));
         container.setLayout(new BorderLayout());
-
-        // Add line numbers to both scroll panes
-        scroll1.setRowHeaderView(new LineNumberingTextArea(jt1));
-        scroll2.setRowHeaderView(new LineNumberingTextArea(jt2));
-
-        JPanel p1 = new JPanel(new BorderLayout());
-        p1.add(scroll1, BorderLayout.CENTER);
-
-        JPanel p2 = new JPanel(new BorderLayout());
-        p2.add(scroll2, BorderLayout.CENTER);
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
-        splitPane.setDividerLocation(540);
-
-        JButton btn = new JButton("Copy Text");
-        btn.setSize(100, 30);
-        btn.addActionListener(e -> jt2.setText(jt1.getText()));
 
         // TABS FUNCTIONALITY
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -115,9 +84,6 @@ public class Main extends JFrame {
         tabbedPane.addTab("Tab 2", new SplitTextTabPanel());
 
         container.add(tabbedPane, BorderLayout.CENTER);
-
-        // FOR DEBUGGING PURPOSES ONLY
-        // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         // ── 6. Compose --------------------------------------------------------------
         setContentPane(wrapper);
@@ -141,6 +107,11 @@ public class Main extends JFrame {
         // ── 8. Enable edge resizing -------------------------------------------------
         ComponentResizer resizer = new ComponentResizer();
         resizer.registerComponent(this);
+
+        // FOR DEBUGGING PURPOSES ONLY
+        // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        // menuPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        // titleBar.setBorder(BorderFactory.createLineBorder(Color.RED));
 
         setVisible(true);
 

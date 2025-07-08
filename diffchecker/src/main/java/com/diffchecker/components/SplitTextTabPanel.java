@@ -25,7 +25,7 @@ public class SplitTextTabPanel extends JPanel {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
         splitPane.setDividerLocation(540);
 
-        JButton copyBtn = new JButton("Copy Text");
+        JButton copyBtn = new JButton("Find Difference");
         copyBtn.addActionListener(e -> jt2.setText(jt1.getText()));
 
         add(splitPane, BorderLayout.CENTER);

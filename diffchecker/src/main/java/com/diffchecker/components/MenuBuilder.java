@@ -16,9 +16,16 @@ public class MenuBuilder {
     exitItem.addActionListener(e -> System.exit(0));
     fileMenu.addSeparator();
     fileMenu.add(exitItem);
+
+    // REMOVE BORDER ARTIFACTS
     fileMenu.setBorder(BorderFactory.createEmptyBorder());
+    menuBar.setBorder(BorderFactory.createEmptyBorder()); // THIS LINE IS CRUCIAL
+
+    // Foreground
     fileMenu.setForeground(new Color(157, 157, 157));
+    // Background
     menuBar.setBackground(new Color(36, 37, 38));
+
     menuBar.add(fileMenu);
     return menuBar;
   }
