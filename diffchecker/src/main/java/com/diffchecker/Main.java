@@ -2,8 +2,11 @@ package com.diffchecker;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+
+// IMPORT COMPONENTS
+import com.diffchecker.components.LineNumberingTextArea;
+import com.diffchecker.components.MenuBuilder;
+import com.diffchecker.components.SplitTextTabPanel;
 
 public class Main extends JFrame {
 
@@ -11,12 +14,6 @@ public class Main extends JFrame {
     private static final String PACKAGE_NAME = "diffchecker";
     private static final ImageIcon LOGO = new ImageIcon(
             Main.class.getResource("/" + PACKAGE_NAME + "/images/logo/logo.png"));
-
-    private static final JMenuBar menuBar = new JMenuBar();
-    private static final JMenu fileMenu = new JMenu("File");
-    // private static final JMenuItem newItem = new JMenuItem("New");
-    // private static final JMenuItem openItem = new JMenuItem("Open");
-    private static final JMenuItem exitItem = new JMenuItem("Exit");
 
     // ─── Instance UI Parts ─────────────────────────────────────────────────────
     private final JPanel container = new JPanel();
@@ -77,17 +74,7 @@ public class Main extends JFrame {
         titleWrapper.add(titleBar, BorderLayout.CENTER);
 
         // ── 4. Menu Bar -------------------------------------------------------------
-        menuBar.setBackground(new Color(36, 37, 38));
-        menuBar.setBorder(BorderFactory.createEmptyBorder());
-
-        exitItem.addActionListener(e -> System.exit(0));
-        // fileMenu.add(newItem);
-        // fileMenu.add(openItem);
-        fileMenu.addSeparator();
-        fileMenu.add(exitItem);
-        fileMenu.setBorder(BorderFactory.createEmptyBorder());
-        fileMenu.setForeground(new Color(157, 157, 157));
-        menuBar.add(fileMenu);
+        JMenuBar menuBar = MenuBuilder.buildMenuBar();
 
         JPanel menuPanel = new JPanel(new BorderLayout());
         menuPanel.setBackground(new Color(36, 37, 38));
@@ -121,14 +108,11 @@ public class Main extends JFrame {
         btn.setSize(100, 30);
         btn.addActionListener(e -> jt2.setText(jt1.getText()));
 
-        // container.add(splitPane, BorderLayout.CENTER);
-        // container.add(btn, BorderLayout.SOUTH);
-
         // TABS FUNCTIONALITY
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Tab 1", createSplitTextAreaTab());
+        tabbedPane.addTab("Tab 1", new SplitTextTabPanel());
         // You can add more tabs like this if needed
-        tabbedPane.addTab("Tab 2", createSplitTextAreaTab());
+        tabbedPane.addTab("Tab 2", new SplitTextTabPanel());
 
         container.add(tabbedPane, BorderLayout.CENTER);
 
@@ -160,74 +144,6 @@ public class Main extends JFrame {
 
         setVisible(true);
 
-    }
-
-    // ========== Line Numbering Component ==========
-    class LineNumberingTextArea extends JTextArea implements DocumentListener {
-        private final JTextArea textArea;
-
-        public LineNumberingTextArea(JTextArea textArea) {
-            this.textArea = textArea;
-            textArea.getDocument().addDocumentListener(this);
-            setEditable(false);
-            setBackground(Color.LIGHT_GRAY);
-            setFont(textArea.getFont());
-            updateLineNumbers();
-        }
-
-        private void updateLineNumbers() {
-            StringBuilder lineNumbersText = new StringBuilder();
-            int lines = textArea.getLineCount();
-            for (int i = 1; i <= lines; i++) {
-                lineNumbersText.append(i).append(System.lineSeparator());
-            }
-            setText(lineNumbersText.toString());
-        }
-
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            updateLineNumbers();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            updateLineNumbers();
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            updateLineNumbers();
-        }
-    }
-
-    // ========== New Tabs ==========
-    private JPanel createSplitTextAreaTab() {
-        JTextArea jt1 = new JTextArea();
-        JTextArea jt2 = new JTextArea();
-
-        JScrollPane scroll1 = new JScrollPane(jt1);
-        JScrollPane scroll2 = new JScrollPane(jt2);
-
-        scroll1.setRowHeaderView(new LineNumberingTextArea(jt1));
-        scroll2.setRowHeaderView(new LineNumberingTextArea(jt2));
-
-        JPanel p1 = new JPanel(new BorderLayout());
-        p1.add(scroll1, BorderLayout.CENTER);
-
-        JPanel p2 = new JPanel(new BorderLayout());
-        p2.add(scroll2, BorderLayout.CENTER);
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
-        splitPane.setDividerLocation(540);
-
-        JButton copyBtn = new JButton("Copy Text");
-        copyBtn.addActionListener(e -> jt2.setText(jt1.getText()));
-
-        JPanel tabPanel = new JPanel(new BorderLayout());
-        tabPanel.add(splitPane, BorderLayout.CENTER);
-        tabPanel.add(copyBtn, BorderLayout.SOUTH);
-
-        return tabPanel;
     }
 
 }

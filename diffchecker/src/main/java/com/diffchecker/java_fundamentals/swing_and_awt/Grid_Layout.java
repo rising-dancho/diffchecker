@@ -1,8 +1,6 @@
 package com.diffchecker.java_fundamentals.swing_and_awt;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
