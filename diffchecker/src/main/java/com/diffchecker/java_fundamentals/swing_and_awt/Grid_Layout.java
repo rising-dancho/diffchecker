@@ -16,7 +16,7 @@ public class Grid_Layout extends JFrame {
     setSize(1080, 720);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setLayout(new GridLayout(3,3)); // 3 x 3 grid; note: no parameter all items are arranged in 1 row
+    setLayout(new GridLayout(3, 3, 10, 10)); // 3 x 3 grid; note: no parameter all items are arranged in 1 row
     // GridLayout is used to arrange the components in a rectangular grid:
     // - one component per rectangle
 
