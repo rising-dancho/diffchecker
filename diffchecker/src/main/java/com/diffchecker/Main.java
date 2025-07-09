@@ -3,6 +3,8 @@ package com.diffchecker;
 import java.awt.*;
 import javax.swing.*;
 
+import com.diffchecker.components.ClosableTabContextMenu;
+import com.diffchecker.components.ClosableTabTitleComponent;
 import com.diffchecker.components.ComponentResizer;
 import com.diffchecker.components.CustomTitleBar;
 // IMPORT COMPONENTS
@@ -122,11 +124,49 @@ public class Main extends JFrame {
         // FOR DEBUGGING PURPOSES ONLY
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.addTab("Tab 1", new SplitTextTabPanel());
-        tabs.addTab("Tab 2", new SplitTextTabPanel());
-        container.add(tabs, BorderLayout.CENTER);
+        // JTabbedPane tabs = new JTabbedPane();
+        // tabs.addTab("Tab 1", new SplitTextTabPanel());
+        // tabs.addTab("Tab 2", new SplitTextTabPanel());
+        // container.add(tabs, BorderLayout.CENTER);
+
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setFocusable(false);
+        tabbedPane.addMouseListener(new ClosableTabContextMenu(tabbedPane));
+
+        JButton addButton = new JButton("+");
+        addButton.setBorder(null);
+        addButton.setFocusPainted(false);
+        addButton.setContentAreaFilled(false);
+        addButton.setPreferredSize(new Dimension(30, 30));
+        addButton.addActionListener(e -> addNewTab(tabbedPane));
+
+        tabbedPane.addTab("", null);
+        tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, addButton);
+
+        addNewTab(tabbedPane); // First real tab
+
+        container.add(tabbedPane, BorderLayout.CENTER);
+
         return container;
+    }
+
+    private int untitledCounter = 1;
+
+    private void addNewTab(JTabbedPane tabbedPane) {
+        int plusTabIndex = tabbedPane.getTabCount() - 1;
+        String title = "Untitled-" + untitledCounter++;
+
+        // Create your custom panel with 2 text areas
+        SplitTextTabPanel split_area = new SplitTextTabPanel();
+
+        // However the insertTab and check the parameters (title, icon, component (this
+        // is what gets displayed), tip,
+        // index)
+        tabbedPane.insertTab(title, null, split_area, null, plusTabIndex);
+        tabbedPane.setTabComponentAt(
+                plusTabIndex,
+                new ClosableTabTitleComponent(tabbedPane, title, () -> addNewTab(tabbedPane)));
+        tabbedPane.setSelectedIndex(plusTabIndex);
     }
 
     // ─── 6. Window Positioning ─────────────────────────────────────────────────
