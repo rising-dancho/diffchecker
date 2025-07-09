@@ -1,4 +1,4 @@
-package com.diffchecker;
+package com.diffchecker.components;
 
 import java.awt.Component;
 import java.awt.Cursor;

@@ -1,6 +1,7 @@
-package com.diffchecker;
+package com.diffchecker.components;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
