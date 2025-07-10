@@ -62,12 +62,14 @@ public class Main extends JFrame {
         setSize(1080, 720);
 
         // Rounded corners
-        setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
+        setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(),
+        getHeight(), 20, 20));
         addComponentListener(new java.awt.event.ComponentAdapter() {
-            @Override
-            public void componentResized(java.awt.event.ComponentEvent e) {
-                setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
-            }
+        @Override
+        public void componentResized(java.awt.event.ComponentEvent e) {
+        setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(),
+        getHeight(), 20, 20));
+        }
         });
     }
 
@@ -76,6 +78,8 @@ public class Main extends JFrame {
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.setBackground(new Color(36, 37, 38));
         wrapper.setOpaque(true);
+        // ALLOWING THE CORNERS TO HAVE ENOUGH SPACE TO DETECT RESIZING
+        wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         return wrapper;
     }
 
@@ -124,11 +128,6 @@ public class Main extends JFrame {
         // FOR DEBUGGING PURPOSES ONLY
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-        // JTabbedPane tabs = new JTabbedPane();
-        // tabs.addTab("Tab 1", new SplitTextTabPanel());
-        // tabs.addTab("Tab 2", new SplitTextTabPanel());
-        // container.add(tabs, BorderLayout.CENTER);
-
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setFocusable(false);
         tabbedPane.addMouseListener(new ClosableTabContextMenu(tabbedPane));
@@ -143,8 +142,7 @@ public class Main extends JFrame {
         tabbedPane.addTab("", null);
         tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, addButton);
 
-        addNewTab(tabbedPane); // First real tab
-
+        addNewTab(tabbedPane);
         container.add(tabbedPane, BorderLayout.CENTER);
 
         return container;
@@ -177,8 +175,10 @@ public class Main extends JFrame {
 
     // ─── 7. Enable Edge Resizing ───────────────────────────────────────────────
     private void enableResizing() {
-        ComponentResizer resizer = new ComponentResizer();
-        resizer.registerComponent(this);
+        ComponentResizer resizer = new ComponentResizer(
+                new Insets(8, 8, 8, 8),
+                new Dimension(1, 1),
+                new Dimension(100, 100),
+                this);
     }
-
 }
