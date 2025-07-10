@@ -38,10 +38,22 @@ public class SplitTextTabPanel extends JPanel {
             }
         });
 
-        JButton copyBtn = new JButton("Find Difference");
+        // CUSTOM BUTTON
+        RoundedButton copyBtn = new RoundedButton("Find Difference");
+        copyBtn.setBackgroundColor(new Color(0x00C281));
+        copyBtn.setHoverBackgroundColor(new Color(0x009966)); // <- hover color
+        copyBtn.setTextColor(Color.WHITE);
+        copyBtn.setBorderColor(new Color(0x00C281));
+        copyBtn.setHoverBorderColor(new Color(0x009966));
+        copyBtn.setBorderThickness(2);
+        copyBtn.setCornerRadius(10);
         copyBtn.addActionListener(e -> jt2.setText(jt1.getText()));
 
         add(splitPane, BorderLayout.CENTER);
-        add(copyBtn, BorderLayout.SOUTH);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // CENTER = button centered
+        bottomPanel.setOpaque(false); // To inherit dark background
+        bottomPanel.add(copyBtn);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 }
