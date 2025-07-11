@@ -122,7 +122,7 @@ public class Main extends JFrame {
 
     // ─── 5. Main Content Panel with Tabs ───────────────────────────────────────
     private JPanel buildMainContent() {
-        container.setBackground(new Color(0x1F1F1F));
+        container.setBackground(new Color(36, 37, 38));
         container.setLayout(new BorderLayout());
 
         // FOR DEBUGGING PURPOSES ONLY
