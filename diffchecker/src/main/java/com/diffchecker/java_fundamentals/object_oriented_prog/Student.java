@@ -13,14 +13,14 @@ public class Student {
   // Behaviors
   // (methods) are block of codes which only runs when called
   public void Eating(String food) {
-    System.out.println("Eating "+ food);
+    System.out.println("Eating " + food);
   }
 
-  public void Drinking(){
+  public void Drinking() {
     System.out.println("Drinking");
   }
 
-  public void Running(){
+  public void Running() {
     System.out.println("Running");
   }
 
