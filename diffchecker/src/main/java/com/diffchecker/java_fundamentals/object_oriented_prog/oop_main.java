@@ -44,12 +44,31 @@ public class oop_main {
     System.out.println(john.getColor());
     System.out.println(john.getSex());
 
-    Greeting("John");
+    // multiple parameters, returning value from a method
+
+    Integer ageOfCelebrant = 33;
+    String nameOfCelebrant = "Vitlog";
+    Greeting(ageOfCelebrant, nameOfCelebrant);
+
+    // returning_type_method test = new returning_type_method();
+    double num1 = 42.5;
+    double num2 = 76.87;
+
+    double sum = AddTwoNumbers(num1, num2);
+    // double sum = test.AddTwoNumbers(num1, num2);
+
+    System.out.println(num1 + " + " + num2 + " = " + sum);
+
+  }
+
+  public static double AddTwoNumbers(double num1, double num2) {
+    double result = num1 + num2;
+    return result;
   }
 
   // this is a method: its asking for a parameter called "name"
-  public static void Greeting(String name) {
-    System.out.println("Hello, " + name);
+  public static void Greeting(Integer ageOfCelebrant, String nameOfCelebrant) {
+    System.out.println("Happy Birthday, " + nameOfCelebrant + "! (candle shows age): " + ageOfCelebrant);
   }
 
 }
