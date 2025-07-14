@@ -9,23 +9,30 @@ public class oop_main {
 
     // OPTION 1: direct
     // this is creating an instance (or an object) of a the Student class
-    Student ben = new Student();
+    // Student person = new Student("Benjamin Button", 12, "blue", 'm');
+    // Getters : for the default constructor at the top
+    // System.out.println("Name: " + person.name);
+    // System.out.println("Age: " + person.age);
+    // System.out.println("Color: " + person.color);
+    // System.out.println("Gender: " + person.sex);
+
+    Student person = new Student();
 
     // Setters
-    String name = ben.name = "Benjamin Button";
-    Integer age = ben.age = 12;
-    String color = ben.color = "blue";
-    char gender = ben.sex = 'm';
+    String name = person.name = "Benjamin Button";
+    Integer age = person.age = 12;
+    String color = person.color = "blue";
+    char sex = person.sex = 'm';
 
-    // Getters
+    // Getters : for the default constructor at the top
     System.out.println("Name: " + name);
     System.out.println("Age: " + age);
     System.out.println("Color: " + color);
-    System.out.println("Gender: " + gender);
+    System.out.println("Gender: " + sex);
 
-    ben.Eating("burger");
-    ben.Drinking();
-    ben.Running();
+    person.Eating("burger");
+    person.Drinking();
+    person.Running();
 
     System.out.println();
     System.out.println();
@@ -33,6 +40,7 @@ public class oop_main {
     // OPTION 2: OOP Style
     Student_sexy_version john = new Student_sexy_version();
     // Sexy Version: Setters
+    // these are private values  
     john.setName("John Kwik");
     john.setAge(15);
     john.setColor("Blue");

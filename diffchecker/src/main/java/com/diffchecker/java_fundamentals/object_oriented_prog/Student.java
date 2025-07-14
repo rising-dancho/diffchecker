@@ -10,6 +10,17 @@ public class Student {
   String color;
   char sex; // f or m
 
+  // ON PURPOSE: empty constructor
+  public Student() {
+  }
+
+  public Student(String name, Integer age, String color, char sex) {
+    this.name = name;
+    this.age = age;
+    this.color = color;
+    this.sex = sex;
+  }
+
   // Behaviors
   // (methods) are block of codes which only runs when called
   public void Eating(String food) {
