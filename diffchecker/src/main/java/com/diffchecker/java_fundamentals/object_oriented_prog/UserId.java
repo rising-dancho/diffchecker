@@ -5,8 +5,7 @@ public class UserId {
   private int userId;
 
   public UserId() {
-    userId = ++idCounter; // pre increment is crucial, increment the idCounter first BEFORE assigning to
-                          // userId
+    userId = ++idCounter; // pre increment is crucial, increment the idCounter first BEFORE assigning to userId
   }
 
   public int getUserId() {
