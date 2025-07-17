@@ -5,6 +5,8 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SplitTextTabPanel extends JPanel {
     private final JTextArea jt1 = new JTextArea();
@@ -42,60 +44,91 @@ public class SplitTextTabPanel extends JPanel {
         });
 
         // CUSTOM BUTTON
-        RoundedButton findDiffBtn = new RoundedButton("Find Difference");
-        findDiffBtn.setBackgroundColor(new Color(0x00C281));
-        findDiffBtn.setHoverBackgroundColor(new Color(0x009966)); // <- hover color
-        findDiffBtn.setTextColor(Color.WHITE);
-        findDiffBtn.setBorderColor(new Color(0x00C281));
-        findDiffBtn.setHoverBorderColor(new Color(0x009966));
-        findDiffBtn.setBorderThickness(2);
-        findDiffBtn.setCornerRadius(10);
-        findDiffBtn.addActionListener(e -> highlightMatchingText());
+        RoundedButton copyBtn = new RoundedButton("Find Difference");
+        copyBtn.setBackgroundColor(new Color(0x00C281));
+        copyBtn.setHoverBackgroundColor(new Color(0x009966)); // <- hover color
+        copyBtn.setTextColor(Color.WHITE);
+        copyBtn.setBorderColor(new Color(0x00C281));
+        copyBtn.setHoverBorderColor(new Color(0x009966));
+        copyBtn.setBorderThickness(2);
+        copyBtn.setCornerRadius(10);
+        copyBtn.addActionListener(e -> highlightDiffs());
 
         add(splitPane, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // CENTER = button centered
         bottomPanel.setOpaque(false); // To inherit dark background
-        bottomPanel.add(findDiffBtn);
+        bottomPanel.add(copyBtn);
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    // Highlight matching text
-    private void highlightMatchingText() {
-        // Clear previous highlights
+    private void highlightDiffs() {
         jt1.getHighlighter().removeAllHighlights();
         jt2.getHighlighter().removeAllHighlights();
 
-        String text1 = jt1.getText();
-        String text2 = jt2.getText();
+        String[] lines1 = jt1.getText().split("\\R");
+        String[] lines2 = jt2.getText().split("\\R");
 
-        String[] lines1 = text1.split("\\R"); // split on newlines
-        String[] lines2 = text2.split("\\R");
+        List<String> original = new ArrayList<>(List.of(lines1));
+        List<String> modified = new ArrayList<>(List.of(lines2));
 
-        int minLines = Math.min(lines1.length, lines2.length);
+        List<String> aligned1 = new ArrayList<>();
+        List<String> aligned2 = new ArrayList<>();
 
-        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(0x80FF80)); // light
-                                                                                                                    // green
+        int i = 0, j = 0;
+        while (i < original.size() || j < modified.size()) {
+            String line1 = i < original.size() ? original.get(i) : null;
+            String line2 = j < modified.size() ? modified.get(j) : null;
 
+            if (line1 != null && line2 != null && line1.equals(line2)) {
+                aligned1.add("  " + line1);
+                aligned2.add("  " + line2);
+                i++;
+                j++;
+            } else if (line2 != null && (line1 == null || !original.subList(i, original.size()).contains(line2))) {
+                // Added line
+                aligned1.add("");
+                aligned2.add("+ " + line2);
+                j++;
+            } else if (line1 != null && (line2 == null || !modified.subList(j, modified.size()).contains(line1))) {
+                // Removed line
+                aligned1.add("- " + line1);
+                aligned2.add("");
+                i++;
+            } else {
+                // Different but both exist → treat as changed
+                aligned1.add("- " + line1);
+                aligned2.add("+ " + line2);
+                i++;
+                j++;
+            }
+        }
+
+        // Replace text areas with aligned content
+        jt1.setText(String.join("\n", aligned1));
+        jt2.setText(String.join("\n", aligned2));
+
+        // Highlight removed in red and added in green
+        highlightLines(jt1, "- ", new Color(0xF29D9E)); // light red
+        highlightLines(jt2, "+ ", new Color(0x81DBBE)); // light green
+    }
+
+    private void highlightLines(JTextArea area, String prefix, Color color) {
+        Highlighter highlighter = area.getHighlighter();
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(color);
+
+        String[] lines = area.getText().split("\\R");
         try {
-            for (int i = 0; i < minLines; i++) {
-                if (lines1[i].equals(lines2[i])) {
-                    int start1 = getLineStartOffset(jt1, i);
-                    int end1 = start1 + lines1[i].length();
-                    jt1.getHighlighter().addHighlight(start1, end1, painter);
-
-                    int start2 = getLineStartOffset(jt2, i);
-                    int end2 = start2 + lines2[i].length();
-                    jt2.getHighlighter().addHighlight(start2, end2, painter);
+            for (int i = 0; i < lines.length; i++) {
+                if (lines[i].startsWith(prefix)) {
+                    int start = area.getLineStartOffset(i);
+                    int end = area.getLineEndOffset(i);
+                    highlighter.addHighlight(start, end, painter);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private int getLineStartOffset(JTextArea textArea, int line) throws Exception {
-        return textArea.getLineStartOffset(line);
     }
 
 }
