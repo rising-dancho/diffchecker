@@ -63,13 +63,13 @@ public class Main extends JFrame {
 
         // Rounded corners
         setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(),
-        getHeight(), 20, 20));
+                getHeight(), 20, 20));
         addComponentListener(new java.awt.event.ComponentAdapter() {
-        @Override
-        public void componentResized(java.awt.event.ComponentEvent e) {
-        setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(),
-        getHeight(), 20, 20));
-        }
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, getWidth(),
+                        getHeight(), 20, 20));
+            }
         });
     }
 
@@ -175,7 +175,7 @@ public class Main extends JFrame {
 
     // ─── 7. Enable Edge Resizing ───────────────────────────────────────────────
     private void enableResizing() {
-        ComponentResizer resizer = new ComponentResizer(
+        new ComponentResizer(
                 new Insets(8, 8, 8, 8),
                 new Dimension(1, 1),
                 new Dimension(100, 100),
