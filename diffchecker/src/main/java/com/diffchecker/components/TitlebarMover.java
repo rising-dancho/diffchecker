@@ -6,14 +6,20 @@ import javax.swing.*;
 
 public class TitlebarMover extends MouseAdapter {
   private final JFrame frame;
+  private final Runnable onDoubleClick;
+  private final Runnable onRestoreFromDrag;
   private Point mousePressedLocation = null;
   private Point mouseScreenLocation = null;
   private Dimension previousSize = null;
   private boolean isDragging = false;
   private boolean restoredOnDrag = false;
 
-  public TitlebarMover(JFrame frame, Component draggableArea) {
+  public TitlebarMover(JFrame frame, Component draggableArea,
+      Runnable onDoubleClick,
+      Runnable onRestoreFromDrag) {
     this.frame = frame;
+    this.onDoubleClick = onDoubleClick;
+    this.onRestoreFromDrag = onRestoreFromDrag;
 
     draggableArea.addMouseListener(this);
     draggableArea.addMouseMotionListener(this);
@@ -35,6 +41,7 @@ public class TitlebarMover extends MouseAdapter {
       return;
 
     if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH && !restoredOnDrag) {
+
       Dimension restoreSize = previousSize != null ? previousSize : new Dimension(1024, 768);
 
       // Restore frame
@@ -55,6 +62,8 @@ public class TitlebarMover extends MouseAdapter {
       mousePressedLocation = new Point(restoreSize.width / 2, mousePressedLocation.y);
 
       restoredOnDrag = true;
+      if (onRestoreFromDrag != null)
+        onRestoreFromDrag.run();
       return;
     }
 
@@ -74,18 +83,23 @@ public class TitlebarMover extends MouseAdapter {
 
   @Override
   public void mouseClicked(MouseEvent e) {
+    // if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+    // if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) ==
+    // JFrame.MAXIMIZED_BOTH) {
+    // frame.setExtendedState(JFrame.NORMAL);
+    // if (previousSize != null) {
+    // frame.setSize(previousSize);
+    // }
+    // } else {
+    // if ((frame.getExtendedState() & JFrame.NORMAL) == JFrame.NORMAL) {
+    // previousSize = frame.getSize(); // store only if not already maximized
+    // }
+    // frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    // }
+    // }
     if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
-      if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH) {
-        frame.setExtendedState(JFrame.NORMAL);
-        if (previousSize != null) {
-          frame.setSize(previousSize);
-        }
-      } else {
-        if ((frame.getExtendedState() & JFrame.NORMAL) == JFrame.NORMAL) {
-          previousSize = frame.getSize(); // store only if not already maximized
-        }
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-      }
+      if (onDoubleClick != null)
+        onDoubleClick.run();
     }
   }
 

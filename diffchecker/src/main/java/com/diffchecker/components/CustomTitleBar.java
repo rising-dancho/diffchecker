@@ -84,7 +84,14 @@ public class CustomTitleBar extends JPanel {
     add(controlPanel, BorderLayout.EAST);
 
     // ── Enable dragging ---------------------------------------------------------
-    new TitlebarMover(frame, this);
+    new TitlebarMover(
+        frame,
+        this,
+        this::toggleMaximize,
+        () -> {
+          updateMaximizeIcon();
+          previousSize = frame.getSize(); // <-- capture restored size again
+        });
   }
 
   // ------------------------------------------------------------------ utilities
