@@ -111,6 +111,11 @@ public class SplitTextTabPanel extends JPanel {
         // Highlight removed in red and added in green
         highlightLines(jt1, "- ", new Color(0xF29D9E)); // light red
         highlightLines(jt2, "+ ", new Color(0x81DBBE)); // light green
+
+        // Highlight placeholders in gray
+        highlightLines(jt1, "", new Color(0xD3D3D3)); // gray filler
+        highlightLines(jt2, "", new Color(0xD3D3D3)); // gray filler
+
     }
 
     private void highlightLines(JTextArea area, String prefix, Color color) {
@@ -120,7 +125,14 @@ public class SplitTextTabPanel extends JPanel {
         String[] lines = area.getText().split("\\R");
         try {
             for (int i = 0; i < lines.length; i++) {
-                if (lines[i].startsWith(prefix)) {
+                boolean shouldHighlight = false;
+                if (!prefix.isEmpty()) {
+                    shouldHighlight = lines[i].startsWith(prefix);
+                } else {
+                    shouldHighlight = lines[i].trim().isEmpty();
+                }
+
+                if (shouldHighlight) {
                     int start = area.getLineStartOffset(i);
                     int end = area.getLineEndOffset(i);
                     highlighter.addHighlight(start, end, painter);
