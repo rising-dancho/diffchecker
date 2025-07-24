@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.Patch;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,51 +70,69 @@ public class SplitTextTabPanel extends JPanel {
         jt1.getHighlighter().removeAllHighlights();
         jt2.getHighlighter().removeAllHighlights();
 
-        String[] lines1 = jt1.getText().split("\\R");
-        String[] lines2 = jt2.getText().split("\\R");
+        List<String> original = List.of(jt1.getText().split("\\R"));
+        List<String> revised = List.of(jt2.getText().split("\\R"));
 
-        List<String> original = new ArrayList<>(List.of(lines1));
-        List<String> modified = new ArrayList<>(List.of(lines2));
+        Patch<String> patch = DiffUtils.diff(original, revised);
 
         List<String> aligned1 = new ArrayList<>();
         List<String> aligned2 = new ArrayList<>();
 
-        int i = 0, j = 0;
-        while (i < original.size() || j < modified.size()) {
-            String line1 = i < original.size() ? original.get(i) : null;
-            String line2 = j < modified.size() ? modified.get(j) : null;
+        int origIndex = 0, revIndex = 0;
 
-            if (line1 != null && line2 != null && line1.equals(line2)) {
-                aligned1.add("  " + line1);
-                aligned2.add("  " + line2);
-                i++;
-                j++;
-            } else if (line2 != null && (line1 == null || !original.subList(i, original.size()).contains(line2))) {
-                // Added line
-                aligned1.add("");
-                aligned2.add("+ " + line2);
-                j++;
-            } else if (line1 != null && (line2 == null || !modified.subList(j, modified.size()).contains(line1))) {
-                // Removed line
-                aligned1.add("- " + line1);
-                aligned2.add("");
-                i++;
-            } else {
-                // Different but both exist → treat as changed
-                aligned1.add("- " + line1);
-                aligned2.add("+ " + line2);
-                i++;
-                j++;
+        for (AbstractDelta<String> delta : patch.getDeltas()) {
+            int origPos = delta.getSource().getPosition();
+            int revPos = delta.getTarget().getPosition();
+
+            // Unchanged before the delta
+            while (origIndex < origPos && revIndex < revPos) {
+                aligned1.add("  " + original.get(origIndex++));
+                aligned2.add("  " + revised.get(revIndex++));
+            }
+
+            List<String> origLines = delta.getSource().getLines();
+            List<String> revLines = delta.getTarget().getLines();
+
+            switch (delta.getType()) {
+                case DELETE -> {
+                    for (String line : origLines) {
+                        aligned1.add("- " + line);
+                        aligned2.add("");
+                        origIndex++;
+                    }
+                }
+                case INSERT -> {
+                    for (String line : revLines) {
+                        aligned1.add("");
+                        aligned2.add("+ " + line);
+                        revIndex++;
+                    }
+                }
+                case CHANGE -> {
+                    for (String line : origLines) {
+                        aligned1.add("- " + line);
+                        origIndex++;
+                    }
+                    for (String line : revLines) {
+                        aligned2.add("+ " + line);
+                        revIndex++;
+                    }
+                }
+                default -> throw new IllegalArgumentException("Unexpected value: " + delta.getType());
             }
         }
 
-        // Replace text areas with aligned content
+        // Remaining unchanged
+        while (origIndex < original.size() && revIndex < revised.size()) {
+            aligned1.add("  " + original.get(origIndex++));
+            aligned2.add("  " + revised.get(revIndex++));
+        }
+
         jt1.setText(String.join("\n", aligned1));
         jt2.setText(String.join("\n", aligned2));
 
-        // Highlight removed in red and added in green
-        highlightLines(jt1, "- ", new Color(0xF29D9E)); // light red
-        highlightLines(jt2, "+ ", new Color(0x81DBBE)); // light green
+        highlightLines(jt1, "- ", new Color(0xF29D9E));
+        highlightLines(jt2, "+ ", new Color(0x81DBBE));
     }
 
     private void highlightLines(JTextArea area, String prefix, Color color) {
