@@ -130,11 +130,11 @@ public class SplitTextTabPanel extends JPanel {
                 }
                 case CHANGE -> {
                     for (String line : origLines) {
-                        aligned1.add("~ " + line); // special prefix for changed lines
+                        aligned1.add("- " + line);
                         origIndex++;
                     }
                     for (String line : revLines) {
-                        aligned2.add("~ " + line); // same on the revised side
+                        aligned2.add("+ " + line);
                         revIndex++;
                     }
                 }
@@ -153,30 +153,14 @@ public class SplitTextTabPanel extends JPanel {
 
         highlightLines(jt1, "- ", new Color(0xF29D9E));
         highlightLines(jt2, "+ ", new Color(0x81DBBE));
-        highlightLines(jt1, "~ ", new Color(0xFFF59D)); // yellow (changes)
-        highlightLines(jt2, "~ ", new Color(0xFFF59D));
 
         // Repaint to ensure layout is updated
         jt1.revalidate();
         jt2.revalidate();
 
-        // Wait for layout updates, then compare heights
-        SwingUtilities.invokeLater(() -> {
-            int height1 = jt1.getPreferredSize().height;
-            int height2 = jt2.getPreferredSize().height;
-
-            if (height1 > height2) {
-                scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-                scroll2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-            } else if (height2 > height1) {
-                scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-                scroll2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            } else {
-                // Same height — disable both to avoid jitter
-                scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-                scroll2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-            }
-        });
+        // always show scrollbars but synced
+        scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
     private void highlightLines(JTextArea area, String prefix, Color color) {
