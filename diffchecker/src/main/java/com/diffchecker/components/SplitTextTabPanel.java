@@ -130,11 +130,11 @@ public class SplitTextTabPanel extends JPanel {
                 }
                 case CHANGE -> {
                     for (String line : origLines) {
-                        aligned1.add("- " + line);
+                        aligned1.add("~ " + line); // special prefix for changed lines
                         origIndex++;
                     }
                     for (String line : revLines) {
-                        aligned2.add("+ " + line);
+                        aligned2.add("~ " + line); // same on the revised side
                         revIndex++;
                     }
                 }
@@ -153,6 +153,8 @@ public class SplitTextTabPanel extends JPanel {
 
         highlightLines(jt1, "- ", new Color(0xF29D9E));
         highlightLines(jt2, "+ ", new Color(0x81DBBE));
+        highlightLines(jt1, "~ ", new Color(0xFFF59D)); // yellow (changes)
+        highlightLines(jt2, "~ ", new Color(0xFFF59D));
 
         // Repaint to ensure layout is updated
         jt1.revalidate();
