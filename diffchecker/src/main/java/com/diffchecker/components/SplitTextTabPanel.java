@@ -1,6 +1,7 @@
 package com.diffchecker.components;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
@@ -164,6 +165,30 @@ public class SplitTextTabPanel extends JPanel {
         // always show scrollbars but synced
         scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scroll2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        // AUTO SCROLL TO THE FIRST CHANGE
+        List<AbstractDelta<String>> deltas = patch.getDeltas();
+
+        if (!deltas.isEmpty()) {
+            AbstractDelta<String> firstDelta = deltas.get(0);
+            int firstDiffLine = firstDelta.getSource().getPosition();
+
+            // Scroll after highlighting and rendering
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    int startOffset = jt1.getDocument().getDefaultRootElement().getElement(firstDiffLine)
+                            .getStartOffset();
+                    @SuppressWarnings("deprecation")
+                    Rectangle viewRect = jt1.modelToView(startOffset);
+                    if (viewRect != null) {
+                        jt1.scrollRectToVisible(viewRect);
+                        jt2.scrollRectToVisible(viewRect); // Optional sync
+                    }
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     private void highlightLines(JTextArea area, String prefix, Color color) {
