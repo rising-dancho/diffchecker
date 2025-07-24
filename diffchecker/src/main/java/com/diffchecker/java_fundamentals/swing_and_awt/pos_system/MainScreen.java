@@ -13,9 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
-// import javax.swing.*;
 import javax.swing.border.TitledBorder;
-// import java.awt.*;
 
 public class MainScreen extends JFrame {
   // Widgets
@@ -26,6 +24,8 @@ public class MainScreen extends JFrame {
   JToggleButton invoiceBtn;
 
   // JPanel Loader
+  JPanelLoader loader = new JPanelLoader();
+  
 
   public MainScreen() throws HeadlessException {
     createLayout();
@@ -84,7 +84,6 @@ public class MainScreen extends JFrame {
     p1.add(productBtn);
     p1.add(salesBtn);
     p1.add(invoiceBtn);
-
 
   }
 
