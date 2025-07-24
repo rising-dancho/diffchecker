@@ -27,6 +27,9 @@ public class SplitTextTabPanel extends JPanel {
         scroll1 = new JScrollPane(jt1);
         scroll2 = new JScrollPane(jt2);
 
+        jt1.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        jt2.setFont(new Font("Monospaced", Font.PLAIN, 14));
+
         // Synchronize vertical scrolling
         JScrollBar vBar1 = scroll1.getVerticalScrollBar();
         JScrollBar vBar2 = scroll2.getVerticalScrollBar();
