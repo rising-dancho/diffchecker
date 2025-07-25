@@ -30,12 +30,13 @@ public class SplitTextTabPanel extends JPanel {
     private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);
 
     // FONT COLORS
-    private static final Color editorBg = new Color(0x1E1E1E); // Dark gray
+    private static final Color editorBg = new Color(0x17181C); // Dark gray
     private static final Color editorFg = new Color(0xD4D4D4); // Light text
 
     // BACKGROUND COLOR
     // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);
     private final Color BACKGROUND_DARK = new Color(36, 37, 38);
+    private final Color BACKGROUND_LABEL_DARK = new Color(0x1E1E1E);
 
     // SUMMARY FONT COLOR
     private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red
@@ -98,12 +99,12 @@ public class SplitTextTabPanel extends JPanel {
 
         // Create label panel for each text area
         leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        leftLabelPanel.setOpaque(false);
         leftLabelPanel.add(leftSummaryLabel);
+        leftLabelPanel.setBackground(BACKGROUND_LABEL_DARK);
 
         rightLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        rightLabelPanel.setOpaque(false);
         rightLabelPanel.add(rightSummaryLabel);
+        rightLabelPanel.setBackground(BACKGROUND_LABEL_DARK);
 
         JPanel p1 = new JPanel(new BorderLayout());
         p1.add(leftLabelPanel, BorderLayout.NORTH);
@@ -253,6 +254,7 @@ public class SplitTextTabPanel extends JPanel {
         // Set the diff summary in label (you can style it too)
         leftSummaryLabel.setText(String.format("❌ %d removals", removed));
         rightSummaryLabel.setText(String.format("✔️ %d additions", added));
+        // LABEL TEXT COLOR
         leftSummaryLabel.setForeground(REMOVAL_LABEL_COLOR_DARK); // red
         rightSummaryLabel.setForeground(ADDED_LABEL_COLOR_DARK); // green
 

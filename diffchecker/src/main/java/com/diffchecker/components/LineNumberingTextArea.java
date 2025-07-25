@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class LineNumberingTextArea extends JTextArea implements DocumentListener {
     private final JTextArea textArea;
-    private static final Color BACKGROUND_COLOR = new Color(0x1E1E1E); // Dark gray
-    private static final Color NUMBER_COLOR = new Color(0xD4D4D4); // Light text
+    private static final Color BACKGROUND_COLOR = new Color(0x17181C); // Dark gray
+    private static final Color NUMBER_COLOR = new Color(0x888690); // Light text
 
     public LineNumberingTextArea(JTextArea textArea) {
         this.textArea = textArea;
@@ -18,10 +18,6 @@ public class LineNumberingTextArea extends JTextArea implements DocumentListener
         setForeground(NUMBER_COLOR);
         setFont(textArea.getFont().deriveFont(Font.BOLD));
         setMargin(new Insets(0, 3, 0, 3)); // Add 5px right padding
-
-        // ✅ This line removes the visible border
-        setBorder(null);
-        // setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         updateLineNumbers();
     }

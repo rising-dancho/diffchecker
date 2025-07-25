@@ -7,8 +7,9 @@ import java.awt.*;
 public class CustomScrollBarUI extends BasicScrollBarUI {
 
   private Color thumbColor = new Color(0x636363); // Light gray
-  private Color trackColor = new Color(0x242526); // Very light background
+  private Color trackColor = new Color(0x17181C);
   private Color thumbHoverColor = new Color(0x8B8B8B); // Darker on hover
+
 
   @Override
   protected void configureScrollBarColors() {
