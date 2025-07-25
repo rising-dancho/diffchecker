@@ -19,6 +19,11 @@ public class SplitTextTabPanel extends JPanel {
     private final JSplitPane splitPane;
     private final JLabel summaryLabel = new JLabel("Summary: ");
 
+    private static final Color DELETE_WORD_COLOR = new Color(0xF0DDDF); // darker red
+    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0xF29D9E); // darker red
+    private static final Color ADD_WORD_COLOR = new Color(0xD7EBE6); // darker green
+    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x81DBBE);
+
     // scroll bars
     private final JScrollPane scroll1;
     private final JScrollPane scroll2;
@@ -192,8 +197,8 @@ public class SplitTextTabPanel extends JPanel {
             }
         }
 
-        highlightLines(jt1, "- ", new Color(0xF29D9E));
-        highlightLines(jt2, "+ ", new Color(0x81DBBE));
+        highlightLines(jt1, "- ", DELETE_WORD_COLOR);
+        highlightLines(jt2, "+ ", ADD_WORD_COLOR);
 
         // Repaint to ensure layout is updated
         jt1.revalidate();
@@ -252,18 +257,29 @@ public class SplitTextTabPanel extends JPanel {
 
         Patch<String> wordPatch = DiffUtils.diff(tokens1, tokens2);
 
+        // Base color based on side
+        Color inlineColor;
+        if (line1.equals(line2))
+            return; // skip if not changed
+
+        if (isLeft && !line2.isBlank()) {
+            inlineColor = DELETE_WORD_COLOR_DARKER;
+        } else if (!isLeft && !line1.isBlank()) {
+            inlineColor = ADD_WORD_COLOR_DARKER;
+        } else {
+            inlineColor = isLeft ? DELETE_WORD_COLOR_DARKER : ADD_WORD_COLOR_DARKER;
+        }
+
         Highlighter highlighter = area.getHighlighter();
-        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(0xFFF176)); // light
-                                                                                                                    // yellow
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(inlineColor);
 
         try {
             int lineStartOffset = area.getLineStartOffset(lineIndex);
-            int pos = lineStartOffset + 2; // skip the "- " or "+ " prefix
+            int pos = lineStartOffset + 2; // Skip "- " or "+ "
 
             List<String> tokens = isLeft ? tokens1 : tokens2;
 
-            for (int i = 0; i < tokens.size(); i++) {
-                String token = tokens.get(i);
+            for (String token : tokens) {
                 boolean changed = wordPatch.getDeltas().stream()
                         .anyMatch(delta -> (isLeft ? delta.getSource().getLines() : delta.getTarget().getLines())
                                 .contains(token));
