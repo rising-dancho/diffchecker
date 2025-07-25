@@ -140,13 +140,16 @@ public class SplitTextTabPanel extends JPanel {
                     }
                 }
                 case CHANGE -> {
-                    for (String line : origLines) {
-                        aligned1.add("- " + line);
-                        origIndex++;
-                    }
-                    for (String line : revLines) {
-                        aligned2.add("+ " + line);
-                        revIndex++;
+                    int max = Math.max(origLines.size(), revLines.size());
+                    for (int i = 0; i < max; i++) {
+                        String leftLine = i < origLines.size() ? origLines.get(i) : "";
+                        String rightLine = i < revLines.size() ? revLines.get(i) : "";
+
+                        aligned1.add("- " + leftLine);
+                        aligned2.add("+ " + rightLine);
+
+                        origIndex += i < origLines.size() ? 1 : 0;
+                        revIndex += i < revLines.size() ? 1 : 0;
                     }
                 }
                 default -> throw new IllegalArgumentException("Unexpected value: " + delta.getType());
@@ -179,10 +182,18 @@ public class SplitTextTabPanel extends JPanel {
         jt1.setText(String.join("\n", aligned1));
         jt2.setText(String.join("\n", aligned2));
 
+        // Must be after setting text so offsets are accurate
+        for (int i = 0; i < aligned1.size(); i++) {
+            if (aligned1.get(i).startsWith("- ") && aligned2.get(i).startsWith("+ ")) {
+                String left = aligned1.get(i).substring(2);
+                String right = aligned2.get(i).substring(2);
+                highlightIntraLineDiff(left, right, jt1, i, true);
+                highlightIntraLineDiff(left, right, jt2, i, false);
+            }
+        }
+
         highlightLines(jt1, "- ", new Color(0xF29D9E));
         highlightLines(jt2, "+ ", new Color(0x81DBBE));
-        highlightLines(jt1, "- ", new Color(0xFFF59D)); // pale yellow
-        highlightLines(jt2, "+ ", new Color(0xFFF59D)); // same for changed lines
 
         // Repaint to ensure layout is updated
         jt1.revalidate();
@@ -231,6 +242,38 @@ public class SplitTextTabPanel extends JPanel {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void highlightIntraLineDiff(String line1, String line2, JTextArea area, int lineIndex, boolean isLeft) {
+        List<String> tokens1 = List.of(line1.split("\\b"));
+        List<String> tokens2 = List.of(line2.split("\\b"));
+
+        Patch<String> wordPatch = DiffUtils.diff(tokens1, tokens2);
+
+        Highlighter highlighter = area.getHighlighter();
+        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(0xFFF176)); // light
+                                                                                                                    // yellow
+
+        try {
+            int lineStartOffset = area.getLineStartOffset(lineIndex);
+            int pos = lineStartOffset + 2; // skip the "- " or "+ " prefix
+
+            List<String> tokens = isLeft ? tokens1 : tokens2;
+
+            for (int i = 0; i < tokens.size(); i++) {
+                String token = tokens.get(i);
+                boolean changed = wordPatch.getDeltas().stream()
+                        .anyMatch(delta -> (isLeft ? delta.getSource().getLines() : delta.getTarget().getLines())
+                                .contains(token));
+
+                if (changed && !token.isBlank()) {
+                    highlighter.addHighlight(pos, pos + token.length(), painter);
+                }
+                pos += token.length();
+            }
+        } catch (BadLocationException e) {
             e.printStackTrace();
         }
     }
