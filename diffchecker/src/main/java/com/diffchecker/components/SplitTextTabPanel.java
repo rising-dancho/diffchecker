@@ -216,7 +216,7 @@ public class SplitTextTabPanel extends JPanel {
         }
 
         // Set the diff summary in label (you can style it too)
-        leftSummaryLabel.setText(String.format("❌ %d removal", removed));
+        leftSummaryLabel.setText(String.format("❌ %d removals", removed));
         rightSummaryLabel.setText(String.format("✔️ %d additions", added));
         leftSummaryLabel.setForeground(REMOVAL_LABEL_COLOR_DARK); // red
         rightSummaryLabel.setForeground(ADDED_LABEL_COLOR_DARK); // green
