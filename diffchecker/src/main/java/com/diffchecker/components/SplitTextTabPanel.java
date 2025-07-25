@@ -43,8 +43,8 @@ public class SplitTextTabPanel extends JPanel {
     private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red
 
     // BUTTON COLOR AND HOVER COLOR
-    private static final Color BTN_COLOR = new Color(0X009966);
-    private static final Color BTN_COLOR_DARKER = new Color(0x00C281);
+    private static final Color BTN_COLOR = new Color(0x00af74);
+    private static final Color BTN_COLOR_DARKER = new Color(0x00744d);
 
     // SCROLL BARS
     private final JScrollPane scroll1;

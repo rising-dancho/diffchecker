@@ -30,7 +30,7 @@ public class Main extends JFrame {
         initFrame(); // 1. Frame setup
         JPanel wrapper = initWrapper(); // 2. Background wrapper
         JPanel titleBar = buildTitleBar(); // 3. Custom title bar
-        JPanel menuPanel = buildMenuPanel(); // 4. Menu bar
+        // JPanel menuPanel = buildMenuPanel(); // 4. Menu bar
         JPanel content = buildMainContent(); // 5. Main tabbed pane area
 
         // FOR DEBUGGING PURPOSES ONLY
@@ -40,7 +40,7 @@ public class Main extends JFrame {
         JPanel centerContent = new JPanel();
         centerContent.setLayout(new BoxLayout(centerContent, BoxLayout.Y_AXIS));
         centerContent.setBackground(new Color(36, 37, 38));
-        centerContent.add(menuPanel);
+        // centerContent.add(menuPanel);
         centerContent.add(content);
 
         wrapper.add(titleBar, BorderLayout.NORTH);
