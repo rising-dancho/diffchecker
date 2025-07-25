@@ -10,10 +10,13 @@ import com.github.difflib.patch.AbstractDelta;
 import com.github.difflib.patch.Patch;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SplitTextTabPanel extends JPanel {
+    private static final String PACKAGE_NAME = "diffchecker";
     private final JTextArea jt1 = new JTextArea();
     private final JTextArea jt2 = new JTextArea();
 
@@ -67,8 +70,19 @@ public class SplitTextTabPanel extends JPanel {
         scroll2.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
 
         // FONT FAMILY OF THE TEXTAREAS
-        jt1.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        jt2.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        try {
+            InputStream is = getClass().getResourceAsStream(
+                    "/" + PACKAGE_NAME + "/fonts/FiraCode-Regular.ttf");
+            Font firaCode = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 16f);
+
+            jt1.setFont(firaCode);
+            jt2.setFont(firaCode);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            // Fallback if font fails to load
+            jt1.setFont(new Font("Monospaced", Font.PLAIN, 14));
+            jt2.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        }
 
         // REMOVE DEFAULT BORDERS
         jt1.setBorder(BorderFactory.createEmptyBorder());
@@ -257,6 +271,9 @@ public class SplitTextTabPanel extends JPanel {
         // LABEL TEXT COLOR
         leftSummaryLabel.setForeground(REMOVAL_LABEL_COLOR_DARK); // red
         rightSummaryLabel.setForeground(ADDED_LABEL_COLOR_DARK); // green
+        // LABEL FONT SIZE
+        leftSummaryLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        rightSummaryLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 
         jt1.setText(String.join("\n", aligned1));
         jt2.setText(String.join("\n", aligned2));
