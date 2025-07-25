@@ -17,7 +17,12 @@ public class SplitTextTabPanel extends JPanel {
     private final JTextArea jt1 = new JTextArea();
     private final JTextArea jt2 = new JTextArea();
     private final JSplitPane splitPane;
-    private final JLabel summaryLabel = new JLabel("Summary: ");
+
+    private final JLabel leftSummaryLabel = new JLabel();
+    private final JLabel rightSummaryLabel = new JLabel();
+
+    // ADD SUMMARY ARROWS
+    private static int added = 0, removed = 0;
 
     // WORD HIGHLIGHT
     private static final Color DELETE_WORD_COLOR = new Color(0xF0DDDF); // darker red
@@ -29,9 +34,13 @@ public class SplitTextTabPanel extends JPanel {
     private static final Color BTN_COLOR = new Color(0x00C281);
     private static final Color BTN_COLOR_DARKER = new Color(0x009966);
 
-    // scroll bars
+    // SCROLL BARS
     private final JScrollPane scroll1;
     private final JScrollPane scroll2;
+
+    // SUMMARY LABELS
+    private final JPanel leftLabelPanel;
+    private final JPanel rightLabelPanel;
 
     public SplitTextTabPanel() {
         setLayout(new BorderLayout());
@@ -61,10 +70,21 @@ public class SplitTextTabPanel extends JPanel {
         scroll1.setRowHeaderView(new LineNumberingTextArea(jt1));
         scroll2.setRowHeaderView(new LineNumberingTextArea(jt2));
 
+        // Create label panel for each text area
+        leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftLabelPanel.setOpaque(false);
+        leftLabelPanel.add(leftSummaryLabel);
+
+        rightLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        rightLabelPanel.setOpaque(false);
+        rightLabelPanel.add(rightSummaryLabel);
+
         JPanel p1 = new JPanel(new BorderLayout());
+        p1.add(leftLabelPanel, BorderLayout.NORTH);
         p1.add(scroll1, BorderLayout.CENTER);
 
         JPanel p2 = new JPanel(new BorderLayout());
+        p2.add(rightLabelPanel, BorderLayout.NORTH);
         p2.add(scroll2, BorderLayout.CENTER);
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
@@ -100,11 +120,10 @@ public class SplitTextTabPanel extends JPanel {
         bottomPanel.add(diffcheckBtn);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // Create top panel for summary
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topPanel.setOpaque(false);
-        topPanel.add(summaryLabel);
-        add(topPanel, BorderLayout.NORTH); // <-- Move to top
+        // Add labels above each scroll pane
+        p1.add(leftLabelPanel, BorderLayout.NORTH);
+        p2.add(rightLabelPanel, BorderLayout.NORTH);
+
     }
 
     private void highlightDiffs() {
@@ -151,17 +170,30 @@ public class SplitTextTabPanel extends JPanel {
                 }
                 case CHANGE -> {
                     int max = Math.max(origLines.size(), revLines.size());
+
                     for (int i = 0; i < max; i++) {
                         String leftLine = i < origLines.size() ? origLines.get(i) : "";
                         String rightLine = i < revLines.size() ? revLines.get(i) : "";
 
-                        aligned1.add("- " + leftLine);
-                        aligned2.add("+ " + rightLine);
+                        if (!leftLine.isBlank()) {
+                            aligned1.add("- " + leftLine);
+                            removed++;
+                        } else {
+                            aligned1.add(""); // Blank line for alignment
+                        }
+
+                        if (!rightLine.isBlank()) {
+                            aligned2.add("+ " + rightLine);
+                            added++;
+                        } else {
+                            aligned2.add(""); // Blank line for alignment
+                        }
 
                         origIndex += i < origLines.size() ? 1 : 0;
                         revIndex += i < revLines.size() ? 1 : 0;
                     }
                 }
+
                 default -> throw new IllegalArgumentException("Unexpected value: " + delta.getType());
             }
         }
@@ -172,22 +204,11 @@ public class SplitTextTabPanel extends JPanel {
             aligned2.add("  " + revised.get(revIndex++));
         }
 
-        // ADD SUMMARY ARROWS
-        int added = 0, removed = 0, changed = 0;
-
-        for (AbstractDelta<String> delta : patch.getDeltas()) {
-            switch (delta.getType()) {
-                case INSERT -> added++;
-                case DELETE -> removed++;
-                case CHANGE -> changed++;
-                default -> throw new IllegalArgumentException("Unexpected value: " + delta.getType());
-            }
-        }
-
         // Set the diff summary in label (you can style it too)
-        summaryLabel.setText(String.format(
-                "Summary: ✔️ %d added   ❌ %d removed   🔄 %d changed",
-                added, removed, changed));
+        leftSummaryLabel.setText(String.format("❌ %d lines removed", removed));
+        rightSummaryLabel.setText(String.format("✔️ %d lines added", added));
+        leftSummaryLabel.setForeground(new Color(0xF44336)); // red
+        rightSummaryLabel.setForeground(new Color(0x4CAF50)); // green
 
         jt1.setText(String.join("\n", aligned1));
         jt2.setText(String.join("\n", aligned2));
