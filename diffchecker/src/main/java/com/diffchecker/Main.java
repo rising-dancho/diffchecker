@@ -9,6 +9,7 @@ import com.diffchecker.components.ComponentResizer;
 import com.diffchecker.components.CustomTitleBar;
 // IMPORT COMPONENTS
 import com.diffchecker.components.MenuBuilder;
+import com.diffchecker.components.RoundedTabbedPaneUI;
 import com.diffchecker.components.SplitTextTabPanel;
 
 public class Main extends JFrame {
@@ -129,6 +130,8 @@ public class Main extends JFrame {
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setUI(new RoundedTabbedPaneUI());
+        tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, 13));
         tabbedPane.setFocusable(false);
         tabbedPane.addMouseListener(new ClosableTabContextMenu(tabbedPane));
 
