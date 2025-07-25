@@ -135,12 +135,14 @@ public class Main extends JFrame {
         tabbedPane.setFocusable(false);
         tabbedPane.addMouseListener(new ClosableTabContextMenu(tabbedPane));
 
-        JButton addButton = new JButton("+");
+        // ADD TABS
+        JButton addButton = new JButton("➕");
         addButton.setBorder(null);
         addButton.setFocusPainted(false);
         addButton.setContentAreaFilled(false);
-        addButton.setPreferredSize(new Dimension(30, 30));
+        addButton.setPreferredSize(new Dimension(28, 28));
         addButton.addActionListener(e -> addNewTab(tabbedPane));
+        addButton.setForeground(new Color(0x888690));
 
         tabbedPane.addTab("", null);
         tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, addButton);
