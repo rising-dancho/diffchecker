@@ -30,6 +30,10 @@ public class SplitTextTabPanel extends JPanel {
     private static final Color ADD_WORD_COLOR = new Color(0xD7EBE6); // darker green
     private static final Color ADD_WORD_COLOR_DARKER = new Color(0x81DBBE);
 
+    // SUMMARY FONT COLOR
+    private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red
+    private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red
+
     // BUTTON COLOR AND HOVER COLOR
     private static final Color BTN_COLOR = new Color(0x00C281);
     private static final Color BTN_COLOR_DARKER = new Color(0x009966);
@@ -124,11 +128,18 @@ public class SplitTextTabPanel extends JPanel {
         p1.add(leftLabelPanel, BorderLayout.NORTH);
         p2.add(rightLabelPanel, BorderLayout.NORTH);
 
+        // INITIALLY HIDE SUMMARY LABELS
+        leftLabelPanel.setVisible(false);
+        rightLabelPanel.setVisible(false);
     }
 
     private void highlightDiffs() {
         jt1.getHighlighter().removeAllHighlights();
         jt2.getHighlighter().removeAllHighlights();
+
+        // SHOW SUMMARY LABELS
+        leftLabelPanel.setVisible(true);
+        rightLabelPanel.setVisible(true);
 
         List<String> original = List.of(jt1.getText().split("\\R"));
         List<String> revised = List.of(jt2.getText().split("\\R"));
@@ -205,10 +216,10 @@ public class SplitTextTabPanel extends JPanel {
         }
 
         // Set the diff summary in label (you can style it too)
-        leftSummaryLabel.setText(String.format("❌ %d lines removed", removed));
-        rightSummaryLabel.setText(String.format("✔️ %d lines added", added));
-        leftSummaryLabel.setForeground(new Color(0xF44336)); // red
-        rightSummaryLabel.setForeground(new Color(0x4CAF50)); // green
+        leftSummaryLabel.setText(String.format("❌ %d removal", removed));
+        rightSummaryLabel.setText(String.format("✔️ %d additions", added));
+        leftSummaryLabel.setForeground(REMOVAL_LABEL_COLOR_DARK); // red
+        rightSummaryLabel.setForeground(ADDED_LABEL_COLOR_DARK); // green
 
         jt1.setText(String.join("\n", aligned1));
         jt2.setText(String.join("\n", aligned2));
