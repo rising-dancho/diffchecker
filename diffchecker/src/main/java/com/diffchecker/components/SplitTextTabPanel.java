@@ -52,11 +52,15 @@ public class SplitTextTabPanel extends JPanel {
         scroll1 = new JScrollPane(jt1);
         scroll2 = new JScrollPane(jt2);
 
+        // CUSTOM SCROLLBARS
+        scroll1.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        scroll1.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
+        scroll2.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        scroll2.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
+
         // FONT FAMILY OF THE TEXTAREAS
         jt1.setFont(new Font("Monospaced", Font.PLAIN, 14));
         jt2.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        jt1.setMargin(new Insets(5, 5, 5, 5));
-        jt2.setMargin(new Insets(5, 5, 5, 5));
 
         // REMOVE DEFAULT BORDERS
         jt1.setBorder(BorderFactory.createEmptyBorder());
