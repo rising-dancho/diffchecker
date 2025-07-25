@@ -17,6 +17,7 @@ public class SplitTextTabPanel extends JPanel {
     private final JTextArea jt1 = new JTextArea();
     private final JTextArea jt2 = new JTextArea();
     private final JSplitPane splitPane;
+    private final JLabel summaryLabel = new JLabel("Summary: ");
 
     // scroll bars
     private final JScrollPane scroll1;
@@ -72,22 +73,28 @@ public class SplitTextTabPanel extends JPanel {
         });
 
         // CUSTOM BUTTON
-        RoundedButton copyBtn = new RoundedButton("Find Difference");
-        copyBtn.setBackgroundColor(new Color(0x00C281));
-        copyBtn.setHoverBackgroundColor(new Color(0x009966)); // <- hover color
-        copyBtn.setTextColor(Color.WHITE);
-        copyBtn.setBorderColor(new Color(0x00C281));
-        copyBtn.setHoverBorderColor(new Color(0x009966));
-        copyBtn.setBorderThickness(2);
-        copyBtn.setCornerRadius(10);
-        copyBtn.addActionListener(e -> highlightDiffs());
+        RoundedButton diffcheckBtn = new RoundedButton("Find Difference");
+        diffcheckBtn.setBackgroundColor(new Color(0x00C281));
+        diffcheckBtn.setHoverBackgroundColor(new Color(0x009966)); // <- hover color
+        diffcheckBtn.setTextColor(Color.WHITE);
+        diffcheckBtn.setBorderColor(new Color(0x00C281));
+        diffcheckBtn.setHoverBorderColor(new Color(0x009966));
+        diffcheckBtn.setBorderThickness(2);
+        diffcheckBtn.setCornerRadius(10);
+        diffcheckBtn.addActionListener(e -> highlightDiffs());
 
         add(splitPane, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // CENTER = button centered
         bottomPanel.setOpaque(false); // To inherit dark background
-        bottomPanel.add(copyBtn);
+        bottomPanel.add(diffcheckBtn);
         add(bottomPanel, BorderLayout.SOUTH);
+
+        // Create top panel for summary
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setOpaque(false);
+        topPanel.add(summaryLabel);
+        add(topPanel, BorderLayout.NORTH); // <-- Move to top
     }
 
     private void highlightDiffs() {
@@ -152,11 +159,30 @@ public class SplitTextTabPanel extends JPanel {
             aligned2.add("  " + revised.get(revIndex++));
         }
 
+        // ADD SUMMARY ARROWS
+        int added = 0, removed = 0, changed = 0;
+
+        for (AbstractDelta<String> delta : patch.getDeltas()) {
+            switch (delta.getType()) {
+                case INSERT -> added++;
+                case DELETE -> removed++;
+                case CHANGE -> changed++;
+                default -> throw new IllegalArgumentException("Unexpected value: " + delta.getType());
+            }
+        }
+
+        // Set the diff summary in label (you can style it too)
+        summaryLabel.setText(String.format(
+                "Summary: ✔️ %d added   ❌ %d removed   🔄 %d changed",
+                added, removed, changed));
+
         jt1.setText(String.join("\n", aligned1));
         jt2.setText(String.join("\n", aligned2));
 
         highlightLines(jt1, "- ", new Color(0xF29D9E));
         highlightLines(jt2, "+ ", new Color(0x81DBBE));
+        highlightLines(jt1, "- ", new Color(0xFFF59D)); // pale yellow
+        highlightLines(jt2, "+ ", new Color(0xFFF59D)); // same for changed lines
 
         // Repaint to ensure layout is updated
         jt1.revalidate();
