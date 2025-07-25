@@ -19,10 +19,15 @@ public class SplitTextTabPanel extends JPanel {
     private final JSplitPane splitPane;
     private final JLabel summaryLabel = new JLabel("Summary: ");
 
+    // WORD HIGHLIGHT
     private static final Color DELETE_WORD_COLOR = new Color(0xF0DDDF); // darker red
     private static final Color DELETE_WORD_COLOR_DARKER = new Color(0xF29D9E); // darker red
     private static final Color ADD_WORD_COLOR = new Color(0xD7EBE6); // darker green
     private static final Color ADD_WORD_COLOR_DARKER = new Color(0x81DBBE);
+
+    // BUTTON COLOR AND HOVER COLOR
+    private static final Color BTN_COLOR = new Color(0x00C281);
+    private static final Color BTN_COLOR_DARKER = new Color(0x009966);
 
     // scroll bars
     private final JScrollPane scroll1;
@@ -79,11 +84,11 @@ public class SplitTextTabPanel extends JPanel {
 
         // CUSTOM BUTTON
         RoundedButton diffcheckBtn = new RoundedButton("Find Difference");
-        diffcheckBtn.setBackgroundColor(new Color(0x00C281));
-        diffcheckBtn.setHoverBackgroundColor(new Color(0x009966)); // <- hover color
+        diffcheckBtn.setBackgroundColor(BTN_COLOR); // <- normal color
+        diffcheckBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
         diffcheckBtn.setTextColor(Color.WHITE);
-        diffcheckBtn.setBorderColor(new Color(0x00C281));
-        diffcheckBtn.setHoverBorderColor(new Color(0x009966));
+        diffcheckBtn.setBorderColor(BTN_COLOR);// <- normal color
+        diffcheckBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
         diffcheckBtn.setBorderThickness(2);
         diffcheckBtn.setCornerRadius(10);
         diffcheckBtn.addActionListener(e -> highlightDiffs());
