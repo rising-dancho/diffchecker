@@ -125,13 +125,14 @@ public class Main extends JFrame {
     private JPanel buildMainContent() {
         container.setBackground(new Color(36, 37, 38));
         container.setLayout(new BorderLayout());
+        container.setBorder(null);
 
         // FOR DEBUGGING PURPOSES ONLY
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setUI(new RoundedTabbedPaneUI());
-        tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tabbedPane.setFont(new Font("SansSerif", Font.BOLD, 13));
         tabbedPane.setFocusable(false);
         tabbedPane.addMouseListener(new ClosableTabContextMenu(tabbedPane));
 

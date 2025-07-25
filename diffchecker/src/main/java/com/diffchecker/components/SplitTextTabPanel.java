@@ -25,18 +25,26 @@ public class SplitTextTabPanel extends JPanel {
     private static int added = 0, removed = 0;
 
     // WORD HIGHLIGHT
-    private static final Color DELETE_WORD_COLOR = new Color(0xF0DDDF); // darker red
-    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0xF29D9E); // darker red
-    private static final Color ADD_WORD_COLOR = new Color(0xD7EBE6); // darker green
-    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x81DBBE);
+    private static final Color DELETE_WORD_COLOR = new Color(0x40191D); // darker red
+    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red
+    private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green
+    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);
+
+    // FONT COLORS
+    private static final Color editorBg = new Color(0x1E1E1E); // Dark gray
+    private static final Color editorFg = new Color(0xD4D4D4); // Light text
+
+    // BACKGROUND COLOR
+    // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);
+    private final Color BACKGROUND_DARK = new Color(36, 37, 38);
 
     // SUMMARY FONT COLOR
     private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red
     private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red
 
     // BUTTON COLOR AND HOVER COLOR
-    private static final Color BTN_COLOR = new Color(0x00C281);
-    private static final Color BTN_COLOR_DARKER = new Color(0x009966);
+    private static final Color BTN_COLOR = new Color(0X009966);
+    private static final Color BTN_COLOR_DARKER = new Color(0x00C281);
 
     // SCROLL BARS
     private final JScrollPane scroll1;
@@ -65,8 +73,6 @@ public class SplitTextTabPanel extends JPanel {
         // REMOVE DEFAULT BORDERS
         jt1.setBorder(BorderFactory.createEmptyBorder());
         jt2.setBorder(BorderFactory.createEmptyBorder());
-        scroll1.setBorder(BorderFactory.createEmptyBorder());
-        scroll2.setBorder(BorderFactory.createEmptyBorder());
 
         // Synchronize vertical scrolling
         JScrollBar vBar1 = scroll1.getVerticalScrollBar();
@@ -87,6 +93,10 @@ public class SplitTextTabPanel extends JPanel {
         scroll1.setRowHeaderView(new LineNumberingTextArea(jt1));
         scroll2.setRowHeaderView(new LineNumberingTextArea(jt2));
 
+        scroll1.setBorder(null);
+        scroll2.setBorder(null);
+        // scroll2.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
         // Create label panel for each text area
         leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftLabelPanel.setOpaque(false);
@@ -103,6 +113,7 @@ public class SplitTextTabPanel extends JPanel {
         JPanel p2 = new JPanel(new BorderLayout());
         p2.add(rightLabelPanel, BorderLayout.NORTH);
         p2.add(scroll2, BorderLayout.CENTER);
+        // p2.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
         splitPane.setDividerSize(1); // Thin divider
@@ -110,6 +121,7 @@ public class SplitTextTabPanel extends JPanel {
         splitPane.setContinuousLayout(true); // Smooth resizing
         splitPane.setResizeWeight(0.5); // Split equally when resizing
         splitPane.setDividerLocation(0.5); // Initial position (will be overridden by layout)
+        splitPane.setBorder(null);
 
         // Override layout to keep divider centered always
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -123,17 +135,24 @@ public class SplitTextTabPanel extends JPanel {
         RoundedButton diffcheckBtn = new RoundedButton("Find Difference");
         diffcheckBtn.setBackgroundColor(BTN_COLOR); // <- normal color
         diffcheckBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
-        diffcheckBtn.setTextColor(Color.WHITE);
         diffcheckBtn.setBorderColor(BTN_COLOR);// <- normal color
         diffcheckBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
         diffcheckBtn.setBorderThickness(2);
         diffcheckBtn.setCornerRadius(10);
         diffcheckBtn.addActionListener(e -> highlightDiffs());
 
-        add(splitPane, BorderLayout.CENTER);
+        // add(splitPane, BorderLayout.CENTER);
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+        contentPanel.setBackground(BACKGROUND_DARK); // match your theme
+        contentPanel.add(splitPane, BorderLayout.CENTER);
+
+        // Replace: add(splitPane, BorderLayout.CENTER);
+        add(contentPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // CENTER = button centered
-        bottomPanel.setOpaque(false); // To inherit dark background
+        bottomPanel.setBackground(BACKGROUND_DARK);
+        // bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         bottomPanel.add(diffcheckBtn);
         add(bottomPanel, BorderLayout.SOUTH);
 
@@ -144,6 +163,22 @@ public class SplitTextTabPanel extends JPanel {
         // INITIALLY HIDE SUMMARY LABELS
         leftLabelPanel.setVisible(false);
         rightLabelPanel.setVisible(false);
+
+        jt1.setBackground(editorBg);
+        jt1.setForeground(editorFg);
+        jt1.setCaretColor(editorFg); // make the cursor visible
+
+        jt2.setBackground(editorBg);
+        jt2.setForeground(editorFg);
+        jt2.setCaretColor(editorFg);
+
+        // Scroll panes (optional, matches textarea bg)
+        scroll1.getViewport().setBackground(editorBg);
+        scroll2.getViewport().setBackground(editorBg);
+
+        // Background of the left/right label panels
+        leftLabelPanel.setBackground(editorBg);
+        rightLabelPanel.setBackground(editorBg);
     }
 
     private void highlightDiffs() {

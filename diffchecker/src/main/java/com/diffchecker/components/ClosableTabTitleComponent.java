@@ -14,7 +14,7 @@ public class ClosableTabTitleComponent extends JPanel {
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setForeground(TAB_TEXT_COLOR);
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
 
         ImageIcon iconDefault = new ImageIcon(getClass().getResource("/diffchecker/images/close_def.png"));
         ImageIcon iconHover = new ImageIcon(getClass().getResource("/diffchecker/images/close_hover.png"));

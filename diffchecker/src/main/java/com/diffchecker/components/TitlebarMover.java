@@ -83,20 +83,6 @@ public class TitlebarMover extends MouseAdapter {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    // if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
-    // if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) ==
-    // JFrame.MAXIMIZED_BOTH) {
-    // frame.setExtendedState(JFrame.NORMAL);
-    // if (previousSize != null) {
-    // frame.setSize(previousSize);
-    // }
-    // } else {
-    // if ((frame.getExtendedState() & JFrame.NORMAL) == JFrame.NORMAL) {
-    // previousSize = frame.getSize(); // store only if not already maximized
-    // }
-    // frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    // }
-    // }
     if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
       if (onDoubleClick != null)
         onDoubleClick.run();

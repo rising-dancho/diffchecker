@@ -46,7 +46,7 @@ public class CustomTitleBar extends JPanel {
 
     // ── Title label (optional icon) --------------------------------------------
     titleLabel = new JLabel(title);
-    titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+    titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
     titleLabel.setForeground(Color.WHITE);
     titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
     titleLabel.setVerticalAlignment(SwingConstants.CENTER);
