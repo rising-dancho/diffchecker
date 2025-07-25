@@ -16,7 +16,6 @@ import java.util.List;
 public class SplitTextTabPanel extends JPanel {
     private final JTextArea jt1 = new JTextArea();
     private final JTextArea jt2 = new JTextArea();
-    private final JSplitPane splitPane;
 
     private final JLabel leftSummaryLabel = new JLabel();
     private final JLabel rightSummaryLabel = new JLabel();
@@ -113,23 +112,20 @@ public class SplitTextTabPanel extends JPanel {
         JPanel p2 = new JPanel(new BorderLayout());
         p2.add(rightLabelPanel, BorderLayout.NORTH);
         p2.add(scroll2, BorderLayout.CENTER);
-        // p2.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
-        splitPane.setDividerSize(1); // Thin divider
-        splitPane.setEnabled(false); // Disable user interaction
-        splitPane.setContinuousLayout(true); // Smooth resizing
-        splitPane.setResizeWeight(0.5); // Split equally when resizing
-        splitPane.setDividerLocation(0.5); // Initial position (will be overridden by layout)
-        splitPane.setBorder(null);
+        // SIDE BY SIDE TEXT AREAS
+        JPanel sideBySidePanel = new JPanel(new GridLayout(1, 2, 10, 0)); // 10px gap between areas
+        sideBySidePanel.setBackground(BACKGROUND_DARK); // Match theme
+        sideBySidePanel.add(p1);
+        sideBySidePanel.add(p2);
 
-        // Override layout to keep divider centered always
-        this.addComponentListener(new java.awt.event.ComponentAdapter() {
-            @Override
-            public void componentResized(java.awt.event.ComponentEvent e) {
-                splitPane.setDividerLocation(0.5); // Force center after resize
-            }
-        });
+        // add(splitPane, BorderLayout.CENTER);
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+        contentPanel.setBackground(BACKGROUND_DARK); // match your theme
+        contentPanel.add(sideBySidePanel, BorderLayout.CENTER);
+
+        add(contentPanel, BorderLayout.CENTER);
 
         // CUSTOM BUTTON
         RoundedButton diffcheckBtn = new RoundedButton("Find Difference");
@@ -140,15 +136,6 @@ public class SplitTextTabPanel extends JPanel {
         diffcheckBtn.setBorderThickness(2);
         diffcheckBtn.setCornerRadius(10);
         diffcheckBtn.addActionListener(e -> highlightDiffs());
-
-        // add(splitPane, BorderLayout.CENTER);
-        JPanel contentPanel = new JPanel(new BorderLayout());
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
-        contentPanel.setBackground(BACKGROUND_DARK); // match your theme
-        contentPanel.add(splitPane, BorderLayout.CENTER);
-
-        // Replace: add(splitPane, BorderLayout.CENTER);
-        add(contentPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // CENTER = button centered
         bottomPanel.setBackground(BACKGROUND_DARK);
