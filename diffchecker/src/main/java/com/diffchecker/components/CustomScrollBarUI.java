@@ -10,13 +10,6 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
   private Color trackColor = new Color(0x17181C);
   private Color thumbHoverColor = new Color(0x8B8B8B); // Darker on hover
 
-
-  @Override
-  protected void configureScrollBarColors() {
-    this.thumbColor = this.thumbColor;
-    this.trackColor = this.trackColor;
-  }
-
   // THINNER SCROLLBAR
   @Override
   protected Dimension getMinimumThumbSize() {
@@ -31,6 +24,12 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
     } else {
       return new Dimension(super.getPreferredSize(c).width, 10); // 🔧 thinner horizontal bar
     }
+  }
+
+  @Override
+  protected void installDefaults() {
+    super.installDefaults();
+    scrollbar.setBorder(BorderFactory.createEmptyBorder());
   }
 
   // SPACE AROUND THE SCROLLBAR
@@ -51,8 +50,17 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
 
   @Override
   protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-    g.setColor(trackColor);
-    g.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+    Graphics2D g2 = (Graphics2D) g.create();
+    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+    // Paint the entire component background to avoid "white corners"
+    g2.setColor(trackColor);
+    g2.fillRect(0, 0, c.getWidth(), c.getHeight());
+
+    // Optionally: paint the visible track
+    g2.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+
+    g2.dispose();
   }
 
   @Override
@@ -70,6 +78,10 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
     button.setPreferredSize(new Dimension(0, 0));
     button.setMinimumSize(new Dimension(0, 0));
     button.setMaximumSize(new Dimension(0, 0));
+    button.setVisible(false); // <- Important: Make it invisible
+    button.setOpaque(false); // <- Optional: remove background
+    button.setContentAreaFilled(false); // <- Optional: remove fill
+    button.setBorderPainted(false); // <- Optional: remove border
     return button;
   }
 }

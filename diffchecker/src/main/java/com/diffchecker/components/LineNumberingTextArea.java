@@ -18,6 +18,7 @@ public class LineNumberingTextArea extends JTextArea implements DocumentListener
         setForeground(NUMBER_COLOR);
         setFont(textArea.getFont().deriveFont(Font.BOLD));
         setMargin(new Insets(0, 3, 0, 3)); // Add 5px right padding
+        // setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
 
         updateLineNumbers();
     }

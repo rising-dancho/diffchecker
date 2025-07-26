@@ -65,9 +65,26 @@ public class SplitTextTabPanel extends JPanel {
 
         // CUSTOM SCROLLBARS
         scroll1.getVerticalScrollBar().setUI(new CustomScrollBarUI());
-        scroll1.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
         scroll2.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        scroll1.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
         scroll2.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
+
+        scroll1.getHorizontalScrollBar().setOpaque(true);
+        scroll1.getHorizontalScrollBar().setBackground(editorBg); // Match your dark theme
+
+        scroll2.getHorizontalScrollBar().setOpaque(true);
+        scroll2.getHorizontalScrollBar().setBackground(editorBg);
+        scroll1.getVerticalScrollBar().setOpaque(true);
+        scroll1.getVerticalScrollBar().setBackground(editorBg);
+
+        scroll2.getVerticalScrollBar().setOpaque(true);
+        scroll2.getVerticalScrollBar().setBackground(editorBg);
+
+        scroll1.setOpaque(false);
+        scroll1.getViewport().setOpaque(false);
+
+        scroll2.setOpaque(false);
+        scroll2.getViewport().setOpaque(false);
 
         // FONT FAMILY OF THE TEXTAREAS
         try {
@@ -173,6 +190,29 @@ public class SplitTextTabPanel extends JPanel {
         jt2.setBackground(editorBg);
         jt2.setForeground(editorFg);
         jt2.setCaretColor(editorFg);
+
+        // REMOVING THE WHITE SQUARES AT THE INTERSCTION OF THE SCROLLBARS
+        // Unique corners for scroll1
+        JPanel scroll1CornerLeft = new JPanel();
+        scroll1CornerLeft.setBackground(editorBg);
+        JPanel scroll1CornerRight = new JPanel();
+        scroll1CornerRight.setBackground(editorBg);
+
+        // Unique corners for scroll2
+        JPanel scroll2CornerLeft = new JPanel();
+        scroll2CornerLeft.setBackground(editorBg);
+        JPanel scroll2CornerRight = new JPanel();
+        scroll2CornerRight.setBackground(editorBg);
+
+        // Set corners for scroll1
+        scroll1.setCorner(JScrollPane.LOWER_LEFT_CORNER, scroll1CornerLeft);
+        scroll1.setCorner(JScrollPane.LOWER_RIGHT_CORNER, scroll1CornerRight);
+
+        // Set corners for scroll2
+        scroll2.setCorner(JScrollPane.LOWER_LEFT_CORNER, scroll2CornerLeft);
+        scroll2.setCorner(JScrollPane.LOWER_RIGHT_CORNER, scroll2CornerRight);
+
+        // ------------- end
 
         // Scroll panes (optional, matches textarea bg)
         scroll1.getViewport().setBackground(editorBg);

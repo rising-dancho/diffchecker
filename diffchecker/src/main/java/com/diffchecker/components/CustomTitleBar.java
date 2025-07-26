@@ -50,6 +50,7 @@ public class CustomTitleBar extends JPanel {
     titleLabel.setForeground(Color.WHITE);
     titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
     titleLabel.setVerticalAlignment(SwingConstants.CENTER);
+    
 
     if (iconPath != null) {
       ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
