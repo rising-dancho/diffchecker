@@ -4,12 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 public class ClosableTabTitleComponent extends JPanel {
     private final Color TAB_TEXT_COLOR = new Color(0x888690);
 
     public ClosableTabTitleComponent(JTabbedPane tabbedPane, String title, Runnable onTabEmptyFallback) {
-        super(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        super(new BorderLayout(10, 0)); // add horizontal gap between label and button
         setOpaque(false);
 
         JLabel titleLabel = new JLabel(title);
@@ -19,8 +18,8 @@ public class ClosableTabTitleComponent extends JPanel {
         ImageIcon iconDefault = new ImageIcon(getClass().getResource("/diffchecker/images/close_def.png"));
         ImageIcon iconHover = new ImageIcon(getClass().getResource("/diffchecker/images/close_hover.png"));
 
-        ImageIcon defaultIcon = new ImageIcon(iconDefault.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-        ImageIcon hoverIcon = new ImageIcon(iconHover.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+        ImageIcon defaultIcon = new ImageIcon(iconDefault.getImage().getScaledInstance(14, 14, Image.SCALE_SMOOTH));
+        ImageIcon hoverIcon = new ImageIcon(iconHover.getImage().getScaledInstance(14, 14, Image.SCALE_SMOOTH));
 
         JButton closeButton = new JButton(defaultIcon);
         closeButton.setBorder(BorderFactory.createEmptyBorder());
@@ -50,7 +49,8 @@ public class ClosableTabTitleComponent extends JPanel {
             }
         });
 
-        add(titleLabel);
-        add(closeButton);
+        add(titleLabel, BorderLayout.WEST);
+        add(closeButton, BorderLayout.EAST);
+        setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // optional: horizontal padding
     }
 }

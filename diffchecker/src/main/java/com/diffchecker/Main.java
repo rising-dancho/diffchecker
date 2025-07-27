@@ -8,7 +8,6 @@ import com.diffchecker.components.ClosableTabTitleComponent;
 import com.diffchecker.components.ComponentResizer;
 import com.diffchecker.components.CustomTitleBar;
 // IMPORT COMPONENTS
-import com.diffchecker.components.MenuBuilder;
 import com.diffchecker.components.RoundedTabbedPaneUI;
 import com.diffchecker.components.SplitTextTabPanel;
 

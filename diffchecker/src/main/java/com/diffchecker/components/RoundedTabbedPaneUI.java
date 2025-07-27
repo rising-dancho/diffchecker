@@ -13,8 +13,8 @@ public class RoundedTabbedPaneUI extends BasicTabbedPaneUI {
   @Override
   protected void installDefaults() {
     super.installDefaults();
-    tabInsets = new Insets(6, 20, 6, 20); // top, left, bottom, right (more padding)
-    tabAreaInsets = new Insets(5, 5, 5, 5); // space around tab area
+    tabInsets = new Insets(6, 6, 6, 6); // top, left, bottom, right (more padding)
+    tabAreaInsets = new Insets(5, 0, 5, 0); // space around tab area
     contentBorderInsets = new Insets(0, 0, 0, 0);
   }
 
@@ -41,11 +41,10 @@ public class RoundedTabbedPaneUI extends BasicTabbedPaneUI {
     // Do not paint focus indicator
   }
 
-  @Override
-  protected void paintTabBorder(Graphics g, int tabPlacement,
-      int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-    if (!isSelected)
-      return;
+ @Override
+protected void paintTabBorder(Graphics g, int tabPlacement,
+        int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+    if (!isSelected) return;
 
     Graphics2D g2 = (Graphics2D) g.create();
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -56,7 +55,7 @@ public class RoundedTabbedPaneUI extends BasicTabbedPaneUI {
     g2.drawRoundRect(x + 2, y + 5, w - 4, h - 10, arc, arc);
 
     g2.dispose();
-  }
+}
 
   @Override
   protected void paintText(Graphics g, int tabPlacement, Font font, FontMetrics metrics,
@@ -66,3 +65,4 @@ public class RoundedTabbedPaneUI extends BasicTabbedPaneUI {
     g.drawString(title, textRect.x, textRect.y + metrics.getAscent());
   }
 }
+
