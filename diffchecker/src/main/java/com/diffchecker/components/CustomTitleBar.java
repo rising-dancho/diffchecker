@@ -14,6 +14,8 @@ public class CustomTitleBar extends JPanel {
   private final JButton maximizeButton;
   private final JPanel controlPanel;
 
+  private final Color FONT_COLOR = new Color(0xd6d6d6);
+
   private Dimension previousSize;
 
   // package‑level config
@@ -47,10 +49,9 @@ public class CustomTitleBar extends JPanel {
     // ── Title label (optional icon) --------------------------------------------
     titleLabel = new JLabel(title);
     titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-    titleLabel.setForeground(Color.WHITE);
+    titleLabel.setForeground(FONT_COLOR);
     titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
     titleLabel.setVerticalAlignment(SwingConstants.CENTER);
-    
 
     if (iconPath != null) {
       ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));

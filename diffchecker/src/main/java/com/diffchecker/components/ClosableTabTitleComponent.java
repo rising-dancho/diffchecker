@@ -10,7 +10,7 @@ public class ClosableTabTitleComponent extends JPanel {
     private final Color INACTIVE_COLOR = new Color(0x888690); // Inactive tab color
 
     private final JLabel titleLabel;
-    private final Color HOVER_COLOR = new Color(0xffffff); // your desired hover text color
+    private final Color HOVER_COLOR = new Color(0xd6d6d6); // your desired hover text color
     private boolean isHovered = false;
     private final JTabbedPane tabbedPane;
 

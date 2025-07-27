@@ -20,6 +20,7 @@ public class Main extends JFrame {
 
     // ─── Instance Fields ───────────────────────────────────────────────────────
     private final JPanel container = new JPanel();
+    private final Color FONT_COLOR = new Color(0xd6d6d6);
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::new);
@@ -154,7 +155,8 @@ public class Main extends JFrame {
         addButton.setContentAreaFilled(false);
         addButton.setPreferredSize(new Dimension(28, 28));
         addButton.addActionListener(e -> addNewTab(tabbedPane));
-        addButton.setForeground(new Color(0x888690));
+        addButton.setForeground(FONT_COLOR);
+        addButton.setMargin(new Insets(0, 0, 100, 0)); // top, left, bottom, right
 
         tabbedPane.addTab("", null);
         tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, addButton);
