@@ -14,7 +14,7 @@ public class RoundedTabbedPaneUI extends BasicTabbedPaneUI {
   protected void installDefaults() {
     super.installDefaults();
     tabInsets = new Insets(6, 6, 6, 6); // top, left, bottom, right (more padding)
-    tabAreaInsets = new Insets(5, 0, 5, 0); // space around tab area
+    tabAreaInsets = new Insets(5, 10, 5, 0); // space around tab area
     contentBorderInsets = new Insets(0, 0, 0, 0);
   }
 

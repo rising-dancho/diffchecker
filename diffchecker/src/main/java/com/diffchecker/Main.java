@@ -106,18 +106,18 @@ public class Main extends JFrame {
 
     // ─── 4. Menu Bar Panel ─────────────────────────────────────────────────────
     // private JPanel buildMenuPanel() {
-    //     JMenuBar menuBar = MenuBuilder.buildMenuBar();
-    //     menuBar.setPreferredSize(new Dimension(0, 30));
+    // JMenuBar menuBar = MenuBuilder.buildMenuBar();
+    // menuBar.setPreferredSize(new Dimension(0, 30));
 
-    //     JPanel panel = new JPanel(new BorderLayout());
-    //     panel.setBackground(new Color(36, 37, 38));
-    //     panel.setPreferredSize(new Dimension(0, 30));
-    //     panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-    //     panel.setMinimumSize(new Dimension(0, 30));
-    //     panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    //     panel.add(menuBar, BorderLayout.CENTER);
+    // JPanel panel = new JPanel(new BorderLayout());
+    // panel.setBackground(new Color(36, 37, 38));
+    // panel.setPreferredSize(new Dimension(0, 30));
+    // panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+    // panel.setMinimumSize(new Dimension(0, 30));
+    // panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    // panel.add(menuBar, BorderLayout.CENTER);
 
-    //     return panel;
+    // return panel;
     // }
 
     // ─── 5. Main Content Panel with Tabs ───────────────────────────────────────
