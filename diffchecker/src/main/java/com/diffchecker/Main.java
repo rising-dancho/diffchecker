@@ -130,10 +130,22 @@ public class Main extends JFrame {
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setUI(new RoundedTabbedPaneUI());
+        RoundedTabbedPaneUI ui = new RoundedTabbedPaneUI();
+        tabbedPane.setUI(ui); // Set only once
+
         tabbedPane.setFont(new Font("SansSerif", Font.BOLD, 13));
         tabbedPane.setFocusable(false);
         tabbedPane.addMouseListener(new ClosableTabContextMenu(tabbedPane));
+
+        // Hover behavior
+        ui.setHoverListener(index -> {
+            for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+                Component c = tabbedPane.getTabComponentAt(i);
+                if (c instanceof ClosableTabTitleComponent) {
+                    ((ClosableTabTitleComponent) c).setHovered(i == index);
+                }
+            }
+        });
 
         // ADD TABS
         JButton addButton = new JButton("➕");

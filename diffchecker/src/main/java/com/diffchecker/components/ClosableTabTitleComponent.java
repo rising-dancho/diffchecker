@@ -4,15 +4,64 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 public class ClosableTabTitleComponent extends JPanel {
-    private final Color TAB_TEXT_COLOR = new Color(0x888690);
+    private final Color ACTIVE_COLOR = new Color(0xF9FAFA); // Active tab color
+    private final Color INACTIVE_COLOR = new Color(0x888690); // Inactive tab color
+
+    private final JLabel titleLabel;
+    private final Color HOVER_COLOR = new Color(0xffffff); // your desired hover text color
+    private boolean isHovered = false;
+    private final JTabbedPane tabbedPane;
+
+    public void setHovered(boolean hovered) {
+        if (hovered != isHovered) {
+            isHovered = hovered;
+            updateColor();
+        }
+    }
+
+    private void updateColor() {
+        int index = tabbedPane.indexOfTabComponent(this);
+        if (index == tabbedPane.getSelectedIndex()) {
+            titleLabel.setForeground(ACTIVE_COLOR);
+        } else if (isHovered) {
+            titleLabel.setForeground(HOVER_COLOR);
+        } else {
+            titleLabel.setForeground(INACTIVE_COLOR);
+        }
+    }
 
     public ClosableTabTitleComponent(JTabbedPane tabbedPane, String title, Runnable onTabEmptyFallback) {
+
         super(new BorderLayout(10, 0)); // add horizontal gap between label and button
+        this.tabbedPane = tabbedPane;
         setOpaque(false);
 
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setForeground(TAB_TEXT_COLOR);
+        titleLabel = new JLabel(title);
+
+        // CHANGE FONT COLOR OF TAB TITLE
+        // Add a listener to repaint text color when tab selection changes
+        tabbedPane.addChangeListener(e -> {
+            int index = tabbedPane.indexOfTabComponent(this);
+            if (index != -1) {
+                if (index == tabbedPane.getSelectedIndex()) {
+                    titleLabel.setForeground(ACTIVE_COLOR);
+                } else {
+                    titleLabel.setForeground(INACTIVE_COLOR);
+                }
+            }
+        });
+        // Initial color setup (delayed to later via invokeLater to ensure index is
+        // valid)
+        SwingUtilities.invokeLater(() -> {
+            int index = tabbedPane.indexOfTabComponent(this);
+            if (index == tabbedPane.getSelectedIndex()) {
+                titleLabel.setForeground(ACTIVE_COLOR);
+            } else {
+                titleLabel.setForeground(INACTIVE_COLOR);
+            }
+        });
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
 
         ImageIcon iconDefault = new ImageIcon(getClass().getResource("/diffchecker/images/close_def.png"));
@@ -53,4 +102,5 @@ public class ClosableTabTitleComponent extends JPanel {
         add(closeButton, BorderLayout.EAST);
         setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // optional: horizontal padding
     }
+
 }
