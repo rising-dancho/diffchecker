@@ -8,29 +8,31 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class CustomersPanel extends JPanel {
-
   // Widgets
-  JLabel search_lbl;
-  JLabel name_lbl;
-  JLabel tp_number_lbl;
+  JLabel search_Lbl;
+  JLabel name_Lbl;
+  JLabel mobile_number_Lbl;
 
-  JTextField search_field;
-  JTextField name_field;
-  JTextField tpNum_field;
-  JTextField searchTable_field;
+  JTextField search_Field;
+  JTextField name_Field;
+  JTextField mobile_number_Field;
+  JTextField search_table_Field;
 
-  JButton save_btn;
-  JButton search_btn;
-  JButton update_btn;
-  JButton delete_btn;
-  JButton search_table_btn;
+  JButton save_Btn;
+  JButton search_Btn;
+  JButton update_Btn;
+  JButton delete_Btn;
+  JButton search_table_Btn;
 
   // Table
   JTable table;
   DefaultTableModel defaultTableModel;
-  
+
+  // Database
+  DB db;
 
   public CustomersPanel() {
 
   }
+
 }
