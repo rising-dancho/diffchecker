@@ -1,6 +1,5 @@
 package com.diffchecker.java_fundamentals.swing_and_awt;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

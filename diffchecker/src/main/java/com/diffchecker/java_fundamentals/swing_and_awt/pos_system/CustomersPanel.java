@@ -13,8 +13,8 @@ public class CustomersPanel extends JPanel {
   JLabel name_Lbl;
   JLabel mobile_number_Lbl;
 
-  JTextField search_Field;
   JTextField name_Field;
+  JTextField search_Field;
   JTextField mobile_number_Field;
   JTextField search_table_Field;
 
@@ -29,10 +29,27 @@ public class CustomersPanel extends JPanel {
   DefaultTableModel defaultTableModel;
 
   // Database
-  DB db;
+  DB database;
 
   public CustomersPanel() {
 
-  }
+    database = new DB();
 
+    // Widgets Initialization
+    search_Lbl = new JLabel("Search by Mobile Number: ");
+    name_Lbl = new JLabel("Name: ");
+    mobile_number_Lbl = new JLabel("Mobile Number: ");
+
+    name_Field = new JTextField();
+    search_Field = new JTextField();
+    mobile_number_Field = new JTextField();
+    search_table_Field = new JTextField();
+
+    save_Btn = new JButton("Save");
+    search_Btn = new JButton("Search");
+    update_Btn = new JButton("Update");
+    delete_Btn = new JButton("Delete");
+    search_table_Btn = new JButton("Search Table");
+
+  }
 }
