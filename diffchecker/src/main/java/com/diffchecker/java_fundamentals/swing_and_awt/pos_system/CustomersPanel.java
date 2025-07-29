@@ -1,5 +1,8 @@
 package com.diffchecker.java_fundamentals.swing_and_awt.pos_system;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,6 +53,25 @@ public class CustomersPanel extends JPanel {
     update_Btn = new JButton("Update");
     delete_Btn = new JButton("Delete");
     search_table_Btn = new JButton("Search Table");
+
+    // Left Panel: Grid
+    JPanel leftJPanel = new JPanel();
+    leftJPanel.setPreferredSize(new Dimension(200, 300));
+    leftJPanel.setLayout(new GridLayout(8, 2));
+
+    leftJPanel.add(search_Lbl);
+    leftJPanel.add(search_Field);
+    leftJPanel.add(name_Lbl);
+    leftJPanel.add(name_Field);
+    leftJPanel.add(mobile_number_Lbl);
+    leftJPanel.add(mobile_number_Field);
+
+    leftJPanel.add(save_Btn);
+    leftJPanel.add(search_Btn);
+    leftJPanel.add(update_Btn);
+    leftJPanel.add(delete_Btn);
+    leftJPanel.add(search_table_Field);
+    leftJPanel.add(search_table_Btn);
 
   }
 }
