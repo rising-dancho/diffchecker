@@ -11,6 +11,7 @@ import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -74,8 +75,8 @@ public class CustomersPanel extends JPanel {
     leftJPanel.add(mobile_number_Field);
 
     leftJPanel.add(save_Btn);
-    leftJPanel.add(search_Btn);
     leftJPanel.add(update_Btn);
+    leftJPanel.add(search_Btn);
     leftJPanel.add(delete_Btn);
     leftJPanel.add(search_table_Field);
     leftJPanel.add(search_table_Btn);
@@ -87,6 +88,14 @@ public class CustomersPanel extends JPanel {
         insertCustomerIntoDB();
       }
 
+    });
+
+    update_Btn.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        updateCustomerIntoDB();
+      }
     });
 
     // Right Panel: Table
@@ -123,6 +132,22 @@ public class CustomersPanel extends JPanel {
       throw new RuntimeException(e);
     }
 
+    loadTable();
+  }
+
+  public void updateCustomerIntoDB() {
+    String customer_name = name_Field.getText();
+    String mobile_number = mobile_number_Field.getText();
+
+    try {
+      Statement query = database.getConnection().createStatement();
+      query.executeUpdate(
+          "UPDATE customers SET customer_name = '" + customer_name + "', mobile_number = '" + mobile_number
+              + "' WHERE mobile_number = '" + mobile_number + "'");
+      JOptionPane.showMessageDialog(null, "Customer Updated!");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
     loadTable();
   }
 
