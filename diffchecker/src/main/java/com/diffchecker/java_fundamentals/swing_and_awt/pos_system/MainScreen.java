@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -25,7 +27,6 @@ public class MainScreen extends JFrame {
 
   // JPanel Loader
   JPanelLoader loader = new JPanelLoader();
-  
 
   public MainScreen() throws HeadlessException {
     createLayout();
@@ -84,6 +85,17 @@ public class MainScreen extends JFrame {
     p1.add(productBtn);
     p1.add(salesBtn);
     p1.add(invoiceBtn);
+
+    // Customer Button
+    customerBtn.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        CustomersPanel c = new CustomersPanel();
+        loader.jPanelLoader(p2, c);
+      }
+
+    });
 
   }
 
