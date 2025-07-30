@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -11,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 public class CustomersPanel extends JPanel {
@@ -77,6 +80,15 @@ public class CustomersPanel extends JPanel {
     leftJPanel.add(search_table_Field);
     leftJPanel.add(search_table_Btn);
 
+    // Handling click events
+    save_Btn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        insertCustomerIntoDB();
+      }
+
+    });
+
     // Right Panel: Table
     JPanel rightJPanel = new JPanel();
     rightJPanel.setPreferredSize(new Dimension(600, 500));
@@ -98,7 +110,24 @@ public class CustomersPanel extends JPanel {
 
   }
 
+  public void insertCustomerIntoDB() {
+    String customer_name = name_Field.getText();
+    String mobile_number = mobile_number_Field.getText();
+
+    try {
+      Statement query = database.getConnection().createStatement();
+      query.executeUpdate(
+          "INSERT INTO customers (customer_name, mobile_number) VALUES ('" + customer_name + "', '" + mobile_number
+              + "')");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    loadTable();
+  }
+
   public void loadTable() {
 
   }
+
 }

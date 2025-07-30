@@ -16,7 +16,7 @@ public class DB {
    * @return a Connection to the database
    * @throws SQLException if a database access error occurs
    */
-  public static Connection getConnection() throws SQLException {
+  public Connection getConnection() throws SQLException {
     return DriverManager.getConnection(URL, USER, PASSWORD);
   }
 }
