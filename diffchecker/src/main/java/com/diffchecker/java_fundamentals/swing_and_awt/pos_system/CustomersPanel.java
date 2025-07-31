@@ -98,6 +98,14 @@ public class CustomersPanel extends JPanel {
       }
     });
 
+    delete_Btn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        deleteCustomerFromDB();
+      }
+
+    });
+
     // Right Panel: Table
     JPanel rightJPanel = new JPanel();
     rightJPanel.setPreferredSize(new Dimension(600, 500));
@@ -128,6 +136,7 @@ public class CustomersPanel extends JPanel {
       query.executeUpdate(
           "INSERT INTO customers (customer_name, mobile_number) VALUES ('" + customer_name + "', '" + mobile_number
               + "')");
+              JOptionPane.showMessageDialog(null, "Customer Saved!");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -149,6 +158,17 @@ public class CustomersPanel extends JPanel {
       throw new RuntimeException(e);
     }
     loadTable();
+  }
+
+  public void deleteCustomerFromDB() {
+    String mobile_number = mobile_number_Field.getText();
+    try {
+      Statement query = database.getConnection().createStatement();
+      query.executeUpdate("DELETE FROM customers WHERE mobile_number = '" + mobile_number + "'");
+      JOptionPane.showMessageDialog(null, "Customer Deleted!");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public void loadTable() {
