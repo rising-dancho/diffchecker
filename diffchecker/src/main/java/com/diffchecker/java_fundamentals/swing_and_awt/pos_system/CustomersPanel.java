@@ -6,8 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -106,6 +108,15 @@ public class CustomersPanel extends JPanel {
 
     });
 
+    // search_Btn.addActionListener(new ActionListener() {
+
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // searchProductInDB();
+    // }
+
+    // });
+
     // Right Panel: Table
     JPanel rightJPanel = new JPanel();
     rightJPanel.setPreferredSize(new Dimension(600, 500));
@@ -136,7 +147,7 @@ public class CustomersPanel extends JPanel {
       query.executeUpdate(
           "INSERT INTO customers (customer_name, mobile_number) VALUES ('" + customer_name + "', '" + mobile_number
               + "')");
-              JOptionPane.showMessageDialog(null, "Customer Saved!");
+      JOptionPane.showMessageDialog(null, "Customer Saved!``````````````````````````````````");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -171,7 +182,32 @@ public class CustomersPanel extends JPanel {
     }
   }
 
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public void loadTable() {
+    defaultTableModel = new DefaultTableModel();
+
+    // Table Columns
+    table = new JTable(defaultTableModel);
+    defaultTableModel.addColumn("Customer Name");
+    defaultTableModel.addColumn("Mobile Number");
+
+    try {
+      // Getting all data from database
+      Statement query = database.getConnection().createStatement();
+      ResultSet rs = query.executeQuery("SELECT * FROM customers");
+
+      // Inserting all received records
+      while (rs.next()) {
+        Vector v = new Vector<>();
+        v.add(rs.getString(1));
+        v.add(rs.getString(2));
+
+        defaultTableModel.addRow(v);
+
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
 
   }
 

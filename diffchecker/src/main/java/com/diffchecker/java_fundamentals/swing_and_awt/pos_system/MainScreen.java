@@ -25,7 +25,7 @@ public class MainScreen extends JFrame {
   JToggleButton salesBtn;
   JToggleButton invoiceBtn;
 
-  // JPanel Loader
+  // JPanel Loader    
   JPanelLoader loader = new JPanelLoader();
 
   public MainScreen() throws HeadlessException {
