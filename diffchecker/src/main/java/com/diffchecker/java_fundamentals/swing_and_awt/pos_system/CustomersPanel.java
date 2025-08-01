@@ -108,14 +108,19 @@ public class CustomersPanel extends JPanel {
 
     });
 
-    // search_Btn.addActionListener(new ActionListener() {
+    search_Btn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        searchCustomerByMobileNumber();
+      }
+    });
 
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    // searchProductInDB();
-    // }
-
-    // });
+    search_table_Btn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        searchTableByName();
+      }
+    });
 
     // Right Panel: Table
     JPanel rightJPanel = new JPanel();
@@ -147,7 +152,7 @@ public class CustomersPanel extends JPanel {
       query.executeUpdate(
           "INSERT INTO customers (customer_name, mobile_number) VALUES ('" + customer_name + "', '" + mobile_number
               + "')");
-      JOptionPane.showMessageDialog(null, "Customer Saved!``````````````````````````````````");
+      JOptionPane.showMessageDialog(null, "Customer Saved!");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -180,6 +185,43 @@ public class CustomersPanel extends JPanel {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public void searchCustomerByMobileNumber() {
+    String search = search_Field.getText();
+    try {
+      Statement query = database.getConnection().createStatement();
+      ResultSet rs = query.executeQuery("SELECT * FROM customers WHERE mobile_number = '" + search + "'");
+
+      if (rs.next()) {
+        name_Field.setText(rs.getString("customer_name"));
+        mobile_number_Field.setText(rs.getString("mobile_number"));
+      }
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    loadTable();
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public void searchTableByName() {
+    String searched_name = search_table_Field.getText();
+    try {
+      defaultTableModel.setRowCount(0);
+      Statement query = database.getConnection().createStatement();
+      ResultSet rs = query.executeQuery("SELECT * FROM customers WHERE customer_name LIKE '%" + searched_name + "%'");
+      while (rs.next()) {
+        Vector v = new Vector<>();
+        v.add(rs.getString(1));
+        v.add(rs.getString(2));
+
+        defaultTableModel.addRow(v);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
