@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 public class RoundedButton extends JButton {
     private Color backgroundColor = new Color(0x00C281);
     private Color hoverBackgroundColor = new Color(0x009966);
-    private Color textColor = new Color(0xeeeeee); //FONT COLOR
+    private Color textColor = new Color(0xeeeeee); // FONT COLOR
     private Color borderColor = new Color(0x00C281);
     private Color hoverBorderColor = new Color(0x007a4f); // New: hover border
     private int cornerRadius = 20;
@@ -25,6 +25,12 @@ public class RoundedButton extends JButton {
         setForeground(textColor);
         setMargin(new Insets(5, 10, 5, 10));
         setCursor(Cursor.getDefaultCursor());
+        
+        // CENTER THE TEXT
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setVerticalAlignment(SwingConstants.CENTER);
+        setHorizontalTextPosition(SwingConstants.CENTER);
+        setVerticalTextPosition(SwingConstants.CENTER);
 
         // Hover detection
         addMouseListener(new MouseAdapter() {

@@ -5,6 +5,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
+import com.diffchecker.components.Database.DiffData;
 import com.github.difflib.DiffUtils;
 import com.github.difflib.patch.AbstractDelta;
 import com.github.difflib.patch.Patch;
@@ -169,10 +170,67 @@ public class SplitTextTabPanel extends JPanel {
         diffcheckBtn.setCornerRadius(10);
         diffcheckBtn.addActionListener(e -> highlightDiffs());
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // CENTER = button centered
+        RoundedButton previousBtn = new RoundedButton("◀️");
+        previousBtn.setBackgroundColor(BTN_COLOR); // <- normal color
+        previousBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
+        previousBtn.setBorderColor(BTN_COLOR);// <- normal color
+        previousBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
+        previousBtn.setBorderThickness(2);
+        previousBtn.setCornerRadius(10);
+        previousBtn.setMargin(new Insets(5, 10, 5, 0));
+
+        // saveBtn.addActionListener();
+        RoundedButton nextBtn = new RoundedButton("▶️");
+        nextBtn.setBackgroundColor(BTN_COLOR); // <- normal color
+        nextBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
+        nextBtn.setBorderColor(BTN_COLOR);// <- normal color
+        nextBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
+        nextBtn.setBorderThickness(2);
+        nextBtn.setCornerRadius(10);
+        nextBtn.setMargin(new Insets(5, 10, 5, 0));
+        // saveBtn.addActionListener();
+
+        JPanel bottomPanel = new JPanel(new BorderLayout()); // CENTER = button centered
         bottomPanel.setBackground(BACKGROUND_DARK);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
         // bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        bottomPanel.add(diffcheckBtn);
+
+        // LEFT: Clear Button
+        RoundedButton clearBtn = new RoundedButton("Clear");
+        clearBtn.setBackgroundColor(BTN_COLOR);
+        clearBtn.setHoverBackgroundColor(BTN_COLOR_DARKER);
+        clearBtn.setBorderColor(BTN_COLOR);
+        clearBtn.setHoverBorderColor(BTN_COLOR_DARKER);
+        clearBtn.setBorderThickness(2);
+        clearBtn.setCornerRadius(10);
+
+        JPanel leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftButtonPanel.setBackground(BACKGROUND_DARK);
+        leftButtonPanel.add(clearBtn);
+        bottomPanel.add(leftButtonPanel, BorderLayout.WEST);
+
+        // CENTER: diffcheckBtn, previousBtn, nextBtn
+        JPanel centerButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centerButtonPanel.setBackground(BACKGROUND_DARK);
+        centerButtonPanel.add(diffcheckBtn);
+        centerButtonPanel.add(previousBtn);
+        centerButtonPanel.add(nextBtn);
+        bottomPanel.add(centerButtonPanel, BorderLayout.CENTER);
+
+        // RIGHT: Save Button
+        RoundedButton saveBtn = new RoundedButton("Save");
+        saveBtn.setBackgroundColor(BTN_COLOR);
+        saveBtn.setHoverBackgroundColor(BTN_COLOR_DARKER);
+        saveBtn.setBorderColor(BTN_COLOR);
+        saveBtn.setHoverBorderColor(BTN_COLOR_DARKER);
+        saveBtn.setBorderThickness(2);
+        saveBtn.setCornerRadius(10);
+
+        JPanel rightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightButtonPanel.setBackground(BACKGROUND_DARK);
+        rightButtonPanel.add(saveBtn);
+        bottomPanel.add(rightButtonPanel, BorderLayout.EAST);
+
         add(bottomPanel, BorderLayout.SOUTH);
 
         // Add labels above each scroll pane
@@ -423,6 +481,12 @@ public class SplitTextTabPanel extends JPanel {
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
+    }
+
+    // DATABASE
+    public void loadFromDatabase(DiffData data) {
+        jt1.setText(data.leftText);
+        jt2.setText(data.rightText);
     }
 
 }
