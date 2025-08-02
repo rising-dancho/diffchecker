@@ -12,7 +12,7 @@ public class RoundedTabbedPaneUI extends BasicTabbedPaneUI {
   private final Color unselectedColor = new Color(0x242526);
   private final int arc = 6; // Increase for more roundness
 
-  private final Color hoverColor = new Color(0x00af74);
+  private final Color hoverColor = new Color(0x00744d);
   private int hoveredTabIndex = -1;
 
   private TabHoverListener hoverListener;

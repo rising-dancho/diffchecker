@@ -39,8 +39,8 @@ public class SplitTextTabPanel extends JPanel {
 
     // BACKGROUND COLOR
     // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);
-    private final Color BACKGROUND_DARK = new Color(36, 37, 38);
-    private final Color BACKGROUND_LABEL_DARK = new Color(0x1E1E1E);
+    private final Color BACKGROUND_DARK = new Color(0x17181C);
+    private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);
 
     // SUMMARY FONT COLOR
     private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red
@@ -49,6 +49,7 @@ public class SplitTextTabPanel extends JPanel {
     // BUTTON COLOR AND HOVER COLOR
     private static final Color BTN_COLOR = new Color(0x00af74);
     private static final Color BTN_COLOR_DARKER = new Color(0x00744d);
+    private static final Color BTN_COLOR_BLACK = new Color(36, 37, 38);
 
     // SCROLL BARS
     private final JScrollPane scroll1;
@@ -171,24 +172,22 @@ public class SplitTextTabPanel extends JPanel {
         diffcheckBtn.addActionListener(e -> highlightDiffs());
 
         RoundedButton previousBtn = new RoundedButton("◀️");
-        previousBtn.setBackgroundColor(BTN_COLOR); // <- normal color
+        previousBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
         previousBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
-        previousBtn.setBorderColor(BTN_COLOR);// <- normal color
+        previousBtn.setBorderColor(BTN_COLOR_BLACK);// <- normal color
         previousBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
         previousBtn.setBorderThickness(2);
         previousBtn.setCornerRadius(10);
         previousBtn.setMargin(new Insets(5, 10, 5, 0));
 
-        // saveBtn.addActionListener();
         RoundedButton nextBtn = new RoundedButton("▶️");
-        nextBtn.setBackgroundColor(BTN_COLOR); // <- normal color
+        nextBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
         nextBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
-        nextBtn.setBorderColor(BTN_COLOR);// <- normal color
+        nextBtn.setBorderColor(BTN_COLOR_BLACK);// <- normal color
         nextBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
         nextBtn.setBorderThickness(2);
         nextBtn.setCornerRadius(10);
         nextBtn.setMargin(new Insets(5, 10, 5, 0));
-        // saveBtn.addActionListener();
 
         JPanel bottomPanel = new JPanel(new BorderLayout()); // CENTER = button centered
         bottomPanel.setBackground(BACKGROUND_DARK);
@@ -197,9 +196,9 @@ public class SplitTextTabPanel extends JPanel {
 
         // LEFT: Clear Button
         RoundedButton clearBtn = new RoundedButton("Clear");
-        clearBtn.setBackgroundColor(BTN_COLOR);
+        clearBtn.setBackgroundColor(BTN_COLOR_BLACK);
         clearBtn.setHoverBackgroundColor(BTN_COLOR_DARKER);
-        clearBtn.setBorderColor(BTN_COLOR);
+        clearBtn.setBorderColor(BTN_COLOR_BLACK);
         clearBtn.setHoverBorderColor(BTN_COLOR_DARKER);
         clearBtn.setBorderThickness(2);
         clearBtn.setCornerRadius(10);
@@ -219,12 +218,13 @@ public class SplitTextTabPanel extends JPanel {
 
         // RIGHT: Save Button
         RoundedButton saveBtn = new RoundedButton("Save");
-        saveBtn.setBackgroundColor(BTN_COLOR);
+        saveBtn.setBackgroundColor(BTN_COLOR_BLACK);
         saveBtn.setHoverBackgroundColor(BTN_COLOR_DARKER);
-        saveBtn.setBorderColor(BTN_COLOR);
+        saveBtn.setBorderColor(BTN_COLOR_BLACK);
         saveBtn.setHoverBorderColor(BTN_COLOR_DARKER);
         saveBtn.setBorderThickness(2);
         saveBtn.setCornerRadius(10);
+        saveBtn.addActionListener(e -> highlightDiffs());
 
         JPanel rightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightButtonPanel.setBackground(BACKGROUND_DARK);
