@@ -38,7 +38,7 @@ public class CustomTitleBar extends JPanel {
     setBackground(background);
 
     // fixed height; allow width to stretch but avoid Integer.MAX_VALUE weirdness
-    Dimension fixedSize = new Dimension(new Dimension(Integer.MAX_VALUE, 40));
+    Dimension fixedSize = new Dimension(new Dimension(Integer.MAX_VALUE, 33));
     setPreferredSize(fixedSize);
     setMaximumSize(fixedSize);
     setMinimumSize(new Dimension(0, height));
@@ -50,7 +50,7 @@ public class CustomTitleBar extends JPanel {
     titleLabel = new JLabel(title);
     titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
     titleLabel.setForeground(FONT_COLOR);
-    titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+    titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     titleLabel.setVerticalAlignment(SwingConstants.CENTER);
 
     if (iconPath != null) {

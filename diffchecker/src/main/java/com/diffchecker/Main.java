@@ -92,15 +92,15 @@ public class Main extends JFrame {
                 PACKAGE_NAME,
                 "/" + PACKAGE_NAME + "/images/logo/logo_24x24.png",
                 new Color(36, 37, 38),
-                40);
+                33);
 
         // FOR DEBUGGING PURPOSES ONLY
         // titleBar.setBorder(BorderFactory.createLineBorder(Color.RED));
 
         JPanel titleWrapper = new JPanel(new BorderLayout());
         titleWrapper.setOpaque(false);
-        titleWrapper.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        titleWrapper.add(titleBar, BorderLayout.CENTER);
+        // titleWrapper.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        titleWrapper.add(titleBar, BorderLayout.NORTH);
 
         return titleWrapper;
     }
@@ -128,6 +128,13 @@ public class Main extends JFrame {
         container.setBorder(null);
 
         // FOR DEBUGGING PURPOSES ONLY
+        // container.setBorder(
+        //         BorderFactory.createCompoundBorder(
+        //                 BorderFactory.createLineBorder(Color.BLUE), // outer border
+        //                 BorderFactory.createEmptyBorder(0, 5, 5, 5) // inner padding
+        //         ));
+
+        // container.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         JTabbedPane tabbedPane = new JTabbedPane();
