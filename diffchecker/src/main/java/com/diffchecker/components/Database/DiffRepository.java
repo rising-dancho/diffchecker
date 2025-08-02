@@ -29,4 +29,19 @@ public class DiffRepository {
     }
     return null;
   }
+
+  public boolean saveDiff(DiffData data) {
+    String sql = "INSERT INTO diff_tabs (title, left_text, right_text) VALUES (?, ?, ?)";
+    try (Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+      stmt.setString(1, data.title);
+      stmt.setString(2, data.leftText);
+      stmt.setString(3, data.rightText);
+      stmt.executeUpdate();
+      return true;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
 }

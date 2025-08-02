@@ -5,7 +5,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
+import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
+import com.diffchecker.components.Database.DiffRepository;
 import com.github.difflib.DiffUtils;
 import com.github.difflib.patch.AbstractDelta;
 import com.github.difflib.patch.Patch;
@@ -224,7 +226,7 @@ public class SplitTextTabPanel extends JPanel {
         saveBtn.setHoverBorderColor(BTN_COLOR_DARKER);
         saveBtn.setBorderThickness(2);
         saveBtn.setCornerRadius(10);
-        saveBtn.addActionListener(e -> highlightDiffs());
+        saveBtn.addActionListener(e -> saveToDatabase());
 
         JPanel rightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightButtonPanel.setBackground(BACKGROUND_DARK);
@@ -487,6 +489,29 @@ public class SplitTextTabPanel extends JPanel {
     public void loadFromDatabase(DiffData data) {
         jt1.setText(data.leftText);
         jt2.setText(data.rightText);
+    }
+
+    private void saveToDatabase() {
+        String title = JOptionPane.showInputDialog(this, "Enter a title for this diff:");
+        if (title == null || title.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Title cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String leftText = jt1.getText();
+        String rightText = jt2.getText();
+
+        DiffData data = new DiffData(title, leftText, rightText);
+
+        DB db = new DB();
+        DiffRepository repo = new DiffRepository(db);
+
+        boolean success = repo.saveDiff(data);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Diff saved successfully!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to save diff.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }
