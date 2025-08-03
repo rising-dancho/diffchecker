@@ -133,8 +133,8 @@ public class SplitTextTabPanel extends JPanel {
         scroll1.setBorder(null);
         scroll2.setBorder(null);
 
-        scroll1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        scroll2.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        scroll1.setBorder(BorderFactory.createLineBorder(editorFg));
+        scroll2.setBorder(BorderFactory.createLineBorder(editorFg));
 
         // Create label panel for each text area
         leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
