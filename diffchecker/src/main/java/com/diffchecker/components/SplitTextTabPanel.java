@@ -109,6 +109,8 @@ public class SplitTextTabPanel extends JPanel {
         jt1.setBorder(BorderFactory.createEmptyBorder());
         jt2.setBorder(BorderFactory.createEmptyBorder());
 
+        // jt1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
         // Synchronize vertical scrolling
         JScrollBar vBar1 = scroll1.getVerticalScrollBar();
         JScrollBar vBar2 = scroll2.getVerticalScrollBar();
@@ -130,7 +132,9 @@ public class SplitTextTabPanel extends JPanel {
 
         scroll1.setBorder(null);
         scroll2.setBorder(null);
-        // scroll2.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
+        scroll1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        scroll2.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         // Create label panel for each text area
         leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
