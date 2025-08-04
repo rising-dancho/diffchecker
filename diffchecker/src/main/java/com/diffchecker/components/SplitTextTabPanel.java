@@ -38,6 +38,7 @@ public class SplitTextTabPanel extends JPanel {
     // FONT COLORS
     private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray
     private static final Color EDITOR_FONT_COLOR = new Color(0xD4D4D4); // Light text
+    private static final Color EDITOR_BORDER_COLOR = new Color(0x242526); // Light text
 
     // BACKGROUND COLOR
     // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);
@@ -51,7 +52,7 @@ public class SplitTextTabPanel extends JPanel {
     // BUTTON COLOR AND HOVER COLOR
     private static final Color BTN_COLOR = new Color(0x00af74);
     private static final Color BTN_COLOR_DARKER = new Color(0x00744d);
-    private static final Color BTN_COLOR_BLACK = new Color(36, 37, 38);
+    private static final Color BTN_COLOR_BLACK = new Color(0x242526);
 
     // SCROLL BARS
     private final JScrollPane scroll1;
@@ -133,8 +134,8 @@ public class SplitTextTabPanel extends JPanel {
         scroll1.setBorder(null);
         scroll2.setBorder(null);
 
-        scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_FONT_COLOR));
-        scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_FONT_COLOR));
+        scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+        scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
 
         // Create label panel for each text area
         leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

@@ -39,7 +39,7 @@ public class Main extends JFrame {
         // ── Compose Layout ─────────────────────────────────────────────────────
         JPanel centerContent = new JPanel();
         centerContent.setLayout(new BoxLayout(centerContent, BoxLayout.Y_AXIS));
-        centerContent.setBackground(new Color(36, 37, 38));
+        centerContent.setBackground(new Color(0x242526));
         // centerContent.add(menuPanel);
         centerContent.add(content);
 
@@ -77,7 +77,7 @@ public class Main extends JFrame {
     // ─── 2. Wrapper Panel ──────────────────────────────────────────────────────
     private JPanel initWrapper() {
         JPanel wrapper = new JPanel(new BorderLayout());
-        wrapper.setBackground(new Color(36, 37, 38));
+        wrapper.setBackground(new Color(0x242526));
         wrapper.setOpaque(true);
         // ALLOWING THE CORNERS TO HAVE ENOUGH SPACE TO DETECT RESIZING
         wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -91,7 +91,7 @@ public class Main extends JFrame {
                 "Diffchecker",
                 PACKAGE_NAME,
                 "/" + PACKAGE_NAME + "/images/logo/logo_24x24.png",
-                new Color(36, 37, 38),
+                new Color(0x242526),
                 33);
 
         // FOR DEBUGGING PURPOSES ONLY
@@ -111,7 +111,7 @@ public class Main extends JFrame {
     // menuBar.setPreferredSize(new Dimension(0, 30));
 
     // JPanel panel = new JPanel(new BorderLayout());
-    // panel.setBackground(new Color(36, 37, 38));
+    // panel.setBackground(new Color(0x242526));
     // panel.setPreferredSize(new Dimension(0, 30));
     // panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
     // panel.setMinimumSize(new Dimension(0, 30));
@@ -123,7 +123,7 @@ public class Main extends JFrame {
 
     // ─── 5. Main Content Panel with Tabs ───────────────────────────────────────
     private JPanel buildMainContent() {
-        container.setBackground(new Color(36, 37, 38));
+        container.setBackground(new Color(0x242526));
         container.setLayout(new BorderLayout());
         container.setBorder(null);
 

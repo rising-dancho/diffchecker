@@ -24,7 +24,7 @@ public class MenuBuilder {
     // Foreground
     fileMenu.setForeground(new Color(157, 157, 157));
     // Background
-    menuBar.setBackground(new Color(36, 37, 38));
+    menuBar.setBackground(new Color(0x242526));
 
     menuBar.add(fileMenu);
     return menuBar;
