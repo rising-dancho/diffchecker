@@ -36,8 +36,8 @@ public class SplitTextTabPanel extends JPanel {
     private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);
 
     // FONT COLORS
-    private static final Color editorBg = new Color(0x17181C); // Dark gray
-    private static final Color editorFg = new Color(0xD4D4D4); // Light text
+    private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray
+    private static final Color EDITOR_FONT_COLOR = new Color(0xD4D4D4); // Light text
 
     // BACKGROUND COLOR
     // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);
@@ -74,15 +74,15 @@ public class SplitTextTabPanel extends JPanel {
         scroll2.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
 
         scroll1.getHorizontalScrollBar().setOpaque(true);
-        scroll1.getHorizontalScrollBar().setBackground(editorBg); // Match your dark theme
+        scroll1.getHorizontalScrollBar().setBackground(EDITOR_BACKGROUND); // Match your dark theme
 
         scroll2.getHorizontalScrollBar().setOpaque(true);
-        scroll2.getHorizontalScrollBar().setBackground(editorBg);
+        scroll2.getHorizontalScrollBar().setBackground(EDITOR_BACKGROUND);
         scroll1.getVerticalScrollBar().setOpaque(true);
-        scroll1.getVerticalScrollBar().setBackground(editorBg);
+        scroll1.getVerticalScrollBar().setBackground(EDITOR_BACKGROUND);
 
         scroll2.getVerticalScrollBar().setOpaque(true);
-        scroll2.getVerticalScrollBar().setBackground(editorBg);
+        scroll2.getVerticalScrollBar().setBackground(EDITOR_BACKGROUND);
 
         scroll1.setOpaque(false);
         scroll1.getViewport().setOpaque(false);
@@ -133,8 +133,8 @@ public class SplitTextTabPanel extends JPanel {
         scroll1.setBorder(null);
         scroll2.setBorder(null);
 
-        scroll1.setBorder(BorderFactory.createLineBorder(editorFg));
-        scroll2.setBorder(BorderFactory.createLineBorder(editorFg));
+        scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_FONT_COLOR));
+        scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_FONT_COLOR));
 
         // Create label panel for each text area
         leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -247,26 +247,26 @@ public class SplitTextTabPanel extends JPanel {
         leftLabelPanel.setVisible(false);
         rightLabelPanel.setVisible(false);
 
-        jt1.setBackground(editorBg);
-        jt1.setForeground(editorFg);
-        jt1.setCaretColor(editorFg); // make the cursor visible
+        jt1.setBackground(EDITOR_BACKGROUND);
+        jt1.setForeground(EDITOR_FONT_COLOR);
+        jt1.setCaretColor(EDITOR_FONT_COLOR); // make the cursor visible
 
-        jt2.setBackground(editorBg);
-        jt2.setForeground(editorFg);
-        jt2.setCaretColor(editorFg);
+        jt2.setBackground(EDITOR_BACKGROUND);
+        jt2.setForeground(EDITOR_FONT_COLOR);
+        jt2.setCaretColor(EDITOR_FONT_COLOR);
 
         // REMOVING THE WHITE SQUARES AT THE INTERSCTION OF THE SCROLLBARS
         // Unique corners for scroll1
         JPanel scroll1CornerLeft = new JPanel();
-        scroll1CornerLeft.setBackground(editorBg);
+        scroll1CornerLeft.setBackground(EDITOR_BACKGROUND);
         JPanel scroll1CornerRight = new JPanel();
-        scroll1CornerRight.setBackground(editorBg);
+        scroll1CornerRight.setBackground(EDITOR_BACKGROUND);
 
         // Unique corners for scroll2
         JPanel scroll2CornerLeft = new JPanel();
-        scroll2CornerLeft.setBackground(editorBg);
+        scroll2CornerLeft.setBackground(EDITOR_BACKGROUND);
         JPanel scroll2CornerRight = new JPanel();
-        scroll2CornerRight.setBackground(editorBg);
+        scroll2CornerRight.setBackground(EDITOR_BACKGROUND);
 
         // Set corners for scroll1
         scroll1.setCorner(JScrollPane.LOWER_LEFT_CORNER, scroll1CornerLeft);
@@ -279,12 +279,12 @@ public class SplitTextTabPanel extends JPanel {
         // ------------- end
 
         // Scroll panes (optional, matches textarea bg)
-        scroll1.getViewport().setBackground(editorBg);
-        scroll2.getViewport().setBackground(editorBg);
+        scroll1.getViewport().setBackground(EDITOR_BACKGROUND);
+        scroll2.getViewport().setBackground(EDITOR_BACKGROUND);
 
         // Background of the left/right label panels
-        leftLabelPanel.setBackground(editorBg);
-        rightLabelPanel.setBackground(editorBg);
+        leftLabelPanel.setBackground(EDITOR_BACKGROUND);
+        rightLabelPanel.setBackground(EDITOR_BACKGROUND);
     }
 
     private void highlightDiffs() {
