@@ -39,6 +39,7 @@ public class SplitTextTabPanel extends JPanel {
     private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray
     private static final Color EDITOR_FONT_COLOR = new Color(0xD4D4D4); // Light text
     private static final Color EDITOR_BORDER_COLOR = new Color(0x242526); // Light text
+    private static final Color ACTIVE_BORDER_COLOR = new Color(0x00744d);
 
     // BACKGROUND COLOR
     // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);
@@ -109,6 +110,30 @@ public class SplitTextTabPanel extends JPanel {
         // REMOVE DEFAULT BORDERS
         jt1.setBorder(BorderFactory.createEmptyBorder());
         jt2.setBorder(BorderFactory.createEmptyBorder());
+
+        jt1.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR, 2));
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+            }
+        });
+
+        jt2.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR, 2));
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+            }
+        });
 
         // jt1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
