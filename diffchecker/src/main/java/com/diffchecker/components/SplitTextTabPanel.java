@@ -111,10 +111,11 @@ public class SplitTextTabPanel extends JPanel {
         jt1.setBorder(BorderFactory.createEmptyBorder());
         jt2.setBorder(BorderFactory.createEmptyBorder());
 
+        // ADD BORDER UPON ACTIVATING TEXAREAS
         jt1.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent e) {
-                scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR, 2));
+                scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
             }
 
             @Override
@@ -126,7 +127,7 @@ public class SplitTextTabPanel extends JPanel {
         jt2.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent e) {
-                scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR, 2));
+                scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
             }
 
             @Override
