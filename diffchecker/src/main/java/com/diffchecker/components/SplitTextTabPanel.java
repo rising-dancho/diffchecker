@@ -112,29 +112,29 @@ public class SplitTextTabPanel extends JPanel {
         jt2.setBorder(BorderFactory.createEmptyBorder());
 
         // ADD BORDER UPON ACTIVATING TEXAREAS
-        jt1.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
-                scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
-            }
+        // jt1.addFocusListener(new java.awt.event.FocusAdapter() {
+        //     @Override
+        //     public void focusGained(java.awt.event.FocusEvent e) {
+        //         scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
+        //     }
 
-            @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
-                scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
-            }
-        });
+        //     @Override
+        //     public void focusLost(java.awt.event.FocusEvent e) {
+        //         scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+        //     }
+        // });
 
-        jt2.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
-                scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
-            }
+        // jt2.addFocusListener(new java.awt.event.FocusAdapter() {
+        //     @Override
+        //     public void focusGained(java.awt.event.FocusEvent e) {
+        //         scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
+        //     }
 
-            @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
-                scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
-            }
-        });
+        //     @Override
+        //     public void focusLost(java.awt.event.FocusEvent e) {
+        //         scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+        //     }
+        // });
 
         // jt1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
