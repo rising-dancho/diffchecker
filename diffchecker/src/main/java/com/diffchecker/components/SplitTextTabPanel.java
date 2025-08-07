@@ -5,8 +5,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
-import org.w3c.dom.events.MouseEvent;
-
 import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
 import com.diffchecker.components.Database.DiffRepository;
@@ -339,11 +337,11 @@ public class SplitTextTabPanel extends JPanel {
                 }
 
                 // Clicked outside both text areas
-                // Now check if any green border is active and reset if needed
-                if (jt1IsActive || jt2IsActive) {
-                    jt1IsActive = false;
+                if (jt1IsActive) {
                     jt2IsActive = false;
                     scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+                } else {
+                    jt1IsActive = false;
                     scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
                 }
             }
