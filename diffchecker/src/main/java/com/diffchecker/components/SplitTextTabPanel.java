@@ -5,6 +5,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
+import org.w3c.dom.events.MouseEvent;
+
 import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
 import com.diffchecker.components.Database.DiffRepository;
@@ -63,6 +65,10 @@ public class SplitTextTabPanel extends JPanel {
     private final JPanel leftLabelPanel;
     private final JPanel rightLabelPanel;
 
+    // CHECKING IF GREEN BORDER IS ACTIVE OR NOT
+    private boolean jt1IsActive = false;
+    private boolean jt2IsActive = false;
+
     public SplitTextTabPanel() {
         setLayout(new BorderLayout());
 
@@ -110,31 +116,6 @@ public class SplitTextTabPanel extends JPanel {
         // REMOVE DEFAULT BORDERS
         jt1.setBorder(BorderFactory.createEmptyBorder());
         jt2.setBorder(BorderFactory.createEmptyBorder());
-
-        // ADD BORDER UPON ACTIVATING TEXAREAS
-        // jt1.addFocusListener(new java.awt.event.FocusAdapter() {
-        //     @Override
-        //     public void focusGained(java.awt.event.FocusEvent e) {
-        //         scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
-        //     }
-
-        //     @Override
-        //     public void focusLost(java.awt.event.FocusEvent e) {
-        //         scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
-        //     }
-        // });
-
-        // jt2.addFocusListener(new java.awt.event.FocusAdapter() {
-        //     @Override
-        //     public void focusGained(java.awt.event.FocusEvent e) {
-        //         scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
-        //     }
-
-        //     @Override
-        //     public void focusLost(java.awt.event.FocusEvent e) {
-        //         scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
-        //     }
-        // });
 
         // jt1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
@@ -312,6 +293,62 @@ public class SplitTextTabPanel extends JPanel {
         // Background of the left/right label panels
         leftLabelPanel.setBackground(EDITOR_BACKGROUND);
         rightLabelPanel.setBackground(EDITOR_BACKGROUND);
+
+        // ADD BORDER UPON ACTIVATING TEXAREAS
+        jt1.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                jt1IsActive = true;
+                jt2IsActive = false;
+                scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
+                scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                jt1IsActive = false;
+            }
+        });
+
+        jt2.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                jt2IsActive = true;
+                jt1IsActive = false;
+                scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
+                scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                jt2IsActive = false;
+            }
+        });
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                Component actual = e.getSource() instanceof Component ? (Component) e.getSource() : null;
+
+                // Traverse up to check if the click happened inside jt1 or jt2
+                while (actual != null) {
+                    if (actual == jt1 || actual == jt2) {
+                        return; // Clicked inside one of the JTextAreas: do nothing
+                    }
+                    actual = actual.getParent();
+                }
+
+                // Clicked outside both text areas
+                // Now check if any green border is active and reset if needed
+                if (jt1IsActive || jt2IsActive) {
+                    jt1IsActive = false;
+                    jt2IsActive = false;
+                    scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+                    scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+                }
+            }
+        });
+
     }
 
     private void highlightDiffs() {
