@@ -5,6 +5,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
+import org.w3c.dom.events.MouseEvent;
+
 import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
 import com.diffchecker.components.Database.DiffRepository;
@@ -13,6 +15,9 @@ import com.github.difflib.patch.AbstractDelta;
 import com.github.difflib.patch.Patch;
 
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -293,9 +298,9 @@ public class SplitTextTabPanel extends JPanel {
         rightLabelPanel.setBackground(EDITOR_BACKGROUND);
 
         // ADD BORDER UPON ACTIVATING TEXAREAS
-        jt1.addFocusListener(new java.awt.event.FocusAdapter() {
+        jt1.addFocusListener(new FocusAdapter() {
             @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
+            public void focusGained(FocusEvent e) {
                 jt1IsActive = true;
                 jt2IsActive = false;
                 scroll1.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
@@ -303,14 +308,15 @@ public class SplitTextTabPanel extends JPanel {
             }
 
             @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
+            public void focusLost(FocusEvent e) {
                 jt1IsActive = false;
+                scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
             }
         });
 
-        jt2.addFocusListener(new java.awt.event.FocusAdapter() {
+        jt2.addFocusListener(new FocusAdapter() {
             @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
+            public void focusGained(FocusEvent e) {
                 jt2IsActive = true;
                 jt1IsActive = false;
                 scroll2.setBorder(BorderFactory.createLineBorder(ACTIVE_BORDER_COLOR));
@@ -318,31 +324,20 @@ public class SplitTextTabPanel extends JPanel {
             }
 
             @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
+            public void focusLost(FocusEvent e) {
                 jt2IsActive = false;
+                scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
             }
         });
 
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
+        // Background click handler
+        addMouseListener(new MouseAdapter() {
+
             public void mousePressed(java.awt.event.MouseEvent e) {
-                Component actual = e.getSource() instanceof Component ? (Component) e.getSource() : null;
-
-                // Traverse up to check if the click happened inside jt1 or jt2
-                while (actual != null) {
-                    if (actual == jt1 || actual == jt2) {
-                        return; // Clicked inside one of the JTextAreas: do nothing
-                    }
-                    actual = actual.getParent();
-                }
-
-                // Clicked outside both text areas
-                if (jt1IsActive) {
-                    jt2IsActive = false;
-                    scroll1.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
-                } else {
-                    jt1IsActive = false;
-                    scroll2.setBorder(BorderFactory.createLineBorder(EDITOR_BORDER_COLOR));
+                Component clicked = SwingUtilities.getDeepestComponentAt(SplitTextTabPanel.this, e.getX(), e.getY());
+                if (!(SwingUtilities.isDescendingFrom(clicked, jt1) || SwingUtilities.isDescendingFrom(clicked, jt2))) {
+                    requestFocusInWindow(); // steal focus from textareas
+                    repaint(); // helps caret disappear properly
                 }
             }
         });

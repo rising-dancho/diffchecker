@@ -24,7 +24,7 @@ class MyPanel extends JPanel {
 
   private final Color ACTIVE_BORDER_COLOR = Color.GREEN;
   private final Color EDITOR_BORDER_COLOR = Color.GRAY;
- 
+
   public MyPanel() {
     // Make this panel focusable
     setFocusable(true);
