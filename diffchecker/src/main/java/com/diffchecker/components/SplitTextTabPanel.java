@@ -5,8 +5,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
-import org.w3c.dom.events.MouseEvent;
-
 import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
 import com.diffchecker.components.Database.DiffRepository;
