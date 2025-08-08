@@ -129,10 +129,10 @@ public class Main extends JFrame {
 
         // FOR DEBUGGING PURPOSES ONLY
         // container.setBorder(
-        //         BorderFactory.createCompoundBorder(
-        //                 BorderFactory.createLineBorder(Color.BLUE), // outer border
-        //                 BorderFactory.createEmptyBorder(0, 5, 5, 5) // inner padding
-        //         ));
+        // BorderFactory.createCompoundBorder(
+        // BorderFactory.createLineBorder(Color.BLUE), // outer border
+        // BorderFactory.createEmptyBorder(0, 5, 5, 5) // inner padding
+        // ));
 
         // container.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));

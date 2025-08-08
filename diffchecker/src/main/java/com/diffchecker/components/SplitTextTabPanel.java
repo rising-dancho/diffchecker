@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SplitTextTabPanel extends JPanel {
+    // DEFAULT DECLARATIONS
     private static final String PACKAGE_NAME = "diffchecker";
     private final JTextArea jt1 = new JTextArea();
     private final JTextArea jt2 = new JTextArea();
@@ -72,7 +73,6 @@ public class SplitTextTabPanel extends JPanel {
 
     public SplitTextTabPanel() {
         setLayout(new BorderLayout());
-
         scroll1 = new JScrollPane(jt1);
         scroll2 = new JScrollPane(jt2);
 
@@ -173,6 +173,9 @@ public class SplitTextTabPanel extends JPanel {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
         contentPanel.setBackground(BACKGROUND_DARK); // match your theme
         contentPanel.add(sideBySidePanel, BorderLayout.CENTER);
+
+        // TEST BORDER
+        // contentPanel.setBorder(BorderFactory.createLineBorder(REMOVAL_LABEL_COLOR_DARK));
 
         add(contentPanel, BorderLayout.CENTER);
 
@@ -285,6 +288,9 @@ public class SplitTextTabPanel extends JPanel {
         scroll2.setCorner(JScrollPane.LOWER_LEFT_CORNER, scroll2CornerLeft);
         scroll2.setCorner(JScrollPane.LOWER_RIGHT_CORNER, scroll2CornerRight);
 
+        // TEST BORDER
+        // scroll1.setBorder(BorderFactory.createLineBorder(REMOVAL_LABEL_COLOR_DARK));
+
         // ------------- end
 
         // Scroll panes (optional, matches textarea bg)
@@ -340,6 +346,8 @@ public class SplitTextTabPanel extends JPanel {
             }
         });
 
+        // TEST BORDER
+        // setBorder(BorderFactory.createLineBorder(REMOVAL_LABEL_COLOR_DARK));
     }
 
     private void highlightDiffs() {
