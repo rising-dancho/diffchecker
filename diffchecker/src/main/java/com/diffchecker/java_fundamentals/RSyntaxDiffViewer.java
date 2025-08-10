@@ -24,10 +24,10 @@ public class RSyntaxDiffViewer extends JPanel {
   private RSyntaxTextArea leftArea;
   private RSyntaxTextArea rightArea;
 
-  private static final Color LINE_REMOVED = new Color(255, 200, 200);
-  private static final Color LINE_ADDED = new Color(200, 255, 200);
-  private static final Color WORD_REMOVED = new Color(255, 150, 150);
-  private static final Color WORD_ADDED = new Color(150, 255, 150);
+  private static final Color LINE_REMOVED = new Color(0x40191D);
+  private static final Color LINE_ADDED =  new Color(0x12342B);
+  private static final Color WORD_REMOVED =  new Color(0x8B1E1D);
+  private static final Color WORD_ADDED = new Color(0x137B5A);
 
   public RSyntaxDiffViewer(String leftText, String rightText, String syntaxStyle) {
     setLayout(new GridLayout(1, 2));
@@ -146,11 +146,25 @@ public class RSyntaxDiffViewer extends JPanel {
       String text1 = "public class Test {\n    int a = 5;\n    void foo() {}\n}";
       String text2 = "public class Test {\n    int a = 6;\n    void foo() { System.out.println(a); }\n}";
 
+      RSyntaxDiffViewer viewer = new RSyntaxDiffViewer(
+          text1, text2, SyntaxConstants.SYNTAX_STYLE_JAVA);
+
+      // Load theme from resources
+      try {
+        Theme theme = Theme.load(
+            RSyntaxDiffViewer.class.getResourceAsStream("/diffchecker/themes/mytheme.xml"));
+        theme.apply(viewer.leftArea);
+        theme.apply(viewer.rightArea);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
       JFrame frame = new JFrame("RSyntax Diff Viewer");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(1000, 600);
-      frame.add(new RSyntaxDiffViewer(text1, text2, SyntaxConstants.SYNTAX_STYLE_JAVA));
+      frame.add(viewer);
       frame.setVisible(true);
     });
   }
+
 }
