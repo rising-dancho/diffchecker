@@ -19,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SplitTextTabPanel extends JPanel {
@@ -351,204 +352,95 @@ public class SplitTextTabPanel extends JPanel {
     }
 
     private void highlightDiffs() {
+        // Reset counters
+        removed = 0;
+        added = 0;
+
+        // Clear previous highlights
         jt1.getHighlighter().removeAllHighlights();
         jt2.getHighlighter().removeAllHighlights();
 
-        // SHOW SUMMARY LABELS
-        leftLabelPanel.setVisible(true);
-        rightLabelPanel.setVisible(true);
+        // Get text content
+        String text1 = jt1.getText();
+        String text2 = jt2.getText();
 
-        List<String> original = List.of(jt1.getText().split("\\R"));
-        List<String> revised = List.of(jt2.getText().split("\\R"));
+        // Split into lines
+        List<String> lines1 = Arrays.asList(text1.split("\n"));
+        List<String> lines2 = Arrays.asList(text2.split("\n"));
 
-        Patch<String> patch = DiffUtils.diff(original, revised);
+        // Use diff utils
+        Patch<String> patch = DiffUtils.diff(lines1, lines2);
 
-        List<String> aligned1 = new ArrayList<>();
-        List<String> aligned2 = new ArrayList<>();
-
-        int origIndex = 0, revIndex = 0;
+        Highlighter.HighlightPainter removePainter = new DefaultHighlighter.DefaultHighlightPainter(DELETE_WORD_COLOR);
+        Highlighter.HighlightPainter addPainter = new DefaultHighlighter.DefaultHighlightPainter(ADD_WORD_COLOR);
 
         for (AbstractDelta<String> delta : patch.getDeltas()) {
             int origPos = delta.getSource().getPosition();
             int revPos = delta.getTarget().getPosition();
 
-            // Unchanged before the delta
-            while (origIndex < origPos && revIndex < revPos) {
-                aligned1.add("  " + original.get(origIndex++));
-                aligned2.add("  " + revised.get(revIndex++));
-            }
-
-            List<String> origLines = delta.getSource().getLines();
-            List<String> revLines = delta.getTarget().getLines();
-
             switch (delta.getType()) {
-                case DELETE -> {
-                    for (String line : origLines) {
-                        aligned1.add("- " + line);
-                        aligned2.add("");
-                        origIndex++;
+                case DELETE:
+                    removed += delta.getSource().size();
+                    highlightFullLines(jt1, lines1, origPos, delta.getSource().size(), removePainter);
+                    break;
+                case INSERT:
+                    added += delta.getTarget().size();
+                    highlightFullLines(jt2, lines2, revPos, delta.getTarget().size(), addPainter);
+                    break;
+                case CHANGE:
+                    removed += delta.getSource().size();
+                    added += delta.getTarget().size();
+                    highlightFullLines(jt1, lines1, origPos, delta.getSource().size(), removePainter);
+                    highlightFullLines(jt2, lines2, revPos, delta.getTarget().size(), addPainter);
+
+                    // Word-level highlights for changed lines
+                    for (int i = 0; i < Math.min(delta.getSource().size(), delta.getTarget().size()); i++) {
+                        highlightWordDiffs(jt1, lines1.get(origPos + i), getLineStartOffset(jt1, origPos + i),
+                                removePainter);
+                        highlightWordDiffs(jt2, lines2.get(revPos + i), getLineStartOffset(jt2, revPos + i),
+                                addPainter);
                     }
-                }
-                case INSERT -> {
-                    for (String line : revLines) {
-                        aligned1.add("");
-                        aligned2.add("+ " + line);
-                        revIndex++;
-                    }
-                }
-                case CHANGE -> {
-                    int max = Math.max(origLines.size(), revLines.size());
-
-                    for (int i = 0; i < max; i++) {
-                        String leftLine = i < origLines.size() ? origLines.get(i) : "";
-                        String rightLine = i < revLines.size() ? revLines.get(i) : "";
-
-                        if (!leftLine.isBlank()) {
-                            aligned1.add("- " + leftLine);
-                            removed++;
-                        } else {
-                            aligned1.add(""); // Blank line for alignment
-                        }
-
-                        if (!rightLine.isBlank()) {
-                            aligned2.add("+ " + rightLine);
-                            added++;
-                        } else {
-                            aligned2.add(""); // Blank line for alignment
-                        }
-
-                        origIndex += i < origLines.size() ? 1 : 0;
-                        revIndex += i < revLines.size() ? 1 : 0;
-                    }
-                }
-
-                default -> throw new IllegalArgumentException("Unexpected value: " + delta.getType());
+                    break;
             }
-        }
-
-        // Remaining unchanged
-        while (origIndex < original.size() && revIndex < revised.size()) {
-            aligned1.add("  " + original.get(origIndex++));
-            aligned2.add("  " + revised.get(revIndex++));
-        }
-
-        // Set the diff summary in label (you can style it too)
-        leftSummaryLabel.setText(String.format("❌ %d removals", removed));
-        rightSummaryLabel.setText(String.format("✔️ %d additions", added));
-        // LABEL TEXT COLOR
-        leftSummaryLabel.setForeground(REMOVAL_LABEL_COLOR_DARK); // red
-        rightSummaryLabel.setForeground(ADDED_LABEL_COLOR_DARK); // green
-        // LABEL FONT SIZE
-        leftSummaryLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-        rightSummaryLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-
-        jt1.setText(String.join("\n", aligned1));
-        jt2.setText(String.join("\n", aligned2));
-
-        // Must be after setting text so offsets are accurate
-        for (int i = 0; i < aligned1.size(); i++) {
-            if (aligned1.get(i).startsWith("- ") && aligned2.get(i).startsWith("+ ")) {
-                String left = aligned1.get(i).substring(2);
-                String right = aligned2.get(i).substring(2);
-                highlightIntraLineDiff(left, right, jt1, i, true);
-                highlightIntraLineDiff(left, right, jt2, i, false);
-            }
-        }
-
-        highlightLines(jt1, "- ", DELETE_WORD_COLOR);
-        highlightLines(jt2, "+ ", ADD_WORD_COLOR);
-
-        // Repaint to ensure layout is updated
-        jt1.revalidate();
-        jt2.revalidate();
-
-        // always show scrollbars but synced
-        scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scroll2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        // AUTO SCROLL TO THE FIRST CHANGE
-        List<AbstractDelta<String>> deltas = patch.getDeltas();
-
-        if (!deltas.isEmpty()) {
-            AbstractDelta<String> firstDelta = deltas.get(0);
-            int firstDiffLine = firstDelta.getSource().getPosition();
-
-            // Scroll after highlighting and rendering
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    int startOffset = jt1.getDocument().getDefaultRootElement().getElement(firstDiffLine)
-                            .getStartOffset();
-                    @SuppressWarnings("deprecation")
-                    Rectangle viewRect = jt1.modelToView(startOffset);
-                    if (viewRect != null) {
-                        jt1.scrollRectToVisible(viewRect);
-                        jt2.scrollRectToVisible(viewRect); // Optional sync
-                    }
-                } catch (BadLocationException e) {
-                    e.printStackTrace();
-                }
-            });
         }
     }
 
-    private void highlightLines(JTextArea area, String prefix, Color color) {
-        Highlighter highlighter = area.getHighlighter();
-        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(color);
-
-        String[] lines = area.getText().split("\\R");
-        try {
-            for (int i = 0; i < lines.length; i++) {
-                if (lines[i].startsWith(prefix)) {
-                    int start = area.getLineStartOffset(i);
-                    int end = area.getLineEndOffset(i);
-                    highlighter.addHighlight(start, end, painter);
-                }
+    private void highlightFullLines(JTextArea jt12, List<String> lines, int startLine, int count,
+            Highlighter.HighlightPainter painter) {
+        for (int i = 0; i < count; i++) {
+            int startOffset = getLineStartOffset(jt12, startLine + i);
+            int endOffset = startOffset + lines.get(startLine + i).length();
+            try {
+                jt12.getHighlighter().addHighlight(startOffset, endOffset, painter);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
             }
+        }
+    }
+
+    private void highlightWordDiffs(JTextArea jt12, String line, int lineStartOffset,
+            Highlighter.HighlightPainter painter) {
+        // Split by space for word diff
+        String[] words = line.split(" ");
+        for (String word : words) {
+            if (word.trim().isEmpty())
+                continue;
+            // Apply highlight only if word length > 0
+            try {
+                int start = lineStartOffset + line.indexOf(word);
+                int end = start + word.length();
+                jt12.getHighlighter().addHighlight(start, end, painter);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int getLineStartOffset(JTextArea jt12, int line) {
+        try {
+            return jt12.getDocument().getDefaultRootElement().getElement(line).getStartOffset();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void highlightIntraLineDiff(String line1, String line2, JTextArea area, int lineIndex, boolean isLeft) {
-        List<String> tokens1 = List.of(line1.split("\\b"));
-        List<String> tokens2 = List.of(line2.split("\\b"));
-
-        Patch<String> wordPatch = DiffUtils.diff(tokens1, tokens2);
-
-        // Base color based on side
-        Color inlineColor;
-        if (line1.equals(line2))
-            return; // skip if not changed
-
-        if (isLeft && !line2.isBlank()) {
-            inlineColor = DELETE_WORD_COLOR_DARKER;
-        } else if (!isLeft && !line1.isBlank()) {
-            inlineColor = ADD_WORD_COLOR_DARKER;
-        } else {
-            inlineColor = isLeft ? DELETE_WORD_COLOR_DARKER : ADD_WORD_COLOR_DARKER;
-        }
-
-        Highlighter highlighter = area.getHighlighter();
-        Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(inlineColor);
-
-        try {
-            int lineStartOffset = area.getLineStartOffset(lineIndex);
-            int pos = lineStartOffset + 2; // Skip "- " or "+ "
-
-            List<String> tokens = isLeft ? tokens1 : tokens2;
-
-            for (String token : tokens) {
-                boolean changed = wordPatch.getDeltas().stream()
-                        .anyMatch(delta -> (isLeft ? delta.getSource().getLines() : delta.getTarget().getLines())
-                                .contains(token));
-
-                if (changed && !token.isBlank()) {
-                    highlighter.addHighlight(pos, pos + token.length(), painter);
-                }
-                pos += token.length();
-            }
-        } catch (BadLocationException e) {
-            e.printStackTrace();
+            return 0;
         }
     }
 
