@@ -1,13 +1,19 @@
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\backup\getting_prime.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\backup\Main_copy.java
-C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\BlockDiffViewer.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\backup\SplitTextTabPanel.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\backup\SplitTextTabPanel_original.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\ClosableTabContextMenu.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\ClosableTabTitleComponent.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\ComponentResizer.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\CustomScrollBarUI.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\CustomTitleBar.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\Database\DB.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\Database\DiffData.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\Database\DiffRepository.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\LineNumberingTextArea.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\MenuBuilder.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\RoundedButton.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\RoundedTabbedPaneUI.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\SplitTextTabPanel.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\components\TitlebarMover.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\JavaFundamentals_arrays.java
@@ -38,6 +44,8 @@ C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diff
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\object_oriented_prog\youtube_tutorials\AboutClasses.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\object_oriented_prog\youtube_tutorials\GettersSetters.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\object_oriented_prog\youtube_tutorials\MethodMain.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\RSyntaxDiffViewer.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\BlackTextAreaWithMargin.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\Border_Layout.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\Grid_Layout.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JButton_.java
@@ -45,7 +53,6 @@ C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diff
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JLabel_.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JMenu_bar.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JOption_pane.java
-C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JPanel_.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JScroll_pane.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JSplit_pane.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\JTab_pane.java
@@ -58,4 +65,5 @@ C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diff
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\pos_system\JPanelLoader.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\pos_system\MainScreen.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\TestRoundedButton.java
+C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\java_fundamentals\swing_and_awt\TextAreaFocusDemo.java
 C:\Users\adfinem\Documents\Github\diffchecker\diffchecker\src\main\java\com\diffchecker\Main.java
