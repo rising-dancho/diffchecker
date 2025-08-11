@@ -7,5 +7,4 @@
 - https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
 
 # sample
-<img width="1086" height="725" alt="image" src="https://github.com/user-attachments/assets/bc395c8a-c2f8-46df-b27c-0bb115b5ef52" />
-
+<img width="1283" height="915" alt="image" src="https://github.com/user-attachments/assets/3c8a5a79-46eb-4027-ac81-154f16f0d5ef" />
