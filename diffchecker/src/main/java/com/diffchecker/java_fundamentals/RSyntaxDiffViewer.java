@@ -143,8 +143,48 @@ public class RSyntaxDiffViewer extends JPanel {
 
   public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
-      String text1 = "public class Test {\n    int a = 5;\n    void foo() {}\n}";
-      String text2 = "public class Test {\n    int a = 6;\n    void foo() { System.out.println(a); }\n}";
+      String text1 = "\r\n" + //
+                "    // WORD HIGHLIGHT\r\n" + //
+                "    private static final Color DELETE_WORD_COLOR = new Color(0x40191D); // darker red\r\n" + //
+                "    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red\r\n" + //
+                "    private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green\r\n" + //
+                "    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);\r\n" + //
+                "\r\n" + //
+                "    // FONT COLORS\r\n" + //
+                "    private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray\r\n" + //
+                "    private static final Color EDITOR_FONT_COLOR = new Color(0xD4D4D4); // Light text\r\n" + //
+                "    private static final Color EDITOR_BORDER_COLOR = new Color(0x242526); // Light text\r\n" + //
+                "    private static final Color ACTIVE_BORDER_COLOR = new Color(0x00744d);\r\n" + //
+                "\r\n" + //
+                "    // BACKGROUND COLOR\r\n" + //
+                "    // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);\r\n" + //
+                "    private final Color BACKGROUND_DARK = new Color(0x17181C);\r\n" + //
+                "    private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);\r\n" + //
+                "\r\n" + //
+                "    // SUMMARY FONT COLOR\r\n" + //
+                "    private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red\r\n" + //
+                "    private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red";
+      String text2 = "\r\n" + //
+                "    // WORD HIGHLIGHT\r\n" + //
+                "    private static final Color DELETE_WORD_COLOR = new Color(0x40191D); // darker red\r\n" + //
+                "    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red\r\n" + //
+                "    private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green\r\n" + //
+                "    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);\r\n" + //
+                "\r\n" + //
+                "    // FONT COLORS\r\n" + //
+                "    private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray\r\n" + //
+                "    private static final Color EDITOR_FONT_COLOR = new Color(0xD4D4D4); // Light text\r\n" + //
+                "    private static final Color EDITOR_BORDER_COLOR = new Color(0x242526); // Light text\r\n" + //
+                "    private static final Color Tite = new Color(0x00744d);\r\n" + //
+                "\r\n" + //
+                "    // BACKGROUND COLOR\r\n" + //
+                "    // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);\r\n" + //
+                "    private final Color BACKGROUND_DARK = new Color(0x17181C);\r\n" + //
+                "    private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);\r\n" + //
+                "\r\n" + //
+                "    // SUMMARY FONT COLOR\r\n" + //
+                "    private static final Color kinantot = new Color(0xB83A3A); // darker red\r\n" + //
+                "    private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red";
 
       RSyntaxDiffViewer viewer = new RSyntaxDiffViewer(
           text1, text2, SyntaxConstants.SYNTAX_STYLE_JAVA);
