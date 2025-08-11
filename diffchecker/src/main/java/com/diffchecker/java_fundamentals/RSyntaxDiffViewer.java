@@ -170,12 +170,7 @@ public class RSyntaxDiffViewer extends JPanel {
                 "    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red\r\n" + //
                 "    private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green\r\n" + //
                 "    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);\r\n" + //
-                "\r\n" + //
-                "    // FONT COLORS\r\n" + //
-                "    private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray\r\n" + //
-                "    private static final Color EDITOR_FONT_COLOR = new Color(0xD4D4D4); // Light text\r\n" + //
-                "    private static final Color EDITOR_BORDER_COLOR = new Color(0x242526); // Light text\r\n" + //
-                "    private static final Color Tite = new Color(0x00744d);\r\n" + //
+            
                 "\r\n" + //
                 "    // BACKGROUND COLOR\r\n" + //
                 "    // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);\r\n" + //

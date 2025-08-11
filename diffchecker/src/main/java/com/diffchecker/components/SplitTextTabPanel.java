@@ -2,9 +2,6 @@ package com.diffchecker.components;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-
 import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
 import com.diffchecker.components.Database.DiffRepository;
@@ -18,27 +15,24 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+// RSyntaxTextArea dependencies
+import org.fife.ui.rsyntaxtextarea.*;
+import org.fife.ui.rtextarea.*;
 
 public class SplitTextTabPanel extends JPanel {
     // DEFAULT DECLARATIONS
     private static final String PACKAGE_NAME = "diffchecker";
-    private final JTextArea jt1 = new JTextArea();
-    private final JTextArea jt2 = new JTextArea();
-
-    private final JLabel leftSummaryLabel = new JLabel();
-    private final JLabel rightSummaryLabel = new JLabel();
-
-    // ADD SUMMARY ARROWS
-    private static int added = 0, removed = 0;
+    private RSyntaxTextArea jt1;
+    private RSyntaxTextArea jt2;
 
     // WORD HIGHLIGHT
-    private static final Color DELETE_WORD_COLOR = new Color(0x40191D); // darker red
-    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red
-    private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green
-    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);
+    private static final Color LINE_REMOVED = new Color(0x40191D);
+    private static final Color LINE_ADDED = new Color(0x12342B);
+    private static final Color WORD_REMOVED = new Color(0x8B1E1D);
+    private static final Color WORD_ADDED = new Color(0x137B5A);
 
     // FONT COLORS
     private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray
@@ -52,8 +46,10 @@ public class SplitTextTabPanel extends JPanel {
     private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);
 
     // SUMMARY FONT COLOR
-    private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red
-    private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red
+    // private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); //
+    // darker red
+    // private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); //
+    // darker red
 
     // BUTTON COLOR AND HOVER COLOR
     private static final Color BTN_COLOR = new Color(0x00af74);
@@ -74,8 +70,20 @@ public class SplitTextTabPanel extends JPanel {
 
     public SplitTextTabPanel() {
         setLayout(new BorderLayout());
-        scroll1 = new JScrollPane(jt1);
-        scroll2 = new JScrollPane(jt2);
+
+        jt1 = createRSyntaxArea();
+        jt2 = createRSyntaxArea();
+        scroll1 = new RTextScrollPane(jt1);
+        scroll2 = new RTextScrollPane(jt2);
+
+        // Apply your theme from XML:
+        try (InputStream in = getClass().getResourceAsStream("/diffchecker/themes/mytheme.xml")) {
+            Theme theme = Theme.load(in);
+            theme.apply(jt1);
+            theme.apply(jt2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // CUSTOM SCROLLBARS
         scroll1.getVerticalScrollBar().setUI(new CustomScrollBarUI());
@@ -148,11 +156,9 @@ public class SplitTextTabPanel extends JPanel {
 
         // Create label panel for each text area
         leftLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        leftLabelPanel.add(leftSummaryLabel);
         leftLabelPanel.setBackground(BACKGROUND_LABEL_DARK);
 
         rightLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        rightLabelPanel.add(rightSummaryLabel);
         rightLabelPanel.setBackground(BACKGROUND_LABEL_DARK);
 
         JPanel p1 = new JPanel(new BorderLayout());
@@ -351,28 +357,27 @@ public class SplitTextTabPanel extends JPanel {
         // setBorder(BorderFactory.createLineBorder(REMOVAL_LABEL_COLOR_DARK));
     }
 
+    private RSyntaxTextArea createRSyntaxArea() {
+        RSyntaxTextArea area = new RSyntaxTextArea();
+        area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        area.setCodeFoldingEnabled(true);
+        area.setAntiAliasingEnabled(true);
+        area.setEditable(true); // Allow editing if you still want to diff edited text
+        area.setBackground(EDITOR_BACKGROUND);
+        area.setForeground(EDITOR_FONT_COLOR);
+        area.setCaretColor(EDITOR_FONT_COLOR);
+        area.setBorder(BorderFactory.createEmptyBorder());
+        return area;
+    }
+
     private void highlightDiffs() {
-        // Reset counters
-        removed = 0;
-        added = 0;
+        String leftText = jt1.getText();
+        String rightText = jt2.getText();
 
-        // Clear previous highlights
-        jt1.getHighlighter().removeAllHighlights();
-        jt2.getHighlighter().removeAllHighlights();
+        List<String> leftLines = Arrays.asList(leftText.split("\n"));
+        List<String> rightLines = Arrays.asList(rightText.split("\n"));
 
-        // Get text content
-        String text1 = jt1.getText();
-        String text2 = jt2.getText();
-
-        // Split into lines
-        List<String> lines1 = Arrays.asList(text1.split("\n"));
-        List<String> lines2 = Arrays.asList(text2.split("\n"));
-
-        // Use diff utils
-        Patch<String> patch = DiffUtils.diff(lines1, lines2);
-
-        Highlighter.HighlightPainter removePainter = new DefaultHighlighter.DefaultHighlightPainter(DELETE_WORD_COLOR);
-        Highlighter.HighlightPainter addPainter = new DefaultHighlighter.DefaultHighlightPainter(ADD_WORD_COLOR);
+        Patch<String> patch = DiffUtils.diff(leftLines, rightLines);
 
         for (AbstractDelta<String> delta : patch.getDeltas()) {
             int origPos = delta.getSource().getPosition();
@@ -380,67 +385,26 @@ public class SplitTextTabPanel extends JPanel {
 
             switch (delta.getType()) {
                 case DELETE:
-                    removed += delta.getSource().size();
-                    highlightFullLines(jt1, lines1, origPos, delta.getSource().size(), removePainter);
+                    highlightFullLines(jt1, origPos, delta.getSource().size(), LINE_REMOVED);
                     break;
                 case INSERT:
-                    added += delta.getTarget().size();
-                    highlightFullLines(jt2, lines2, revPos, delta.getTarget().size(), addPainter);
+                    highlightFullLines(jt2, revPos, delta.getTarget().size(), LINE_ADDED);
                     break;
                 case CHANGE:
-                    removed += delta.getSource().size();
-                    added += delta.getTarget().size();
-                    highlightFullLines(jt1, lines1, origPos, delta.getSource().size(), removePainter);
-                    highlightFullLines(jt2, lines2, revPos, delta.getTarget().size(), addPainter);
-
-                    // Word-level highlights for changed lines
-                    for (int i = 0; i < Math.min(delta.getSource().size(), delta.getTarget().size()); i++) {
-                        highlightWordDiffs(jt1, lines1.get(origPos + i), getLineStartOffset(jt1, origPos + i),
-                                removePainter);
-                        highlightWordDiffs(jt2, lines2.get(revPos + i), getLineStartOffset(jt2, revPos + i),
-                                addPainter);
-                    }
+                    highlightFullLines(jt1, origPos, delta.getSource().size(), LINE_REMOVED);
+                    highlightFullLines(jt2, revPos, delta.getTarget().size(), LINE_ADDED);
                     break;
             }
         }
     }
 
-    private void highlightFullLines(JTextArea jt12, List<String> lines, int startLine, int count,
-            Highlighter.HighlightPainter painter) {
+    private void highlightFullLines(RSyntaxTextArea area, int startLine, int count, Color color) {
         for (int i = 0; i < count; i++) {
-            int startOffset = getLineStartOffset(jt12, startLine + i);
-            int endOffset = startOffset + lines.get(startLine + i).length();
             try {
-                jt12.getHighlighter().addHighlight(startOffset, endOffset, painter);
+                area.addLineHighlight(startLine + i, color);
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void highlightWordDiffs(JTextArea jt12, String line, int lineStartOffset,
-            Highlighter.HighlightPainter painter) {
-        // Split by space for word diff
-        String[] words = line.split(" ");
-        for (String word : words) {
-            if (word.trim().isEmpty())
-                continue;
-            // Apply highlight only if word length > 0
-            try {
-                int start = lineStartOffset + line.indexOf(word);
-                int end = start + word.length();
-                jt12.getHighlighter().addHighlight(start, end, painter);
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private int getLineStartOffset(JTextArea jt12, int line) {
-        try {
-            return jt12.getDocument().getDefaultRootElement().getElement(line).getStartOffset();
-        } catch (Exception e) {
-            return 0;
         }
     }
 

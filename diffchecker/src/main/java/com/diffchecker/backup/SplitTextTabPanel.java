@@ -35,10 +35,13 @@
 //     private static int added = 0, removed = 0;
 
 //     // WORD HIGHLIGHT
+//     private static final Color LINE_REMOVED = new Color(0x40191D);
+//     private static final Color LINE_ADDED = new Color(0x12342B);
+//     private static final Color WORD_REMOVED = new Color(0x8B1E1D);
+//     private static final Color WORD_ADDED = new Color(0x137B5A);
+
 //     private static final Color DELETE_WORD_COLOR = new Color(0x40191D); // darker red
-//     private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red
 //     private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green
-//     private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);
 
 //     // FONT COLORS
 //     private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray
@@ -52,8 +55,8 @@
 //     private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);
 
 //     // SUMMARY FONT COLOR
-//     private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red
-//     private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red
+//     // private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red
+//     // private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red
 
 //     // BUTTON COLOR AND HOVER COLOR
 //     private static final Color BTN_COLOR = new Color(0x00af74);
@@ -371,8 +374,8 @@
 //         // Use diff utils
 //         Patch<String> patch = DiffUtils.diff(lines1, lines2);
 
-//         Highlighter.HighlightPainter removePainter = new DefaultHighlighter.DefaultHighlightPainter(Color.PINK);
-//         Highlighter.HighlightPainter addPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
+//         Highlighter.HighlightPainter removePainter = new DefaultHighlighter.DefaultHighlightPainter(DELETE_WORD_COLOR);
+//         Highlighter.HighlightPainter addPainter = new DefaultHighlighter.DefaultHighlightPainter(ADD_WORD_COLOR);
 
 //         for (AbstractDelta<String> delta : patch.getDeltas()) {
 //             int origPos = delta.getSource().getPosition();
