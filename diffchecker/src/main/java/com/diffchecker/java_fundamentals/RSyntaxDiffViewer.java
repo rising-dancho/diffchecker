@@ -178,7 +178,7 @@ public class RSyntaxDiffViewer extends JPanel {
                 "    private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);\r\n" + //
                 "\r\n" + //
                 "    // SUMMARY FONT COLOR\r\n" + //
-                "    private static final Color kinantot = new Color(0xB83A3A); // darker red\r\n" + //
+                "    private static final Color BETLOG = new Color(0xB83A3A); // darker red\r\n" + //
                 "    private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red";
 
       RSyntaxDiffViewer viewer = new RSyntaxDiffViewer(

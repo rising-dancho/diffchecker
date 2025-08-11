@@ -2,6 +2,8 @@ package com.diffchecker.components;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+
 import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
 import com.diffchecker.components.Database.DiffRepository;
@@ -393,8 +395,44 @@ public class SplitTextTabPanel extends JPanel {
                 case CHANGE:
                     highlightFullLines(jt1, origPos, delta.getSource().size(), LINE_REMOVED);
                     highlightFullLines(jt2, revPos, delta.getTarget().size(), LINE_ADDED);
+
+                    for (int i = 0; i < Math.min(delta.getSource().size(), delta.getTarget().size()); i++) {
+                        highlightWordDiffs(jt1, origPos + i, delta.getSource().getLines().get(i),
+                                delta.getTarget().getLines().get(i), WORD_REMOVED, true);
+                        highlightWordDiffs(jt2, revPos + i, delta.getSource().getLines().get(i),
+                                delta.getTarget().getLines().get(i), WORD_ADDED, false);
+                    }
                     break;
             }
+        }
+    }
+
+    private void highlightWordDiffs(RSyntaxTextArea area, int lineIndex, String oldLine, String newLine, Color color,
+            boolean isLeft) {
+        List<String> tokens1 = Arrays.asList(oldLine.split("\\b"));
+        List<String> tokens2 = Arrays.asList(newLine.split("\\b"));
+
+        Patch<String> wordPatch = DiffUtils.diff(tokens1, tokens2);
+
+        try {
+            int pos = area.getLineStartOffset(lineIndex);
+            List<String> tokens = isLeft ? tokens1 : tokens2;
+
+            for (String token : tokens) {
+                boolean changed = wordPatch.getDeltas().stream()
+                        .anyMatch(delta -> (isLeft ? delta.getSource().getLines() : delta.getTarget().getLines())
+                                .contains(token));
+
+                if (changed && !token.isBlank()) {
+                    int tokenStart = pos;
+                    int tokenEnd = pos + token.length();
+                    area.getHighlighter().addHighlight(tokenStart, tokenEnd,
+                            new DefaultHighlighter.DefaultHighlightPainter(color));
+                }
+                pos += token.length();
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
         }
     }
 
