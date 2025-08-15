@@ -25,8 +25,8 @@ public class RSyntaxDiffViewer extends JPanel {
   private RSyntaxTextArea rightArea;
 
   private static final Color LINE_REMOVED = new Color(0x40191D);
-  private static final Color LINE_ADDED =  new Color(0x12342B);
-  private static final Color WORD_REMOVED =  new Color(0x8B1E1D);
+  private static final Color LINE_ADDED = new Color(0x12342B);
+  private static final Color WORD_REMOVED = new Color(0x8B1E1D);
   private static final Color WORD_ADDED = new Color(0x137B5A);
 
   public RSyntaxDiffViewer(String leftText, String rightText, String syntaxStyle) {
@@ -143,43 +143,45 @@ public class RSyntaxDiffViewer extends JPanel {
 
   public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
-      String text1 = "\r\n" + //
-                "    // WORD HIGHLIGHT\r\n" + //
-                "    private static final Color DELETE_WORD_COLOR = new Color(0x40191D); // darker red\r\n" + //
-                "    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red\r\n" + //
-                "    private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green\r\n" + //
-                "    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);\r\n" + //
-                "\r\n" + //
-                "    // FONT COLORS\r\n" + //
-                "    private static final Color EDITOR_BACKGROUND = new Color(0x17181C); // Dark gray\r\n" + //
-                "    private static final Color EDITOR_FONT_COLOR = new Color(0xD4D4D4); // Light text\r\n" + //
-                "    private static final Color EDITOR_BORDER_COLOR = new Color(0x242526); // Light text\r\n" + //
-                "    private static final Color ACTIVE_BORDER_COLOR = new Color(0x00744d);\r\n" + //
-                "\r\n" + //
-                "    // BACKGROUND COLOR\r\n" + //
-                "    // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);\r\n" + //
-                "    private final Color BACKGROUND_DARK = new Color(0x17181C);\r\n" + //
-                "    private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);\r\n" + //
-                "\r\n" + //
-                "    // SUMMARY FONT COLOR\r\n" + //
-                "    private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); // darker red\r\n" + //
-                "    private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red";
-      String text2 = "\r\n" + //
-                "    // WORD HIGHLIGHT\r\n" + //
-                "    private static final Color DELETE_WORD_COLOR = new Color(0x40191D); // darker red\r\n" + //
-                "    private static final Color DELETE_WORD_COLOR_DARKER = new Color(0x8B1E1D); // darker red\r\n" + //
-                "    private static final Color ADD_WORD_COLOR = new Color(0x12342B); // darker green\r\n" + //
-                "    private static final Color ADD_WORD_COLOR_DARKER = new Color(0x137B5A);\r\n" + //
-            
-                "\r\n" + //
-                "    // BACKGROUND COLOR\r\n" + //
-                "    // private static final Color BACKGROUND_LIGHT = new Color(0xF9FAFA);\r\n" + //
-                "    private final Color BACKGROUND_DARK = new Color(0x17181C);\r\n" + //
-                "    private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);\r\n" + //
-                "\r\n" + //
-                "    // SUMMARY FONT COLOR\r\n" + //
-                "    private static final Color BETLOG = new Color(0xB83A3A); // darker red\r\n" + //
-                "    private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); // darker red";
+      String text1 = " switch (delta.getType()) {\r\n" + //
+          "        case DELETE:\r\n" + //
+          "          highlightFullLines(leftArea, origPos, delta.getSource().size(), LINE_REMOVED);\r\n" + //
+          "          break;\r\n" + //
+          "        case INSERT:\r\n" + //
+          "          highlightFullLines(rightArea, revPos, delta.getTarget().size(), LINE_ADDED);\r\n" + //
+          "          break;\r\n" + //
+          "        case CHANGE:\r\n" + //
+          "          highlightFullLines(leftArea, origPos, delta.getSource().size(), LINE_REMOVED);\r\n" + //
+          "          highlightFullLines(rightArea, revPos, itlog.getTarget().size(), LINE_ADDED);\r\n" + //
+          "\r\n" + //
+          "          for (int i = 0; i < Math.min(delta.getSource().size(), delta.getTarget().size()); i++) {\r\n" + //
+          "            highlightWordDiffs(leftArea, origPos + i, delta.getSource().getLines().get(i),\r\n" + //
+          "                delta.getTarget().getLines().get(i), WORD_REMOVED, true);\r\n" + //
+          "            highlightWordDiffs(rightArea, revPos + i, delta.getSource().getLines().get(i),\r\n" + //
+          "                delta.getTarget().getLines().get(i), WORD_ADDED, false);\r\n" + //
+          "          }\r\n" + //
+          "          break;\r\n" + //
+          "      }\r\n" + //
+          "    }";
+      String text2 = " switch (delta.getType()) {\r\n" + //
+          "        case DELETE:\r\n" + //
+          "          highlightFullLines(leftArea, origPos, delta.getSource().size(), LINE_REMOVED);\r\n" + //
+          "          break;\r\n" + //
+          "        case INSERT:\r\n" + //
+          "          highlightFullLines(rightArea, lel, delta.getTarget().size(), LINE_ADDED);\r\n" + //
+          "          break;\r\n" + //
+          "        case CHANGE:\r\n" + //
+          "          highlightFullLines(rightArea, revPos, delta.getTarget().size(), LINE_ADDED);\r\n" + //
+          "\r\n" + //
+          "          for (int i = 0; i < Math.min(delta.getSource().size(), delta.getTarget().size()); i++) {\r\n" + //
+          "            highlightWordDiffs(leftArea, origPos + i, delta.getSource().getLines().get(i),\r\n" + //
+          "                delta.getTarget().getLines().get(i), WORD_REMOVED, true);\r\n" + //
+          "            highlightWordDiffs(rightArea, revPos + i, delta.getSource().getLines().get(i),\r\n" + //
+          "                delta.getTarget().getLines().get(i), WORD_ADDED, false);\r\n" + //
+          "          }\r\n" + //
+          "          break;\r\n" + //
+          "      }\r\n" + //
+          "    }";
 
       RSyntaxDiffViewer viewer = new RSyntaxDiffViewer(
           text1, text2, SyntaxConstants.SYNTAX_STYLE_JAVA);

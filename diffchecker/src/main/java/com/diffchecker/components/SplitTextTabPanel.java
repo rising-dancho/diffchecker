@@ -47,12 +47,6 @@ public class SplitTextTabPanel extends JPanel {
     private final Color BACKGROUND_DARK = new Color(0x17181C);
     private final Color BACKGROUND_LABEL_DARK = new Color(0x17181C);
 
-    // SUMMARY FONT COLOR
-    // private static final Color REMOVAL_LABEL_COLOR_DARK = new Color(0xB83A3A); //
-    // darker red
-    // private static final Color ADDED_LABEL_COLOR_DARK = new Color(0x1C7758); //
-    // darker red
-
     // BUTTON COLOR AND HOVER COLOR
     private static final Color BTN_COLOR = new Color(0x00af74);
     private static final Color BTN_COLOR_DARKER = new Color(0x00744d);
@@ -229,6 +223,12 @@ public class SplitTextTabPanel extends JPanel {
         clearBtn.setHoverBorderColor(BTN_COLOR_DARKER);
         clearBtn.setBorderThickness(2);
         clearBtn.setCornerRadius(10);
+        clearBtn.addActionListener(e -> {
+            jt1.setText("");
+            jt2.setText("");
+            leftLabelPanel.setVisible(false);
+            rightLabelPanel.setVisible(false);
+        });
 
         JPanel leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftButtonPanel.setBackground(BACKGROUND_DARK);
@@ -362,13 +362,13 @@ public class SplitTextTabPanel extends JPanel {
     private RSyntaxTextArea createRSyntaxArea() {
         RSyntaxTextArea area = new RSyntaxTextArea();
         area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-        area.setCodeFoldingEnabled(true);
         area.setAntiAliasingEnabled(true);
         area.setEditable(true); // Allow editing if you still want to diff edited text
         area.setBackground(EDITOR_BACKGROUND);
         area.setForeground(EDITOR_FONT_COLOR);
         area.setCaretColor(EDITOR_FONT_COLOR);
         area.setBorder(BorderFactory.createEmptyBorder());
+        area.setCodeFoldingEnabled(true);
         return area;
     }
 
