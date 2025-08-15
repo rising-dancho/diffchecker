@@ -1,11 +1,13 @@
-# diffchecker
-- project roadmap: https://trello.com/b/5SvchChT/diffchecker
+# roadmap
+- https://trello.com/b/5SvchChT/diffchecker
 
-# possible dependencies: 
+# dependencies: 
 - https://github.com/bobbylight/RSyntaxTextArea
 - https://github.com/java-diff-utils/java-diff-utils
 - https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
 
-# sample
-<img width="1086" height="725" alt="image" src="https://github.com/user-attachments/assets/bc395c8a-c2f8-46df-b27c-0bb115b5ef52" />
+# changing the RSyntaxTextArea theme
+- https://github.com/bobbylight/RSyntaxTextArea/wiki/Example:-Setting-the-theme
 
+# sample
+<img width="1283" height="915" alt="image" src="https://github.com/user-attachments/assets/3c8a5a79-46eb-4027-ac81-154f16f0d5ef" />
