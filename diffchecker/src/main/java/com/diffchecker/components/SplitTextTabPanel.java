@@ -23,6 +23,10 @@ import java.util.List;
 
 // RSyntaxTextArea dependencies
 import org.fife.ui.rsyntaxtextarea.*;
+// RSyntaxTextArea search and replace dependencies
+import org.fife.ui.rtextarea.SearchEngine;
+import org.fife.ui.rtextarea.SearchContext;
+import org.fife.ui.rtextarea.SearchResult;
 import org.fife.ui.rtextarea.*;
 
 public class SplitTextTabPanel extends JPanel {
@@ -62,7 +66,6 @@ public class SplitTextTabPanel extends JPanel {
     private final JPanel rightLabelPanel;
 
     private final java.util.List<HighlightInfo> highlightPositions = new ArrayList<>();
-    private int currentHighlightIndex = -1;
 
     private static class HighlightInfo {
         int startOffset;
@@ -223,6 +226,35 @@ public class SplitTextTabPanel extends JPanel {
             }
         });
 
+        RoundedButton findBtn = new RoundedButton("🔍");
+        findBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
+        findBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
+        findBtn.setBorderColor(BTN_COLOR_BLACK);// <- normal color
+        findBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
+        findBtn.setBorderThickness(2);
+        findBtn.setCornerRadius(10);
+        findBtn.setMargin(new Insets(5, 10, 5, 10));
+        findBtn.addActionListener(e -> {
+            // Use jt1 if it's currently active, otherwise jt2
+            RSyntaxTextArea target = jt1IsActive ? jt1 : jt2;
+
+            String term = JOptionPane.showInputDialog(this, "Find:");
+            if (term == null || term.isBlank())
+                return;
+
+            SearchContext context = new SearchContext();
+            context.setSearchFor(term);
+            context.setMatchCase(false);
+            context.setWholeWord(false);
+            context.setRegularExpression(false);
+
+            SearchResult result = SearchEngine.find(target, context);
+            if (!result.wasFound()) {
+                JOptionPane.showMessageDialog(this, "No results found for: " + term,
+                        "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
         RoundedButton previousBtn = new RoundedButton("◀️");
         previousBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
         previousBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
@@ -285,6 +317,7 @@ public class SplitTextTabPanel extends JPanel {
         // CENTER: diffcheckBtn, previousBtn, nextBtn
         JPanel centerButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         centerButtonPanel.setBackground(BACKGROUND_DARK);
+        centerButtonPanel.add(findBtn);
         centerButtonPanel.add(diffcheckBtn);
         centerButtonPanel.add(previousBtn);
         centerButtonPanel.add(nextBtn);
