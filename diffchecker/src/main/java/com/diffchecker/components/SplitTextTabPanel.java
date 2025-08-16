@@ -17,6 +17,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,6 +60,29 @@ public class SplitTextTabPanel extends JPanel {
     // SUMMARY LABELS
     private final JPanel leftLabelPanel;
     private final JPanel rightLabelPanel;
+
+    private final java.util.List<HighlightInfo> highlightPositions = new ArrayList<>();
+    private int currentHighlightIndex = -1;
+
+    private static class HighlightInfo {
+        int startOffset;
+        int endOffset;
+        RSyntaxTextArea area;
+
+        HighlightInfo(RSyntaxTextArea area, int start, int end) {
+            this.area = area;
+            this.startOffset = start;
+            this.endOffset = end;
+        }
+    }
+
+    private static class DiffGroup {
+        HighlightInfo left;
+        HighlightInfo right;
+    }
+
+    private final List<DiffGroup> diffGroups = new ArrayList<>();
+    private int currentGroupIndex = -1;
 
     // CHECKING IF GREEN BORDER IS ACTIVE OR NOT
     private boolean jt1IsActive = false;
@@ -190,7 +214,14 @@ public class SplitTextTabPanel extends JPanel {
         diffcheckBtn.setHoverBorderColor(BTN_COLOR_DARKER); // <- hover color
         diffcheckBtn.setBorderThickness(2);
         diffcheckBtn.setCornerRadius(10);
-        diffcheckBtn.addActionListener(e -> highlightDiffs());
+        diffcheckBtn.addActionListener(e -> {
+            try {
+                highlightDiffs();
+            } catch (BadLocationException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 
         RoundedButton previousBtn = new RoundedButton("◀️");
         previousBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
@@ -200,6 +231,14 @@ public class SplitTextTabPanel extends JPanel {
         previousBtn.setBorderThickness(2);
         previousBtn.setCornerRadius(10);
         previousBtn.setMargin(new Insets(5, 10, 5, 0));
+        previousBtn.addActionListener(e -> {
+            if (diffGroups.isEmpty())
+                return;
+            currentGroupIndex--;
+            if (currentGroupIndex < 0)
+                currentGroupIndex = diffGroups.size() - 1;
+            focusDiffGroup(diffGroups.get(currentGroupIndex));
+        });
 
         RoundedButton nextBtn = new RoundedButton("▶️");
         nextBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
@@ -209,6 +248,14 @@ public class SplitTextTabPanel extends JPanel {
         nextBtn.setBorderThickness(2);
         nextBtn.setCornerRadius(10);
         nextBtn.setMargin(new Insets(5, 10, 5, 0));
+        nextBtn.addActionListener(e -> {
+            if (diffGroups.isEmpty())
+                return;
+            currentGroupIndex++;
+            if (currentGroupIndex >= diffGroups.size())
+                currentGroupIndex = 0;
+            focusDiffGroup(diffGroups.get(currentGroupIndex));
+        });
 
         JPanel bottomPanel = new JPanel(new BorderLayout()); // CENTER = button centered
         bottomPanel.setBackground(BACKGROUND_DARK);
@@ -372,7 +419,10 @@ public class SplitTextTabPanel extends JPanel {
         return area;
     }
 
-    private void highlightDiffs() {
+    private void highlightDiffs() throws BadLocationException {
+        diffGroups.clear();
+        currentGroupIndex = -1;
+
         String leftText = jt1.getText();
         String rightText = jt2.getText();
 
@@ -385,17 +435,32 @@ public class SplitTextTabPanel extends JPanel {
             int origPos = delta.getSource().getPosition();
             int revPos = delta.getTarget().getPosition();
 
+            // we'll keep the first line of each side as the "jump" point
+            DiffGroup group = new DiffGroup();
+
             switch (delta.getType()) {
                 case DELETE:
                     highlightFullLines(jt1, origPos, delta.getSource().size(), LINE_REMOVED);
+                    int startOffsetLeft = jt1.getLineStartOffset(origPos);
+                    group.left = new HighlightInfo(jt1, startOffsetLeft, startOffsetLeft);
                     break;
+
                 case INSERT:
                     highlightFullLines(jt2, revPos, delta.getTarget().size(), LINE_ADDED);
+                    int startOffsetRight = jt2.getLineStartOffset(revPos);
+                    group.right = new HighlightInfo(jt2, startOffsetRight, startOffsetRight);
                     break;
+
                 case CHANGE:
                     highlightFullLines(jt1, origPos, delta.getSource().size(), LINE_REMOVED);
                     highlightFullLines(jt2, revPos, delta.getTarget().size(), LINE_ADDED);
 
+                    int lOff = jt1.getLineStartOffset(origPos);
+                    int rOff = jt2.getLineStartOffset(revPos);
+                    group.left = new HighlightInfo(jt1, lOff, lOff);
+                    group.right = new HighlightInfo(jt2, rOff, rOff);
+
+                    // still highlight words as usual
                     for (int i = 0; i < Math.min(delta.getSource().size(), delta.getTarget().size()); i++) {
                         highlightWordDiffs(jt1, origPos + i, delta.getSource().getLines().get(i),
                                 delta.getTarget().getLines().get(i), WORD_REMOVED, true);
@@ -404,7 +469,16 @@ public class SplitTextTabPanel extends JPanel {
                     }
                     break;
             }
+
+            diffGroups.add(group);
         }
+    }
+
+    private void focusDiffGroup(DiffGroup group) {
+        // prefer left side if it exists, otherwise right
+        HighlightInfo info = group.left != null ? group.left : group.right;
+        info.area.setCaretPosition(info.startOffset);
+        info.area.requestFocusInWindow();
     }
 
     private void highlightWordDiffs(RSyntaxTextArea area, int lineIndex, String oldLine, String newLine, Color color,
@@ -428,6 +502,7 @@ public class SplitTextTabPanel extends JPanel {
                     int tokenEnd = pos + token.length();
                     area.getHighlighter().addHighlight(tokenStart, tokenEnd,
                             new DefaultHighlighter.DefaultHighlightPainter(color));
+                    highlightPositions.add(new HighlightInfo(area, tokenStart, tokenEnd));
                 }
                 pos += token.length();
             }
