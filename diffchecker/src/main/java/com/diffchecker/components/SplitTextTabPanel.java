@@ -223,7 +223,7 @@ public class SplitTextTabPanel extends JPanel {
             }
         });
 
-        RoundedButton findBtn = new RoundedButton("🔍");
+        RoundedButton findBtn = new RoundedButton("🔍︎");
         findBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
         findBtn.setHoverBackgroundColor(BTN_COLOR_DARKER); // <- hover color
         findBtn.setBorderColor(BTN_COLOR_BLACK);// <- normal color
