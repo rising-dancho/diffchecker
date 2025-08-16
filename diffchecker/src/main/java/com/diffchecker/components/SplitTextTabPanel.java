@@ -24,9 +24,6 @@ import java.util.List;
 // RSyntaxTextArea dependencies
 import org.fife.ui.rsyntaxtextarea.*;
 // RSyntaxTextArea search and replace dependencies
-import org.fife.ui.rtextarea.SearchEngine;
-import org.fife.ui.rtextarea.SearchContext;
-import org.fife.ui.rtextarea.SearchResult;
 import org.fife.ui.rtextarea.*;
 
 public class SplitTextTabPanel extends JPanel {
@@ -241,12 +238,18 @@ public class SplitTextTabPanel extends JPanel {
             String term = JOptionPane.showInputDialog(this, "Find:");
             if (term == null || term.isBlank())
                 return;
+            String replace = JOptionPane.showInputDialog(this, "Replace with:");
+            if (replace == null)
+                return; // allow empty string as replacement
 
             SearchContext context = new SearchContext();
             context.setSearchFor(term);
-            context.setMatchCase(false);
-            context.setWholeWord(false);
+            context.setReplaceWith(replace);
             context.setRegularExpression(false);
+
+            SearchEngine.replace(target, context);
+            if (term == null || term.isBlank())
+                return;
 
             SearchResult result = SearchEngine.find(target, context);
             if (!result.wasFound()) {
