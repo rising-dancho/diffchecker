@@ -10,6 +10,11 @@ import com.diffchecker.components.CustomTitleBar;
 // IMPORT COMPONENTS
 import com.diffchecker.components.RoundedTabbedPaneUI;
 import com.diffchecker.components.SplitTextTabPanel;
+import com.diffchecker.components.Database.DB;
+import com.diffchecker.components.Database.DiffData;
+import com.diffchecker.components.Database.DiffRepository;
+
+import java.util.List;
 
 public class Main extends JFrame {
 
@@ -138,6 +143,7 @@ public class Main extends JFrame {
         // container.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
         JTabbedPane tabbedPane = new JTabbedPane();
+
         RoundedTabbedPaneUI ui = new RoundedTabbedPaneUI();
         tabbedPane.setUI(ui); // Set only once
 
@@ -165,10 +171,29 @@ public class Main extends JFrame {
         addButton.setForeground(FONT_COLOR);
         addButton.setMargin(new Insets(0, 0, 100, 0)); // top, left, bottom, right
 
+        // ---- Restore last session (load all diffs from DB) ----
+        DB db = new DB();
+        DiffRepository repo = new DiffRepository(db);
+
+        List<DiffData> diffs = repo.getAllDiffs();
+        for (DiffData data : diffs) {
+            SplitTextTabPanel panel = new SplitTextTabPanel();
+            panel.loadFromDatabase(data); // populate the text areas
+            tabbedPane.addTab(data.title, panel); // add as a new tab
+            int index = tabbedPane.getTabCount() - 1;
+            tabbedPane.setTabComponentAt(index,
+                    new ClosableTabTitleComponent(tabbedPane, data.title, () -> addNewTab(tabbedPane)));
+        }
+
+        // Only add an empty "Untitled" tab if nothing was loaded from DB
+        if (tabbedPane.getTabCount() == 0) {
+            addNewTab(tabbedPane);
+        }
+
+        // Add the + button as the *last* tab
         tabbedPane.addTab("", null);
         tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, addButton);
 
-        addNewTab(tabbedPane);
         container.add(tabbedPane, BorderLayout.CENTER);
 
         return container;

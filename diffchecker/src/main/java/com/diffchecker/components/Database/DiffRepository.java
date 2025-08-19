@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiffRepository {
   private final DB db;
@@ -12,22 +14,24 @@ public class DiffRepository {
     this.db = db;
   }
 
-  public DiffData getDiffById(int id) {
-    String sql = "SELECT title, left_text, right_text FROM diff_tabs WHERE id = ?";
+  public List<DiffData> getAllDiffs() {
+    List<DiffData> list = new ArrayList<>();
+    String sql = "SELECT id, title, left_text, right_text FROM diff_tabs";
+
     try (Connection conn = db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)) {
-      stmt.setInt(1, id);
-      ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery()) {
+
+      while (rs.next()) {
         String title = rs.getString("title");
         String left = rs.getString("left_text");
         String right = rs.getString("right_text");
-        return new DiffData(title, left, right);
+        list.add(new DiffData(title, left, right));
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return null;
+    return list;
   }
 
   public boolean saveDiff(DiffData data) {

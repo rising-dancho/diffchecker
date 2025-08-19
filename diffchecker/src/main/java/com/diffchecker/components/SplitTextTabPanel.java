@@ -231,32 +231,32 @@ public class SplitTextTabPanel extends JPanel {
         findBtn.setBorderThickness(2);
         findBtn.setCornerRadius(10);
         findBtn.setMargin(new Insets(5, 10, 5, 10));
-        findBtn.addActionListener(e -> {
-            // Use jt1 if it's currently active, otherwise jt2
-            RSyntaxTextArea target = jt1IsActive ? jt1 : jt2;
+        // findBtn.addActionListener(e -> {
+        //     // Use jt1 if it's currently active, otherwise jt2
+        //     RSyntaxTextArea target = jt1IsActive ? jt1 : jt2;
 
-            String term = JOptionPane.showInputDialog(this, "Find:");
-            if (term == null || term.isBlank())
-                return;
-            String replace = JOptionPane.showInputDialog(this, "Replace with:");
-            if (replace == null)
-                return; // allow empty string as replacement
+        //     String term = JOptionPane.showInputDialog(this, "Find:");
+        //     if (term == null || term.isBlank())
+        //         return;
+        //     String replace = JOptionPane.showInputDialog(this, "Replace with:");
+        //     if (replace == null)
+        //         return; // allow empty string as replacement
 
-            SearchContext context = new SearchContext();
-            context.setSearchFor(term);
-            context.setReplaceWith(replace);
-            context.setRegularExpression(false);
+        //     SearchContext context = new SearchContext();
+        //     context.setSearchFor(term);
+        //     context.setReplaceWith(replace);
+        //     context.setRegularExpression(false);
 
-            SearchEngine.replace(target, context);
-            if (term == null || term.isBlank())
-                return;
+        //     SearchEngine.replace(target, context);
+        //     if (term == null || term.isBlank())
+        //         return;
 
-            SearchResult result = SearchEngine.find(target, context);
-            if (!result.wasFound()) {
-                JOptionPane.showMessageDialog(this, "No results found for: " + term,
-                        "Search Result", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+        //     SearchResult result = SearchEngine.find(target, context);
+        //     if (!result.wasFound()) {
+        //         JOptionPane.showMessageDialog(this, "No results found for: " + term,
+        //                 "Search Result", JOptionPane.INFORMATION_MESSAGE);
+        //     }
+        // });
 
         RoundedButton previousBtn = new RoundedButton("◀️");
         previousBtn.setBackgroundColor(BTN_COLOR_BLACK); // <- normal color
@@ -292,11 +292,6 @@ public class SplitTextTabPanel extends JPanel {
             focusDiffGroup(diffGroups.get(currentGroupIndex));
         });
 
-        JPanel bottomPanel = new JPanel(new BorderLayout()); // CENTER = button centered
-        bottomPanel.setBackground(BACKGROUND_DARK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
-        // bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-
         // LEFT: Clear Button
         RoundedButton clearBtn = new RoundedButton("Clear");
         clearBtn.setBackgroundColor(BTN_COLOR_BLACK);
@@ -312,6 +307,21 @@ public class SplitTextTabPanel extends JPanel {
             rightLabelPanel.setVisible(false);
         });
 
+        // RIGHT: Save Button
+        RoundedButton saveBtn = new RoundedButton("Save");
+        saveBtn.setBackgroundColor(BTN_COLOR_BLACK);
+        saveBtn.setHoverBackgroundColor(BTN_COLOR_DARKER);
+        saveBtn.setBorderColor(BTN_COLOR_BLACK);
+        saveBtn.setHoverBorderColor(BTN_COLOR_DARKER);
+        saveBtn.setBorderThickness(2);
+        saveBtn.setCornerRadius(10);
+        saveBtn.addActionListener(e -> saveToDatabase());
+
+        JPanel bottomPanel = new JPanel(new BorderLayout()); // CENTER = button centered
+        bottomPanel.setBackground(BACKGROUND_DARK);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
+        // bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
         JPanel leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftButtonPanel.setBackground(BACKGROUND_DARK);
         leftButtonPanel.add(clearBtn);
@@ -325,16 +335,6 @@ public class SplitTextTabPanel extends JPanel {
         centerButtonPanel.add(previousBtn);
         centerButtonPanel.add(nextBtn);
         bottomPanel.add(centerButtonPanel, BorderLayout.CENTER);
-
-        // RIGHT: Save Button
-        RoundedButton saveBtn = new RoundedButton("Save");
-        saveBtn.setBackgroundColor(BTN_COLOR_BLACK);
-        saveBtn.setHoverBackgroundColor(BTN_COLOR_DARKER);
-        saveBtn.setBorderColor(BTN_COLOR_BLACK);
-        saveBtn.setHoverBorderColor(BTN_COLOR_DARKER);
-        saveBtn.setBorderThickness(2);
-        saveBtn.setCornerRadius(10);
-        saveBtn.addActionListener(e -> saveToDatabase());
 
         JPanel rightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightButtonPanel.setBackground(BACKGROUND_DARK);
@@ -566,7 +566,6 @@ public class SplitTextTabPanel extends JPanel {
     private void saveToDatabase() {
         String title = JOptionPane.showInputDialog(this, "Enter a title for this diff:");
         if (title == null || title.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Title cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
