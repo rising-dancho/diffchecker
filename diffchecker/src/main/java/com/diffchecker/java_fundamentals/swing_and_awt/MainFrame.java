@@ -1,7 +1,9 @@
-package com.diffchecker.components;
+package com.diffchecker.java_fundamentals.swing_and_awt;
 
 import javax.swing.*;
 import java.awt.*;
+
+import com.diffchecker.components.SplitTextTabPanel;
 import com.diffchecker.components.Database.DB;
 import com.diffchecker.components.Database.DiffData;
 import com.diffchecker.components.Database.DiffRepository;
