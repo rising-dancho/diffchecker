@@ -50,6 +50,18 @@ public class DiffRepository {
     return false;
   }
 
+  public boolean deleteDiff(int id) {
+    String sql = "DELETE FROM diff_tabs WHERE id = ?";
+    try (Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+      stmt.setInt(1, id);
+      return stmt.executeUpdate() > 0;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
   public boolean saveDiff(DiffData data) {
     String sql = "INSERT INTO diff_tabs (title, left_text, right_text) VALUES (?, ?, ?)";
     try (Connection conn = db.getConnection();

@@ -316,6 +316,41 @@ public class SplitTextTabPanel extends JPanel {
         deleteBtn.setBorderThickness(2);
         deleteBtn.setCornerRadius(10);
         deleteBtn.addActionListener(e -> {
+            if (currentDiff == null || currentDiff.id == -1) {
+                JOptionPane.showMessageDialog(this, "No saved record to delete.");
+                return;
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Are you sure you want to delete \"" + currentDiff.title + "\"?",
+                    "Confirm Delete",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                DB db = new DB();
+                DiffRepository repo = new DiffRepository(db);
+                boolean success = repo.deleteDiff(currentDiff.id);
+
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Deleted successfully!");
+
+                    // Remove this tab from the JTabbedPane
+                    Container parent = getParent();
+                    while (parent != null && !(parent instanceof JTabbedPane)) {
+                        parent = parent.getParent();
+                    }
+                    if (parent instanceof JTabbedPane) {
+                        JTabbedPane tabbedPane = (JTabbedPane) parent;
+                        int index = tabbedPane.indexOfComponent(this);
+                        if (index != -1) {
+                            tabbedPane.remove(index);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Delete failed.");
+                }
+            }
         });
 
         // RIGHT: Save Button
