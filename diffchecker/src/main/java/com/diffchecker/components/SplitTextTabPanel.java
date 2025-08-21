@@ -577,19 +577,41 @@ public class SplitTextTabPanel extends JPanel {
         DB db = new DB();
         DiffRepository repo = new DiffRepository(db);
 
+        boolean success;
         if (currentDiff != null && currentDiff.id != -1) {
             // Update existing record
             currentDiff.title = title;
             currentDiff.leftText = leftText;
             currentDiff.rightText = rightText;
-            boolean success = repo.updateDiff(currentDiff);
-            JOptionPane.showMessageDialog(this, success ? "Updated successfully!" : "Update failed.");
+            success = repo.updateDiff(currentDiff);
         } else {
             // Insert new record
             DiffData newData = new DiffData(title, leftText, rightText);
-            boolean success = repo.saveDiff(newData);
-            JOptionPane.showMessageDialog(this, success ? "Saved successfully!" : "Save failed.");
+            success = repo.saveDiff(newData);
             currentDiff = newData; // track this record now
+        }
+
+        JOptionPane.showMessageDialog(this, success ? "Saved successfully!" : "Save failed.");
+
+        if (success) {
+            // 🔹 Update the tab title in the JTabbedPane
+            Container parent = getParent();
+            while (parent != null && !(parent instanceof JTabbedPane)) {
+                parent = parent.getParent();
+            }
+            if (parent instanceof JTabbedPane) {
+                JTabbedPane tabbedPane = (JTabbedPane) parent;
+                int index = tabbedPane.indexOfComponent(this);
+                if (index != -1) {
+                    // If you use ClosableTabTitleComponent, update its label too
+                    Component tabComponent = tabbedPane.getTabComponentAt(index);
+                    if (tabComponent instanceof ClosableTabTitleComponent) {
+                        ((ClosableTabTitleComponent) tabComponent).setTitle(title);
+                    } else {
+                        tabbedPane.setTitleAt(index, title);
+                    }
+                }
+            }
         }
     }
 

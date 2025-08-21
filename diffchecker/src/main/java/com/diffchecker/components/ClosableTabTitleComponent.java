@@ -21,6 +21,17 @@ public class ClosableTabTitleComponent extends JPanel {
         }
     }
 
+    // FOR UPDATING THE TAB TITLE DYNAMICALLY
+    public void setTitle(String title) {
+        titleLabel.setText(title);
+        revalidate();
+        repaint();
+    }
+
+    public String getTitle() {
+        return titleLabel.getText();
+    }
+
     private void updateColor() {
         int index = tabbedPane.indexOfTabComponent(this);
         if (index == tabbedPane.getSelectedIndex()) {
