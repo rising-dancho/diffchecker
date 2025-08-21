@@ -308,6 +308,16 @@ public class SplitTextTabPanel extends JPanel {
             rightLabelPanel.setVisible(false);
         });
 
+        RoundedButton deleteBtn = new RoundedButton("✖");
+        deleteBtn.setBackgroundColor(BTN_COLOR_BLACK);
+        deleteBtn.setHoverBackgroundColor(BTN_COLOR_DARKER);
+        deleteBtn.setBorderColor(BTN_COLOR_BLACK);
+        deleteBtn.setHoverBorderColor(BTN_COLOR_DARKER);
+        deleteBtn.setBorderThickness(2);
+        deleteBtn.setCornerRadius(10);
+        deleteBtn.addActionListener(e -> {
+        });
+
         // RIGHT: Save Button
         RoundedButton saveBtn = new RoundedButton("Save");
         saveBtn.setBackgroundColor(BTN_COLOR_BLACK);
@@ -326,6 +336,7 @@ public class SplitTextTabPanel extends JPanel {
         JPanel leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftButtonPanel.setBackground(BACKGROUND_DARK);
         leftButtonPanel.add(clearBtn);
+        leftButtonPanel.add(deleteBtn);
         bottomPanel.add(leftButtonPanel, BorderLayout.WEST);
 
         // CENTER: diffcheckBtn, previousBtn, nextBtn
