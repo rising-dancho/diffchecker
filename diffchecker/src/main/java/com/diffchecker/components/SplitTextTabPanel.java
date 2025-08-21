@@ -83,6 +83,7 @@ public class SplitTextTabPanel extends JPanel {
 
     private final List<DiffGroup> diffGroups = new ArrayList<>();
     private int currentGroupIndex = -1;
+    private DiffData currentDiff; // keep reference
 
     // CHECKING IF GREEN BORDER IS ACTIVE OR NOT
     private boolean jt1IsActive = false;
@@ -232,30 +233,30 @@ public class SplitTextTabPanel extends JPanel {
         findBtn.setCornerRadius(10);
         findBtn.setMargin(new Insets(5, 10, 5, 10));
         // findBtn.addActionListener(e -> {
-        //     // Use jt1 if it's currently active, otherwise jt2
-        //     RSyntaxTextArea target = jt1IsActive ? jt1 : jt2;
+        // // Use jt1 if it's currently active, otherwise jt2
+        // RSyntaxTextArea target = jt1IsActive ? jt1 : jt2;
 
-        //     String term = JOptionPane.showInputDialog(this, "Find:");
-        //     if (term == null || term.isBlank())
-        //         return;
-        //     String replace = JOptionPane.showInputDialog(this, "Replace with:");
-        //     if (replace == null)
-        //         return; // allow empty string as replacement
+        // String term = JOptionPane.showInputDialog(this, "Find:");
+        // if (term == null || term.isBlank())
+        // return;
+        // String replace = JOptionPane.showInputDialog(this, "Replace with:");
+        // if (replace == null)
+        // return; // allow empty string as replacement
 
-        //     SearchContext context = new SearchContext();
-        //     context.setSearchFor(term);
-        //     context.setReplaceWith(replace);
-        //     context.setRegularExpression(false);
+        // SearchContext context = new SearchContext();
+        // context.setSearchFor(term);
+        // context.setReplaceWith(replace);
+        // context.setRegularExpression(false);
 
-        //     SearchEngine.replace(target, context);
-        //     if (term == null || term.isBlank())
-        //         return;
+        // SearchEngine.replace(target, context);
+        // if (term == null || term.isBlank())
+        // return;
 
-        //     SearchResult result = SearchEngine.find(target, context);
-        //     if (!result.wasFound()) {
-        //         JOptionPane.showMessageDialog(this, "No results found for: " + term,
-        //                 "Search Result", JOptionPane.INFORMATION_MESSAGE);
-        //     }
+        // SearchResult result = SearchEngine.find(target, context);
+        // if (!result.wasFound()) {
+        // JOptionPane.showMessageDialog(this, "No results found for: " + term,
+        // "Search Result", JOptionPane.INFORMATION_MESSAGE);
+        // }
         // });
 
         RoundedButton previousBtn = new RoundedButton("◀️");
@@ -559,29 +560,36 @@ public class SplitTextTabPanel extends JPanel {
 
     // DATABASE
     public void loadFromDatabase(DiffData data) {
+        currentDiff = data;
         jt1.setText(data.leftText);
         jt2.setText(data.rightText);
     }
 
     private void saveToDatabase() {
-        String title = JOptionPane.showInputDialog(this, "Enter a title for this diff:");
-        if (title == null || title.trim().isEmpty()) {
+        String title = JOptionPane.showInputDialog(this, "Enter a title:",
+                currentDiff != null ? currentDiff.title : "");
+        if (title == null || title.trim().isEmpty())
             return;
-        }
 
         String leftText = jt1.getText();
         String rightText = jt2.getText();
 
-        DiffData data = new DiffData(title, leftText, rightText);
-
         DB db = new DB();
         DiffRepository repo = new DiffRepository(db);
 
-        boolean success = repo.saveDiff(data);
-        if (success) {
-            JOptionPane.showMessageDialog(this, "Diff saved successfully!");
+        if (currentDiff != null && currentDiff.id != -1) {
+            // Update existing record
+            currentDiff.title = title;
+            currentDiff.leftText = leftText;
+            currentDiff.rightText = rightText;
+            boolean success = repo.updateDiff(currentDiff);
+            JOptionPane.showMessageDialog(this, success ? "Updated successfully!" : "Update failed.");
         } else {
-            JOptionPane.showMessageDialog(this, "Failed to save diff.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Insert new record
+            DiffData newData = new DiffData(title, leftText, rightText);
+            boolean success = repo.saveDiff(newData);
+            JOptionPane.showMessageDialog(this, success ? "Saved successfully!" : "Save failed.");
+            currentDiff = newData; // track this record now
         }
     }
 

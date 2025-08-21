@@ -21,12 +21,13 @@ public class DiffRepository {
     try (Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery()) {
-
       while (rs.next()) {
+        int id = rs.getInt("id");
         String title = rs.getString("title");
         String left = rs.getString("left_text");
         String right = rs.getString("right_text");
-        list.add(new DiffData(title, left, right));
+
+        list.add(new DiffData(id, title, left, right)); // ✅ preserve id
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -34,18 +35,42 @@ public class DiffRepository {
     return list;
   }
 
-  public boolean saveDiff(DiffData data) {
-    String sql = "INSERT INTO diff_tabs (title, left_text, right_text) VALUES (?, ?, ?)";
+  public boolean updateDiff(DiffData data) {
+    String sql = "UPDATE diff_tabs SET title = ?, left_text = ?, right_text = ? WHERE id = ?";
     try (Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
       stmt.setString(1, data.title);
       stmt.setString(2, data.leftText);
       stmt.setString(3, data.rightText);
-      stmt.executeUpdate();
-      return true;
+      stmt.setInt(4, data.id);
+      return stmt.executeUpdate() > 0;
     } catch (SQLException e) {
       e.printStackTrace();
     }
     return false;
   }
+
+  public boolean saveDiff(DiffData data) {
+    String sql = "INSERT INTO diff_tabs (title, left_text, right_text) VALUES (?, ?, ?)";
+    try (Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+      stmt.setString(1, data.title);
+      stmt.setString(2, data.leftText);
+      stmt.setString(3, data.rightText);
+      int affected = stmt.executeUpdate();
+
+      if (affected > 0) {
+        try (ResultSet keys = stmt.getGeneratedKeys()) {
+          if (keys.next()) {
+            data.id = keys.getInt(1); // ✅ store new ID in object
+          }
+        }
+        return true;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
 }
